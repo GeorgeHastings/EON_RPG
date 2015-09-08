@@ -1,0 +1,258 @@
+$deep-blue: #293B4E;
+$rouge: #ffd0cb;
+$charcoal: #2B2B2B;
+$babyblue: #cbf9ff;
+$cobalt: #cbdcff;
+$green: #24fb27;
+* {box-sizing: border-box;}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+body {
+	font: 17px / 27px 'Courier New';
+	background-attachment: fixed;
+	backface-visibility: hidden;
+
+	&.white {
+		background-color: #F5F6F7;
+		@extend .light-text;
+	}
+}
+
+.dark-text {
+	color: rgba(255,255,255,.7);
+	p:before {
+		color: rgba(255,255,255,.3);
+	}
+}
+
+.light-text {
+	color: #2B2B2B;
+
+	p:before {
+		color: rgba(10,10,20,.3);
+	}
+}
+
+.italic {
+	font-style: italic;
+	color: rgba(255,255,255,.5);
+}
+
+.bold {
+	font-weight: bold;
+}
+
+ul,
+dl {
+	padding: 0;
+	list-style: none;
+}
+
+ul {
+	margin-top: 1em;
+}
+
+dl {
+	margin-top: 0;
+	@extend .clearfix;
+}
+
+a {
+	display: block;
+	color: inherit;
+	text-decoration: underline;
+	cursor: pointer;
+	animation: load-in 0.25s ease;
+
+	&:hover {
+		font-weight: bold;
+	}
+}
+
+h1 {
+	font-size: 3.33em;
+	font-weight: normal;
+	line-height: 1.2em;
+}
+
+h2 {
+	font-size: 2em;
+	font-weight: normal;
+	margin-bottom: 50px;
+}
+
+p {
+	position: relative;
+	animation: load-in 0.25s ease;
+
+	&:before {
+		position: absolute;
+		margin-left: -20px;
+		content: "⚬";
+		color: #ccc;
+	}
+}
+
+label {
+	display: block;
+	font-size: 0.7em;
+	opacity: 0.5;
+	text-transform: uppercase;
+}
+
+.clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.container {
+	float:left;
+	height: inherit;
+	padding: 4em;
+	overflow: scroll;
+}
+
+.narrative-container {
+	width: calc(75% / 2);
+	p {
+		margin-top: 2em;
+	}
+	p:first-child {
+		margin-top: 0;
+	}
+}
+
+.inventory-container {
+	width: 25%;
+	background-color: #f1f1f1;
+
+	dl {
+		width: 100%;
+		line-height: 2em;
+
+		dt {
+			float: left;
+			// opacity: 1;
+			// @extend label;
+		}
+	}
+}
+
+.inventory-list {
+	li {
+		padding-bottom: 1em;
+		line-height: 1em;
+		cursor: pointer;
+		animation: load-in 0.25s ease;
+
+		&:hover {
+			font-weight: bold;
+		}
+
+		&.equipped-wep::before {
+			position: absolute;
+			content: "⚔ ";
+			margin-left: -20px;
+			font-size: 1em;
+			color: rgba(0,0,0,1);
+		}
+
+		&.equipped-armor::before {
+			position: absolute;
+			content: "⚱ ";
+			margin-left: -20px;
+			font-size: 1em;
+			color: rgba(0,0,0,1);
+		}
+
+		&.none {
+			color: #fff;
+		}
+
+		&.rare {
+			color: rgb(0,155,255);
+		}
+	}
+}
+
+.combat-log-container {
+	width: calc(75% / 2);
+	background-color: $charcoal;
+
+	p {
+		font-size: 1em;
+
+		& + p {
+			margin-top: 1.5em;
+		}
+	}
+
+	p:last-child {
+		color: #fff;
+		// margin-top: 2em;
+		font-weight: bold;
+	}
+}
+
+.item-description-container {
+	display: none;
+	position: absolute;
+	width: 230px;
+	padding: 20px;
+	color: #fff;
+	font-size: 0.7em;
+	background-color: $charcoal;
+	border-radius: 3px;
+	pointer-events: none;
+	transform: translate3d(0,0,0);
+	
+	dl {
+		margin: 0;
+	}
+	
+	div {
+		display: block;
+		line-height: 1.5em;
+    	margin-top: 1em;
+	}
+
+	div:first-child {
+		margin-top: 0.2em;
+	}
+
+	#displayName {
+		text-transform: capitalize;
+	}
+
+	#flavorText {
+		// line-height: 1.5em;
+  //   	margin-top: 1em;
+	}
+
+	#itemEffect {
+		color: $green;
+		// line-height: 1.5em;
+  //   	margin-top: 0.5em;
+	}
+}
+
+@keyframes load-in {
+	0% {
+		opacity: 0;
+		transform: translate3d(0,10px,0);
+	}
+	100% {
+		opacity: 1;
+		transform: translate3d(0,0,0);
+	}
+}

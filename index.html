@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>AI</title>
+		<link rel="stylesheet" href="css/main.css" media="screen">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</head>
+	<body class="white">
+		<div class="container inventory-container">
+			<label>Stats</label>
+			<dl id="stat-list">
+			  <dt>Health: </dt>
+			  <dd data-stat='health'></dd>
+			  <dt>Damage: </dt>
+			  <dd data-stat='damage'></dd>
+			  <dt>Armor: </dt>
+			  <dd data-stat='armor'></dd>
+			  <dt>Strength: </dt>
+			  <dd data-stat='strength'></dd>
+			  <dt>Quickness: </dt>
+			  <dd data-stat='quickness'></dd>
+			</dl>
+			<dl>
+				<dt>Gold: </dt>
+				<dd id='gold'></dd>
+			</dl>
+			<label>Inventory</label>
+			<ul id="inventory" class="inventory-list"></ul>
+		</div>
+		<div id="narrative" class="container narrative-container">
+			<p><a data-moment="1" onclick="GameState.setCurrentMoment(moment19)">Wake Up</a></p>
+		</div>
+		<div id="combatLog" class="container combat-log-container dark-text">
+			<label>Combat Log</label>
+		</div>
+		<div id="itemDescription" class="item-description-container">
+			<div id="displayName" class="bold"></div>
+			<div id="itemAttack"></div>
+			<div id="itemArmor"></div>
+			<div id="itemEffect"></div>
+			<div id="flavorText" class="italic dim"></div>
+		</div>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/items.js"></script>
+		<script type="text/javascript" src="js/enemies.js"></script>
+		<script type="text/javascript" src="js/moments.js"></script>
+	</body>
+</html>
