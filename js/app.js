@@ -403,6 +403,7 @@ var UI = {
 		bindItemDescriptionEvents: function() {
 			var itemList = document.querySelectorAll('[data-item]');
 			var statList = document.querySelectorAll('[data-stat]');
+			
 			for (var i = 0; i < itemList.length; i++) {
 				itemList[i].onmouseenter = this.renderItemDescription;
 				itemList[i].onmousemove = this.positionItemDescription;
