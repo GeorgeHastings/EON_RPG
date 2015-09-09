@@ -2,12 +2,12 @@
 
 var Enemies = [];
 
-function Enemy(name, level, healthTotal, weapon, armor, critChance) {
+function Enemy(name, level, healthTotal, weapon, armor, quicknessProc) {
 	this.name = name;
 	this.level = level;
 	this.healthTotal = healthTotal;
 	this.armor = armor;
-	this.critChance = critChance;
+	this.quicknessProc = quicknessProc;
 	this.equippedWeapon = weapon;
 	this.damageReduction  = (1 - (0.03*this.armor)/(1 + 0.03*this.armor)).toFixed(2);
 }
@@ -20,8 +20,8 @@ Enemy.prototype.attack = function(target) {
 	Player.attack.call(this, target);
 };
 
-Enemy.prototype.rollCriticalHit = function() {
-	Player.rollCriticalHit.call(this);
+Enemy.prototype.rollQuicknessProc = function() {
+	Player.rollQuicknessProc.call(this);
 };
 
 Enemies.push(new Enemy('Goblin Loan Shark', 1, 15, 'Muddy Hatchet', 1, 0.03));

@@ -59,7 +59,7 @@ var Player = {
 		this.setDamage();
 		this.setArmor();
 		this.setDamageReduction();
-		this.setCritChance();
+		this.setQuicknessProc();
 		UI.statlist.renderStats();
 	},
 
@@ -96,8 +96,8 @@ var Player = {
 		this.healthMax = this.healthMax + this.strength;
 	},
 
-	setCritChance: function() {
-		this.critChance = ((0.02 * this.quickness) / ((1 + 0.02 * this.quickness)) * 100).toFixed(2);
+	setQuicknessProc: function() {
+		this.quicknessProc = ((0.02 * this.quickness) / ((1 + 0.02 * this.quickness)) * 100).toFixed(2);
 	},
 
 	getBaseDamage: function(){
@@ -111,9 +111,9 @@ var Player = {
 		this.baseDamage = baseDamage;
 	},
 
-	rollCriticalHit: function(){
+	rollQuicknessProc: function(){
 		var result = roll(0,100);
-		if(result <= this.critChance) {
+		if(result <= this.quicknessProc) {
 			return true;
 		}
 		else {
@@ -125,12 +125,17 @@ var Player = {
 		this.getBaseDamage();
 		var damageDealt = (this.baseDamage * target.damageReduction).toFixed(0);
 		var hitType = 'hit';
-		if(this.rollCriticalHit()) {
+		if(this.rollQuicknessProc()) {
 			damageDealt = damageDealt*2;
 			hitType = 'critically hit';
 		}
-		target.healthTotal -= damageDealt;
-		UI.combatLog.renderCombatLog('('+this.healthTotal+') '+this.name+' '+hitType+' '+target.name+' for '+damageDealt+'');
+		if(target.rollQuicknessProc()) {
+			UI.combatLog.renderCombatLog('('+target.healthTotal+') '+target.name+' dodged '+this.name+' for 0');
+		}
+		else {
+			target.healthTotal -= damageDealt;
+			UI.combatLog.renderCombatLog('('+this.healthTotal+') '+this.name+' '+hitType+' '+target.name+' for '+damageDealt+'');
+		}
 	},
 
 	pickUpLoot: function() {
@@ -386,7 +391,7 @@ var UI = {
 		getStatDescriptions: {
 			health: function(){return 'If you run out, you die.';},
 			armor: function(){return 'Reduces damage taken to '+(Player.damageReduction*100).toFixed(2)+'%';},
-			quickness: function(){return''+Player.critChance+'% chance to critical hit';},
+			quickness: function(){return''+Player.quicknessProc+'% chance to critical hit';},
 			damage: function(){return 'Average damage is '+((Player.equippedWeapon.damageMax + Player.equippedWeapon.damageMin) / 2)+'';},
 			strength: function(){return 'Increases armor and max health by '+Player.strength+'';}
 		},
