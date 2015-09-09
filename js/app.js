@@ -5,6 +5,7 @@ var GameState = {
 
 	setCurrentMoment: function(moment) {
 		this.currentMoment = moment;
+		UI.narrative.el.innerHTML = '';
 		UI.narrative.renderMoment();
 		this.checkForAndCreateChoices();
 		this.checkForAndPickUpLoot();
@@ -204,10 +205,9 @@ var Player = {
 	},
 
 	sellItem: function() {
-		var itemId = this.getAttribute('data-item');
-		var item = getObj(Items, itemId);
+		var item = getObj(Items, thisItemId);
 		Player.updateGold(item.getSalePrice());
-		Player.removeFromInventory(itemId);
+		Player.removeFromInventory(thisItemId);
 		UI.combatLog.renderItemPurchase(item.name, item.getPurchasePrice());
 	}
 };
@@ -273,8 +273,8 @@ var UI = {
 		renderStats: function() {
 			var stats = this.el.querySelectorAll('dd');
 			for(var i = 0; i < stats.length; i++) {
-				var render = stats[i].getAttribute('data-stat');
-				stats[i].innerHTML = Player[render];
+				var thisStat = stats[i].getAttribute('data-stat');
+				stats[i].innerHTML = Player[thisStat];
 			}
 		}
 	},
@@ -292,7 +292,7 @@ var UI = {
 				itemWrapper.appendChild(itemText);
 				this.el.appendChild(itemWrapper);
 				itemWrapper.setAttribute('data-item', thisItem.name);
-				itemWrapper.onclick = this.activateItem;
+				itemWrapper.onclick = UI.inventory.activateItem;
 
 				if(thisItem === Player.equippedWeapon) {
 					this.renderEquippedWeapon(itemWrapper);
@@ -326,6 +326,7 @@ var UI = {
 		activateItem: function() {
 			var thisItemId = this.getAttribute('data-item');
 			var item = getObj(Items, thisItemId);
+
 			if(item.itemType === 'weapon' && Player.equippedWeapon !== item) {
 				Player.equipWeapon(thisItemId);
 				UI.inventory.renderEquippedWeapon(this);
@@ -341,7 +342,7 @@ var UI = {
 				UI.itemDescription.hideItemDescription();
 				UI.inventory.renderInventory();
 				item.use();
-			}
+			}	
 		},
 
 		renderEquippedWeapon: function(thisItem) {
@@ -395,7 +396,6 @@ var UI = {
 		renderItemDescription: function() {
 			var thisItemId = this.getAttribute('data-item');
 			var item = getObj(Items, thisItemId);
-			var multiplier
 			UI.itemDescription.components.displayName.innerHTML = item.name;
 			UI.itemDescription.components.displayName.style.color = UI.colors[item.rarity];
 			UI.itemDescription.components.flavorText.innerHTML = item.flavorText;
@@ -425,7 +425,11 @@ var UI = {
 			health: function(){return 'If you run out, you die.';},
 			armor: function(){return 'Reduces damage taken to '+(Player.damageReduction*100).toFixed(2)+'%';},
 			quickness: function(){return''+Player.quicknessProc+'% chance to critical hit and dodge';},
-			damage: function(){return 'Average damage is '+((Player.equippedWeapon.damageMax + Player.equippedWeapon.damageMin) / 2)+'';},
+			damage: function(){
+				var avg = (Player.equippedWeapon.damageMax + Player.equippedWeapon.damageMin)/2;
+				var weightedAvg = (avg + (Player.quicknessProc/100*avg)).toFixed(2);
+				return 'Average damage is '+weightedAvg+'';
+			},
 			strength: function(){return 'Increases armor and max health by '+Player.strength+'';}
 		},
 
@@ -433,8 +437,9 @@ var UI = {
 			var thisStatId = this.getAttribute('data-stat');
 			UI.itemDescription.components.displayName.innerHTML = thisStatId;
 			UI.itemDescription.components.displayName.style.color = 'white';
-			UI.itemDescription.components.flavorText.innerHTML = '';
-			UI.itemDescription.components.itemAttack.innerHTML = UI.itemDescription.getStatDescriptions[thisStatId]();
+			UI.itemDescription.components.itemAttack.innerHTML = '';
+			UI.itemDescription.components.salePrice.innerHTML = '';
+			UI.itemDescription.components.flavorText.innerHTML = UI.itemDescription.getStatDescriptions[thisStatId]();
 			UI.itemDescription.showItemDescription();
 		},
 
@@ -471,7 +476,7 @@ var UI = {
 		},
 
 		renderCannotPurchaseMessage: function(name, price) {
-			this.renderCombatLog('You are '+(price - Player.gold)+' gold short to buy '+name+'.');
+			this.renderCombatLog('You need '+(price - Player.gold)+' gold to buy '+name+'.');
 		},
 
 		renderLootMessage: function() {

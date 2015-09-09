@@ -32,3 +32,5 @@ Enemies.push(new Enemy('Goblin Trapper', 1, 17, 'Bent Spear', 2, 0.04));
 
 Enemies.push(new Enemy('Town Guard', 2, 16, 'Bronze Short Sword', 5, 0.03));
 Enemies.push(new Enemy('Black Wolf', 2, 12, 'Fang Claws', 1, 0.10));
+
+Enemies.push(new Enemy('Target Dummy', 2, 100000000000000, 'Fang Claws', 1, 0.10));
