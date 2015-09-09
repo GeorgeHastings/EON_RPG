@@ -58,7 +58,7 @@ var moment12 = {
 var moment13 = {
 	message: 'You done beat the ol maniac. Next to him is a locked chest. Since youre such a lock pro, you open that shit up no problem.',
 	choices: [{message: 'Continue on',link: 9}],
-	findLoot: [getRandomLootByLevel(Consumables, 1)]
+	dropLoot: [getRandomLootByLevel(Consumables, 1)]
 };
 
 var moment14 = {

@@ -90,14 +90,17 @@ label {
   overflow: scroll; }
 
 .narrative-container {
-  width: calc(75% / 2); }
+  width: calc(75% / 2);
+  padding-bottom: 8em; }
   .narrative-container p {
     margin-top: 2em; }
   .narrative-container p:first-child {
     margin-top: 0; }
 
 .inventory-container {
+  position: relative;
   width: 25%;
+  padding-bottom: 8em;
   background-color: #f1f1f1; }
   .inventory-container dl {
     width: 100%;
@@ -144,7 +147,7 @@ label {
   display: none;
   position: absolute;
   width: 230px;
-  padding: 20px;
+  padding: 15px 20px;
   color: #fff;
   font-size: 0.7em;
   background-color: #2B2B2B;
@@ -155,14 +158,24 @@ label {
     margin: 0; }
   .item-description-container div {
     display: block;
-    line-height: 1.5em;
-    margin-top: 1em; }
+    line-height: 2.25em; }
   .item-description-container div:first-child {
     margin-top: 0.2em; }
   .item-description-container #displayName {
     text-transform: capitalize; }
+  .item-description-container #flavorText {
+    line-height: 1.5em;
+    padding-top: 0.75em; }
   .item-description-container #itemEffect {
     color: #24fb27; }
+  .item-description-container #salePrice:before {
+    display: inline-block;
+    content: '';
+    width: 8px;
+    height: 8px;
+    margin-right: 2px;
+    border-radius: 50%;
+    background-color: #E5CA48; }
 
 @keyframes load-in {
   0% {

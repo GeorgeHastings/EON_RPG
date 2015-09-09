@@ -124,16 +124,21 @@ label {
 
 .narrative-container {
 	width: calc(75% / 2);
+	padding-bottom: 8em;
+	
 	p {
 		margin-top: 2em;
 	}
+	
 	p:first-child {
 		margin-top: 0;
 	}
 }
 
 .inventory-container {
+	position: relative;
 	width: 25%;
+	padding-bottom: 8em;
 	background-color: #f1f1f1;
 
 	dl {
@@ -208,7 +213,7 @@ label {
 	display: none;
 	position: absolute;
 	width: 230px;
-	padding: 20px;
+	padding: 15px 20px;
 	color: #fff;
 	font-size: 0.7em;
 	background-color: $charcoal;
@@ -222,8 +227,7 @@ label {
 	
 	div {
 		display: block;
-		line-height: 1.5em;
-    	margin-top: 1em;
+		line-height: 2.25em;
 	}
 
 	div:first-child {
@@ -235,7 +239,8 @@ label {
 	}
 
 	#flavorText {
-		// line-height: 1.5em;
+		line-height: 1.5em;
+		padding-top: 0.75em;
   //   	margin-top: 1em;
 	}
 
@@ -243,6 +248,18 @@ label {
 		color: $green;
 		// line-height: 1.5em;
   //   	margin-top: 0.5em;
+	}
+
+	#salePrice {
+		&:before {
+			display: inline-block;
+			content: '';
+			width: 8px;
+			height: 8px;
+			margin-right: 2px;
+			border-radius: 50%;
+			background-color: #E5CA48;
+		}
 	}
 }
 

@@ -138,12 +138,18 @@ var Player = {
 		}
 	},
 
+	pickUpGold: function() {
+		var enemy = getObj(Enemies, GameState.currentMoment.enemy).level;
+		var gold = roll(3, 5)*enemy;
+		Player.updateGold(gold);
+	},
+
 	pickUpLoot: function() {
 		for (var i = 0; i < GameState.currentMoment.dropLoot.length; i++) {
 			var loot = GameState.currentMoment.dropLoot[i];
 			this.addToInventory(loot);
 		}
-
+		
 		UI.combatLog.renderLootMessage();
 	},
 
@@ -186,7 +192,23 @@ var Player = {
 
 	purchaseItem: function() {
 		var itemId = this.getAttribute('data-item');
-		Player.addToInventory(itemId);
+		var item = getObj(Items, itemId);
+		if(Player.gold >= item.getPurchasePrice()) {
+			Player.updateGold(-item.getPurchasePrice());
+			Player.addToInventory(itemId);
+			UI.combatLog.renderItemPurchase(item.name, item.getPurchasePrice());
+		}
+		else {
+			UI.combatLog.renderCannotPurchaseMessage(item.name, item.getPurchasePrice());
+		}	
+	},
+
+	sellItem: function() {
+		var itemId = this.getAttribute('data-item');
+		var item = getObj(Items, itemId);
+		Player.updateGold(item.getSalePrice());
+		Player.removeFromInventory(itemId);
+		UI.combatLog.renderItemPurchase(item.name, item.getPurchasePrice());
 	}
 };
 
@@ -340,7 +362,8 @@ var UI = {
 			itemAttack: document.getElementById('itemAttack'),
 			itemArmor: document.getElementById('itemArmor'),
 			itemEffect: document.getElementById('itemEffect'),
-			flavorText: document.getElementById('flavorText')
+			flavorText: document.getElementById('flavorText'),
+			salePrice: document.getElementById('salePrice')
 		},
 
 		getItemDescriptionY: function(event) {
@@ -372,6 +395,7 @@ var UI = {
 		renderItemDescription: function() {
 			var thisItemId = this.getAttribute('data-item');
 			var item = getObj(Items, thisItemId);
+			var multiplier
 			UI.itemDescription.components.displayName.innerHTML = item.name;
 			UI.itemDescription.components.displayName.style.color = UI.colors[item.rarity];
 			UI.itemDescription.components.flavorText.innerHTML = item.flavorText;
@@ -385,13 +409,22 @@ var UI = {
 			if(item.effect) {
 				UI.itemDescription.components.itemEffect.innerHTML = item.desc();
 			}
+			if(UI.inventory.el.querySelector('[data-item="'+thisItemId+'"]')) {
+				UI.itemDescription.components.salePrice.innerHTML = ''+item.getSalePrice()+'';
+			}
+			else if(UI.narrative.el.querySelector('[data-item="'+thisItemId+'"]')) {
+				UI.itemDescription.components.salePrice.innerHTML = ''+item.getPurchasePrice()+'';
+			}
+			else {
+				UI.itemDescription.components.salePrice.innerHTML = '';
+			}
 			UI.itemDescription.showItemDescription();
 		},
 
 		getStatDescriptions: {
 			health: function(){return 'If you run out, you die.';},
 			armor: function(){return 'Reduces damage taken to '+(Player.damageReduction*100).toFixed(2)+'%';},
-			quickness: function(){return''+Player.quicknessProc+'% chance to critical hit';},
+			quickness: function(){return''+Player.quicknessProc+'% chance to critical hit and dodge';},
 			damage: function(){return 'Average damage is '+((Player.equippedWeapon.damageMax + Player.equippedWeapon.damageMin) / 2)+'';},
 			strength: function(){return 'Increases armor and max health by '+Player.strength+'';}
 		},
@@ -431,6 +464,14 @@ var UI = {
 			logitemWrapper.appendChild(logText);
 			this.el.appendChild(logitemWrapper);
 			UI.scrollToBottom(UI.combatLog.el);
+		},
+
+		renderItemPurchase: function(name, price) {
+			this.renderCombatLog('You bought '+name+' for '+price+' gold.');
+		},
+
+		renderCannotPurchaseMessage: function(name, price) {
+			this.renderCombatLog('You are '+(price - Player.gold)+' gold short to buy '+name+'.');
 		},
 
 		renderLootMessage: function() {
@@ -496,6 +537,7 @@ var runCombat = function(){
 			else {
 				fighting = false;
 				Player.pickUpLoot();
+				Player.pickUpGold();
 				Player.updateStats();
 				GameState.setCurrentMoment(window['moment'+GameState.currentMoment.winLink]);
 			}
@@ -510,6 +552,7 @@ var runCombat = function(){
 };
 
 document.addEventListener('DOMContentLoaded', function(){
+	Player.addToInventory('Sword of Saladin');
 	Player.updateStats();
 	Player.updateGold(0);
 });
