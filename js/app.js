@@ -47,17 +47,19 @@ var GameState = {
 
 	bindWorldItemEvents: function() {
 		var intventoryItems = UI.inventory.el.querySelectorAll('[data-item]');
-		console.log(intventoryItems);
 		for(var i = 0; i < intventoryItems.length; i++) {
-			console.log(intventoryItems[i]);
 			intventoryItems[i].onclick = UI.inventory.activateItem;
 		}
 	},
 
 	bindShopItemEvents: function() {
-		var intventoryItems = UI.narrative.el.querySelectorAll('[data-item]');
-		for(var i = 0; i < intventoryItems.length; i++) {
-			intventoryItems[i].onclick = Player.sellItem;
+		var shopItems = UI.narrative.el.querySelectorAll('[data-item]');
+		var inventoryItems = UI.inventory.el.querySelectorAll('[data-item]');
+		for(var i = 0; i < shopItems.length; i++) {
+			shopItems[i].onclick = Player.purchaseItem;
+		}
+		for(var j = 0; j < inventoryItems.length; j++) {
+			inventoryItems[j].onclick = Player.sellItem;
 		}
 	}
 };
@@ -322,6 +324,14 @@ var UI = {
 				this.el.appendChild(itemWrapper);
 				itemWrapper.setAttribute('data-item', thisItem.name);
 
+				if(GameState.currentMoment.hasOwnProperty('shop')) {
+					GameState.bindShopItemEvents();
+				}
+				else {
+					console.log('bound world item events');
+					GameState.bindWorldItemEvents();	
+				}
+
 				if(thisItem === Player.equippedWeapon) {
 					this.renderEquippedWeapon(itemWrapper);
 				}
@@ -354,6 +364,7 @@ var UI = {
 		activateItem: function() {
 			var thisItemId = this.getAttribute('data-item');
 			var item = getObj(Items, thisItemId);
+			console.log('activating item');
 
 			if(item.itemType === 'weapon' && Player.equippedWeapon !== item) {
 				Player.equipWeapon(thisItemId);
@@ -572,7 +583,7 @@ var runCombat = function(){
 				Player.pickUpLoot();
 				Player.pickUpGold();
 				Player.updateStats();
-				GameState.setCurrentMoment(window['moment'+GameState.currentMoment.winLink]);
+				GameState.setCurrentMoment(window['moment'+GameState.currentMoment.link]);
 			}
 		} 
 		else {
@@ -586,5 +597,5 @@ var runCombat = function(){
 
 document.addEventListener('DOMContentLoaded', function(){
 	Player.updateStats();
-	Player.updateGold(0);
+	Player.updateGold(50);
 });

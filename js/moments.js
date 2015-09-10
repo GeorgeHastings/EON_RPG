@@ -3,7 +3,7 @@
 var moment1 = {
 	message: 'You are suddenly conscious, and remember nothing.',
 	choices: [{message: 'Blink',link: 2}],
-	dropLoot: ['Sword of Saladin']
+	// dropLoot: ['Sword of Saladin']
 };
 
 var moment2 = {
@@ -36,7 +36,7 @@ var moment8 = {
 	message: 'You step out and rush at the goblin.',
 	enemy: 'Goblin Loan Shark',
 	dropLoot: [getRandomLootByLevel(Armors, 1), 'Chicken Egg'],
-	winLink: 10
+	link: 10
 };
 
 var moment9 = {
@@ -53,7 +53,7 @@ var moment12 = {
 	message: 'As you lean in to check if the man is alive, he suddenly lunges at you.',
 	enemy: 'Derranged Lunatic',
 	dropLoot: [getRandomLootByLevel(Armors, 1), 'Message'],
-	winLink: 13
+	link: 13
 };
 
 var moment13 = {
@@ -76,7 +76,7 @@ var moment16 = {
 	message: 'You draw your weapon and stand your ground.',
 	enemy: 'Highway Bandit',
 	dropLoot: [getRandomLootByLevel(Items, 1)],
-	winLink: 18
+	link: 18
 };
 
 var moment18 = {
