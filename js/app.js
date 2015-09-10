@@ -5,7 +5,6 @@ var GameState = {
 
 	setCurrentMoment: function(moment) {
 		this.currentMoment = moment;
-		UI.narrative.el.innerHTML = '';
 		UI.narrative.renderMoment();
 		this.checkForAndCreateChoices();
 		this.checkForAndPickUpLoot();
@@ -33,6 +32,10 @@ var GameState = {
 	checkForAndOpenUpShop: function() {
 		if(this.currentMoment.hasOwnProperty('shop')) {
 			UI.narrative.renderShop();
+			this.bindShopItemEvents();
+		}
+		else {
+			this.bindWorldItemEvents();
 		}
 	},
 
@@ -41,6 +44,22 @@ var GameState = {
 			UI.narrative.renderChoices();
 		}
 	},
+
+	bindWorldItemEvents: function() {
+		var intventoryItems = UI.inventory.el.querySelectorAll('[data-item]');
+		console.log(intventoryItems);
+		for(var i = 0; i < intventoryItems.length; i++) {
+			console.log(intventoryItems[i]);
+			intventoryItems[i].onclick = UI.inventory.activateItem;
+		}
+	},
+
+	bindShopItemEvents: function() {
+		var intventoryItems = UI.narrative.el.querySelectorAll('[data-item]');
+		for(var i = 0; i < intventoryItems.length; i++) {
+			intventoryItems[i].onclick = Player.sellItem;
+		}
+	}
 };
 
 var Player = {
@@ -160,8 +179,9 @@ var Player = {
 		UI.inventory.renderInventory();
 	},
 
-	removeFromInventory: function(item) {
-		var index = this.inventory.indexOf(item);
+	removeFromInventory: function(itemId) {
+		var thisItem = getObj(Items, itemId);
+		var index = this.inventory.indexOf(thisItem);
 		if (index > -1) {
 		    this.inventory.splice(index, 1);
 		}
@@ -197,7 +217,8 @@ var Player = {
 		if(Player.gold >= item.getPurchasePrice()) {
 			Player.updateGold(-item.getPurchasePrice());
 			Player.addToInventory(itemId);
-			UI.combatLog.renderItemPurchase(item.name, item.getPurchasePrice());
+			UI.inventory.renderInventory();
+			UI.combatLog.renderItemTransaction(item.name, item.getPurchasePrice(), 'bought');
 		}
 		else {
 			UI.combatLog.renderCannotPurchaseMessage(item.name, item.getPurchasePrice());
@@ -205,10 +226,12 @@ var Player = {
 	},
 
 	sellItem: function() {
-		var item = getObj(Items, thisItemId);
+		var itemId = this.getAttribute('data-item');
+		var item = getObj(Items, itemId);
 		Player.updateGold(item.getSalePrice());
-		Player.removeFromInventory(thisItemId);
-		UI.combatLog.renderItemPurchase(item.name, item.getPurchasePrice());
+		Player.removeFromInventory(itemId);
+		UI.inventory.renderInventory();
+		UI.combatLog.renderItemTransaction(item.name, item.getSalePrice(), 'sold');
 	}
 };
 
@@ -232,6 +255,7 @@ var UI = {
 
 		renderShop: function() {
 			var shopList = GameState.currentMoment.shop;
+			var inventoryItems = UI.inventory.el.querySelectorAll('[data-item]');
 
 			for(var i = 0; i < shopList.length; i++) {
 				var item = getObj(Items, shopList[i]);
@@ -242,6 +266,11 @@ var UI = {
 				UI.narrative.el.appendChild(itemEl);
 				itemEl.onclick = Player.purchaseItem;
 			}
+
+			for(var j = 0; j < inventoryItems.length; j++) {
+				inventoryItems[j].onclick = Player.sellItem;
+			}
+
 			UI.items = document.querySelectorAll('[data-item]');
 			UI.itemDescription.bindItemDescriptionEvents();
 		},
@@ -292,7 +321,6 @@ var UI = {
 				itemWrapper.appendChild(itemText);
 				this.el.appendChild(itemWrapper);
 				itemWrapper.setAttribute('data-item', thisItem.name);
-				itemWrapper.onclick = UI.inventory.activateItem;
 
 				if(thisItem === Player.equippedWeapon) {
 					this.renderEquippedWeapon(itemWrapper);
@@ -338,7 +366,7 @@ var UI = {
 				item.use();
 			}
 			if(item.itemType === 'consumable') {
-				Player.removeFromInventory(item);
+				Player.removeFromInventory(thisItemId);
 				UI.itemDescription.hideItemDescription();
 				UI.inventory.renderInventory();
 				item.use();
@@ -471,8 +499,8 @@ var UI = {
 			UI.scrollToBottom(UI.combatLog.el);
 		},
 
-		renderItemPurchase: function(name, price) {
-			this.renderCombatLog('You bought '+name+' for '+price+' gold.');
+		renderItemTransaction: function(name, price, transaction) {
+			this.renderCombatLog('You '+transaction+' '+name+' for '+price+' gold.');
 		},
 
 		renderCannotPurchaseMessage: function(name, price) {
@@ -557,7 +585,6 @@ var runCombat = function(){
 };
 
 document.addEventListener('DOMContentLoaded', function(){
-	Player.addToInventory('Sword of Saladin');
 	Player.updateStats();
 	Player.updateGold(0);
 });
