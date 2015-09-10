@@ -24,8 +24,8 @@ Enemy.prototype.rollQuicknessProc = function() {
 	Player.rollQuicknessProc.call(this);
 };
 
-Enemies.push(new Enemy('Goblin Loan Shark', 1, 15, 'Muddy Hatchet', 1, 0.03));
-Enemies.push(new Enemy('Derranged Lunatic', 1, 15, 'Muddy Hatchet', 2, 0.03));
+Enemies.push(new Enemy('Goblin Loan Shark', 1, 12, 'Muddy Hatchet', 1, 0.03));
+Enemies.push(new Enemy('Derranged Lunatic', 1, 12, 'Muddy Hatchet', 2, 0.03));
 Enemies.push(new Enemy('Highway Bandit', 1, 15, 'Dull Axe', 1, 0.05));
 Enemies.push(new Enemy('Wandering Looter', 1, 15, 'Rusty Short Sword', 1, 0.03));
 Enemies.push(new Enemy('Goblin Trapper', 1, 17, 'Bent Spear', 2, 0.04));

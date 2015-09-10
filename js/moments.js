@@ -96,6 +96,13 @@ var playerLost = {
 
 var moment20 = {
 	message: 'You enter the arms shop. "Ahoy there traveler," says the owner. "What can I do for you?"',
-	shop: [getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Weapons, 2)],
+	shop: [getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Armors, 1)],
 	choices: [{message: 'Leave the shop', link: 19}]
 };
+
+var moment21 = {
+	message: 'You enter the general store. "Hey baby," says the owner. "What can I help you with?"',
+	shop: [getRandomLootByLevel(Consumables, 1), getRandomLootByLevel(Consumables, 1), getRandomLootByLevel(Consumables, 2), getRandomLootByLevel(Consumables, 2)],
+	choices: [{message: 'Leave the shop', link: 19}]
+}
+

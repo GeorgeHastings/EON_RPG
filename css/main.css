@@ -28,7 +28,7 @@ body {
 
 .italic {
   font-style: italic;
-  color: rgba(255, 255, 255, 0.5); }
+  color: rgba(255, 255, 255, 0.6); }
 
 .bold {
   font-weight: bold; }
@@ -168,14 +168,19 @@ label {
     padding-top: 0.75em; }
   .item-description-container #itemEffect {
     color: #24fb27; }
-  .item-description-container #salePrice:before {
-    display: inline-block;
-    content: '';
-    width: 8px;
-    height: 8px;
-    margin-right: 2px;
-    border-radius: 50%;
-    background-color: #E5CA48; }
+  .item-description-container #salePrice {
+    float: left; }
+    .item-description-container #salePrice:before {
+      display: inline-block;
+      content: '';
+      width: 8px;
+      height: 8px;
+      margin-right: 2px;
+      border-radius: 50%;
+      background-color: #E5CA48; }
+  .item-description-container #itemLevel {
+    float: right;
+    color: rgba(255, 255, 255, 0.6); }
 
 .load-in {
   animation: load-in 0.25s ease; }

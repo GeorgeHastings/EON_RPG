@@ -204,12 +204,14 @@ var Player = {
 	unequipCurrentWeapon: function(){
 		if(this.equippedWeapon) {
 			this.equippedWeapon.removeEquipBuff();
+			this.equippedWeapon = '';
 		}
 	},
 
 	unequipCurrentArmor: function(){
 		if(this.equippedArmor) {
 			this.armor -= this.equippedArmor.armorAmt;
+			this.equippedArmor = '';
 		}
 	},
 
@@ -231,7 +233,17 @@ var Player = {
 		var itemId = this.getAttribute('data-item');
 		var item = getObj(Items, itemId);
 		Player.updateGold(item.getSalePrice());
+
+		if(item === Player.equippedWeapon) {
+			Player.unequipCurrentWeapon();
+		}
+		if(item === Player.equippedArmor) {
+			Player.unequipCurrentArmor();
+		}
+
 		Player.removeFromInventory(itemId);
+		console.log(Player.equippedWeapon);
+		Player.updateStats();
 		UI.inventory.renderInventory();
 		UI.combatLog.renderItemTransaction(item.name, item.getSalePrice(), 'sold');
 	}
@@ -328,7 +340,6 @@ var UI = {
 					GameState.bindShopItemEvents();
 				}
 				else {
-					console.log('bound world item events');
 					GameState.bindWorldItemEvents();	
 				}
 
@@ -364,7 +375,6 @@ var UI = {
 		activateItem: function() {
 			var thisItemId = this.getAttribute('data-item');
 			var item = getObj(Items, thisItemId);
-			console.log('activating item');
 
 			if(item.itemType === 'weapon' && Player.equippedWeapon !== item) {
 				Player.equipWeapon(thisItemId);
@@ -403,7 +413,8 @@ var UI = {
 			itemArmor: document.getElementById('itemArmor'),
 			itemEffect: document.getElementById('itemEffect'),
 			flavorText: document.getElementById('flavorText'),
-			salePrice: document.getElementById('salePrice')
+			salePrice: document.getElementById('salePrice'),
+			itemLevel: document.getElementById('itemLevel')
 		},
 
 		getItemDescriptionY: function(event) {
@@ -438,6 +449,7 @@ var UI = {
 			UI.itemDescription.components.displayName.innerHTML = item.name;
 			UI.itemDescription.components.displayName.style.color = UI.colors[item.rarity];
 			UI.itemDescription.components.flavorText.innerHTML = item.flavorText;
+			UI.itemDescription.components.itemLevel.innerHTML = 'Level ' + item.level;
 
 			if(item.itemType === 'weapon') {
 				UI.itemDescription.components.itemAttack.innerHTML = 'Damage: '+item.damageMin+'-'+item.damageMax+'';
@@ -467,7 +479,7 @@ var UI = {
 			damage: function(){
 				var avg = (Player.equippedWeapon.damageMax + Player.equippedWeapon.damageMin)/2;
 				var weightedAvg = (avg + (Player.quicknessProc/100*avg)).toFixed(2);
-				return 'Average damage is '+weightedAvg+'';
+				return ''+weightedAvg+' average gamage per hit';
 			},
 			strength: function(){return 'Increases armor and max health by '+Player.strength+'';}
 		},
@@ -597,5 +609,5 @@ var runCombat = function(){
 
 document.addEventListener('DOMContentLoaded', function(){
 	Player.updateStats();
-	Player.updateGold(50);
+	Player.updateGold(100);
 });

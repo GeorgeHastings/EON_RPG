@@ -4,6 +4,7 @@ $charcoal: #2B2B2B;
 $babyblue: #cbf9ff;
 $cobalt: #cbdcff;
 $green: #24fb27;
+$gray: rgba(255,255,255,.6);
 * {box-sizing: border-box;}
 
 html,
@@ -42,7 +43,7 @@ body {
 
 .italic {
 	font-style: italic;
-	color: rgba(255,255,255,.5);
+	color: $gray;
 }
 
 .bold {
@@ -251,6 +252,7 @@ label {
 	}
 
 	#salePrice {
+		float: left;
 		&:before {
 			display: inline-block;
 			content: '';
@@ -260,6 +262,11 @@ label {
 			border-radius: 50%;
 			background-color: #E5CA48;
 		}
+	}
+
+	#itemLevel {
+		float: right;
+		color: $gray;
 	}
 }
 
