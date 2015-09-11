@@ -10,6 +10,7 @@ var GameState = {
 		this.checkForAndPickUpLoot();
 		this.checkForAndRunCombat();
 		this.checkForAndOpenUpShop();
+		this.checkForAndRunInn();
 		UI.scrollToBottom(UI.narrative.el);
 	},
 
@@ -36,6 +37,17 @@ var GameState = {
 		}
 		else {
 			this.bindWorldItemEvents();
+		}
+	},
+
+	checkForAndRunInn: function() {
+		if(this.currentMoment.hasOwnProperty('inn')) {
+			var price = this.currentMoment.inn;
+			Player.updateGold(-price);
+			Player.healthTotal = Player.healthMax;
+			Player.updateStats();
+			UI.combatLog.renderCombatLog('You bought a room for '+price+' gold');
+			UI.combatLog.renderCombatLog('Your health is fully restored');
 		}
 	},
 
@@ -448,7 +460,6 @@ var UI = {
 			var item = getObj(Items, thisItemId);
 			UI.itemDescription.components.displayName.innerHTML = item.name;
 			UI.itemDescription.components.displayName.style.color = UI.colors[item.rarity];
-			UI.itemDescription.components.flavorText.innerHTML = item.flavorText;
 			UI.itemDescription.components.itemLevel.innerHTML = 'Level ' + item.level;
 
 			if(item.itemType === 'weapon') {
@@ -457,13 +468,16 @@ var UI = {
 			if(item.itemType === 'armor') {
 				UI.itemDescription.components.itemAttack.innerHTML = 'Armor: '+item.armorAmt+'';
 			}
+			if(item.flavorText) {
+				UI.itemDescription.components.flavorText.innerHTML = item.flavorText;
+			}
 			if(item.effect) {
 				UI.itemDescription.components.itemEffect.innerHTML = item.desc();
 			}
-			if(UI.inventory.el.querySelector('[data-item="'+thisItemId+'"]')) {
+			if(this.parentNode === UI.inventory.el) {
 				UI.itemDescription.components.salePrice.innerHTML = ''+item.getSalePrice()+'';
 			}
-			else if(UI.narrative.el.querySelector('[data-item="'+thisItemId+'"]')) {
+			else if(this.parentNode === UI.narrative.el) {
 				UI.itemDescription.components.salePrice.innerHTML = ''+item.getPurchasePrice()+'';
 			}
 			else {
@@ -609,5 +623,5 @@ var runCombat = function(){
 
 document.addEventListener('DOMContentLoaded', function(){
 	Player.updateStats();
-	Player.updateGold(100);
+	Player.updateGold(0);
 });

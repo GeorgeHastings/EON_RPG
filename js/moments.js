@@ -101,8 +101,19 @@ var moment20 = {
 };
 
 var moment21 = {
-	message: 'You enter the general store. "Hey baby," says the owner. "What can I help you with?"',
+	message: 'You enter the general store. "Hey baby," says the clerk. "What can I help you with?"',
 	shop: [getRandomLootByLevel(Consumables, 1), getRandomLootByLevel(Consumables, 1), getRandomLootByLevel(Consumables, 2), getRandomLootByLevel(Consumables, 2)],
 	choices: [{message: 'Leave the shop', link: 19}]
-}
+};
+
+var moment22 = {
+	message: 'You enter the inn. "Sup playa," says the innkeeper. "Would you like a room? Its 5 gold for the night."',
+	choices: [{message: 'Yes please', link: 23}, {message: 'No thanks', link: 19}]
+};
+
+var moment23 = {
+	message: 'You go up to your room and sleep off your wounds. You wake up feeling like a million bucks.',
+	inn: 5,
+	choices: [{message: 'Leave the inn', link: 19}, {message: 'Get another room', link: 23}]
+};
 

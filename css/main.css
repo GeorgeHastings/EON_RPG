@@ -165,9 +165,11 @@ label {
     text-transform: capitalize; }
   .item-description-container #flavorText {
     line-height: 1.5em;
-    padding-top: 0.75em; }
+    padding-top: 0.7em; }
   .item-description-container #itemEffect {
-    color: #24fb27; }
+    color: #24fb27;
+    line-height: 1.5em;
+    padding-top: 0.7em; }
   .item-description-container #salePrice {
     float: left; }
     .item-description-container #salePrice:before {
