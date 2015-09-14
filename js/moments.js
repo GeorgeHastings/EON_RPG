@@ -86,7 +86,7 @@ var moment18 = {
 
 var moment19 = {
 	message: 'You walk to the town square and look around. Where would you like to go?',
-	choices: [{message: 'The Arms Shop',link: 20},{message: 'The General Store',link: 21}, {message: 'The Inn',link: 22}, {message: 'The Town Hall',link: 23}]
+	choices: [{message: 'The Arms Shop',link: 20},{message: 'The General Store',link: 21}, {message: 'The Inn',link: 22}, {message: 'The Town Hall',link: 24}]
 };
 
 var playerLost = {
@@ -115,5 +115,27 @@ var moment23 = {
 	message: 'You go up to your room and sleep off your wounds. You wake up feeling like a million bucks.',
 	inn: 5,
 	choices: [{message: 'Leave the inn', link: 19}, {message: 'Get another room', link: 23}]
+};
+
+var moment24 = {
+	message: 'You stand in the large chamber of the Town Hall. Merchants and town leaders are assembled in discussion.',
+	choices: [{message: 'Leave the hall', link: 25}, {message: 'Look around', link: 25}, {message: 'Ask for Jawn Peterson', link: 26}, {message: 'Talk to the tenant-in-chief', link: 27}]
+};
+
+var moment26 = {
+	message: 'You approach a man writing at a desk near the entrance. "Do you know a man who goes by Jawn Peterson?" you ask. "The man points to two men standing near a side entrance."',
+	choices: [{message: 'Go over', link: 27}, {message: 'Do something else', link: 24}]
+};
+
+var moment27 = {
+	message: 'The men spot you approaching. "Are you Jawn Peterson? you ask." He seems to look you over until replying "Yes I am. Would you like to join me for a drink? You look like you could use it."',
+	choices: [{message: 'Go with him', link: 28}, {message: 'Do something else', link: 24}]
+};
+
+var moment28 = {
+	message: 'You walk outside and turn the corner. The cloaked man with Jawn Peterson suddenly pulls a dagger on you and attacks.',
+	enemy: 'Cloaked Assassin',
+	dropLoot: [getRandomLootByLevel(Items, 2)],
+	link: 24
 };
 

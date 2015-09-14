@@ -43,11 +43,16 @@ var GameState = {
 	checkForAndRunInn: function() {
 		if(this.currentMoment.hasOwnProperty('inn')) {
 			var price = this.currentMoment.inn;
-			Player.updateGold(-price);
-			Player.healthTotal = Player.healthMax;
-			Player.updateStats();
-			UI.combatLog.renderCombatLog('You bought a room for '+price+' gold');
-			UI.combatLog.renderCombatLog('Your health is fully restored');
+			if(Player.gold >= price) {
+				Player.updateGold(-price);
+				Player.healthTotal = Player.healthMax;
+				Player.updateStats();
+				UI.combatLog.renderCombatLog('You bought a room for '+price+' gold');
+				UI.combatLog.renderCombatLog('Your health is fully restored');
+			}
+			else {
+				UI.combatLog.renderCombatLog('You need '+(price - Player.gold)+' gold to get a room.');
+			}
 		}
 	},
 
@@ -470,6 +475,9 @@ var UI = {
 			}
 			if(item.flavorText) {
 				UI.itemDescription.components.flavorText.innerHTML = item.flavorText;
+			}
+			else {
+				UI.itemDescription.components.flavorText.innerHTML = '';
 			}
 			if(item.effect) {
 				UI.itemDescription.components.itemEffect.innerHTML = item.desc();

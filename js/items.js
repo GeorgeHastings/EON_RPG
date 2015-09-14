@@ -67,7 +67,7 @@ Effect.prototype.desc = function() {
 	return this.description + ' +' + this.amt;
 };
 
-var addStrength = new Effect(2, ['strength', 'healthTotal', 'healthMax', 'armor'], 'Strength'); 
+var addStrength = new Effect(2, ['strength', 'healthTotal', 'healthMax', 'armor'], 'Strength');
 
 Item.effects = {
 	addStrength: {
