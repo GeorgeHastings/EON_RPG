@@ -155,8 +155,9 @@ var Weapon = function(name, level, rarity, flavorText, damageMin, damageMax, eff
 	return weapon;
 };
 
-var Armor = function(name, level, rarity, flavorText, armorAmt, effect, effectAmt) {
+var Armor = function(name, level, rarity, slot, armorAmt, effect, effectAmt) {
 	var armor = new Item(name,level, rarity, flavorText);
+	armor.slot = slot;
 	armor.armorAmt = armorAmt;
 	armor.itemType = 'armor';
 	if(effect && effectAmt) {
@@ -195,14 +196,14 @@ Weapons.push(new Weapon('Iron Short Sword', 2, 'common', '', 3, 6));
 
 Weapons.push(new Weapon('Sword of Saladin', 15, 'legendary', '', 30, 60, 'addQuickness', 20));
 
-Armors.push(new Armor('Wool Shirt', 1, 'none', '', 2));
-Armors.push(new Armor('Twine Cinch', 1, 'none', '', 1));
-Armors.push(new Armor('Ragged Trousers', 1, 'none', '', 1));
-Armors.push(new Armor('Damp Boots', 1, 'none', '', 1));
-Armors.push(new Armor('Linen Shirt', 1, 'common', '', 2, 'addQuickness', 1));
-Armors.push(new Armor('Leather Belt', 1, 'common', '', 2));
-Armors.push(new Armor('Wool Cap', 1, 'common', '', 2));
-Armors.push(new Armor('Wool Cloak', 1, 'common', '', 2));
+Armors.push(new Armor('Wool Shirt', 1, 'none', 'Chest', 2));
+Armors.push(new Armor('Twine Cinch', 1, 'none', 'Belt', 1));
+Armors.push(new Armor('Ragged Trousers', 1, 'none', 'Pants', 1));
+Armors.push(new Armor('Damp Boots', 1, 'none', 'Boots', 1));
+Armors.push(new Armor('Linen Shirt', 1, 'common', 'Chest', 2, 'addQuickness', 1));
+Armors.push(new Armor('Leather Belt', 1, 'common', 'Belt', 2));
+Armors.push(new Armor('Wool Cap', 1, 'common', 'Head', 2));
+Armors.push(new Armor('Wool Cloak', 1, 'common', 'Back', 2));
 
 Consumables.push(new Consumable('Chicken Egg', 1, 'none', '', 'healPlayer', 4));
 Consumables.push(new Consumable('Peasant Bread', 1, 'none', '', 'healPlayer', 5));

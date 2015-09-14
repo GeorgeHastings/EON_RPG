@@ -199,7 +199,7 @@ var Player = {
 	},
 
 	removeFromInventory: function(itemId) {
-		var thisItem = getObj(Items, itemId);
+		var thisItem = getObj(this.inventory, itemId);
 		var index = this.inventory.indexOf(thisItem);
 		if (index > -1) {
 		    this.inventory.splice(index, 1);
@@ -208,14 +208,14 @@ var Player = {
 
 	equipWeapon: function(thisItemId) {
 		this.unequipCurrentWeapon();
-		this.equippedWeapon = getObj(Weapons, thisItemId);
-		Player.updateStats();
+		this.equippedWeapon = getObj(this.inventory, thisItemId);
+		this.updateStats();
 	},
 
 	equipArmor: function(thisItemId) {
 		this.unequipCurrentArmor();
-		this.equippedArmor = getObj(Armors, thisItemId);
-		Player.updateStats();
+		this.equippedArmor = getObj(this.inventory, thisItemId);
+		this.updateStats();
 	},
 
 	unequipCurrentWeapon: function(){
@@ -227,6 +227,7 @@ var Player = {
 
 	unequipCurrentArmor: function(){
 		if(this.equippedArmor) {
+			this.equippedArmor.removeEquipBuff();
 			this.armor -= this.equippedArmor.armorAmt;
 			this.equippedArmor = '';
 		}
@@ -630,6 +631,9 @@ var runCombat = function(){
 };
 
 document.addEventListener('DOMContentLoaded', function(){
+	Player.addToInventory('Linen Shirt');
+	Player.addToInventory('Wool Cap');
+	Player.addToInventory('Wool Shirt');
 	Player.updateStats();
 	Player.updateGold(0);
 });

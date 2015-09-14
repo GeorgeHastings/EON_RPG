@@ -119,7 +119,7 @@ var moment23 = {
 
 var moment24 = {
 	message: 'You stand in the large chamber of the Town Hall. Merchants and town leaders are assembled in discussion.',
-	choices: [{message: 'Leave the hall', link: 25}, {message: 'Look around', link: 25}, {message: 'Ask for Jawn Peterson', link: 26}, {message: 'Talk to the tenant-in-chief', link: 27}]
+	choices: [{message: 'Leave the hall', link: 19}, {message: 'Look around', link: 25}, {message: 'Ask for Jawn Peterson', link: 26}, {message: 'Talk to the tenant-in-chief', link: 27}]
 };
 
 var moment26 = {
