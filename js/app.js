@@ -111,12 +111,6 @@ var Player = {
 		this.health = ''+this.healthTotal+'/'+this.healthMax+'';
 	},
 
-	// setArmor: function() {
-	// 	if(this.equippedArmor) {
-	// 		this.armor = this.equippedArmor.armorAmt + this.strength;
-	// 	}
-	// },
-
 	setArmor: function() {
 		this.armor = 0;
 		if(this.equippedArmor.length > 0) {
@@ -222,16 +216,11 @@ var Player = {
 		this.updateStats();
 	},
 
-	// equipArmor: function(thisItemId) {
-	// 	this.unequipCurrentArmor();
-	// 	this.equippedArmor = getObj(this.inventory, thisItemId);
-	// 	this.updateStats();
-	// },
-
 	equipArmor: function(thisItemId) {
 		var armor = getObj(this.inventory, thisItemId);
 		if(this.checkIfArmorSlotIsTaken(armor)) {
 			var index = this.equippedArmor.indexOf(getFromArr(this.equippedArmor, armor.slot));
+			getFromArr(this.equippedArmor, armor.slot).removeEquipBuff();
 			if(index > -1) {
 				this.equippedArmor.splice(index, 1);
 			}
@@ -255,14 +244,6 @@ var Player = {
 			return true;
 		}
 	},
-
-	// unequipCurrentArmor: function(){
-	// 	if(this.equippedArmor) {
-	// 		this.equippedArmor.removeEquipBuff();
-	// 		this.armor -= this.equippedArmor.armorAmt;
-	// 		this.equippedArmor = '';
-	// 	}
-	// },
 
 	purchaseItem: function() {
 		var itemId = this.getAttribute('data-item');
@@ -291,7 +272,6 @@ var Player = {
 		}
 
 		Player.removeFromInventory(itemId);
-		console.log(Player.equippedWeapon);
 		Player.updateStats();
 		UI.inventory.renderInventory();
 		UI.combatLog.renderItemTransaction(item.name, item.getSalePrice(), 'sold');
@@ -430,9 +410,9 @@ var UI = {
 				UI.inventory.renderEquippedWeapon(this);
 				item.use();
 			}
-			if(item.itemType === 'armor' && Player.equippedArmor !== item){
+			if(item.itemType === 'armor' && !getObj(Player.equippedArmor, thisItemId)){
 				Player.equipArmor(thisItemId);
-				UI.inventory.renderEquippedArmor(this);
+				UI.inventory.renderEquippedArmor();
 				item.use();
 			}
 			if(item.itemType === 'consumable') {
@@ -448,9 +428,11 @@ var UI = {
 			thisItem.setAttribute('class', 'equipped-wep');
 		},
 
-		renderEquippedArmor: function(thisItem) {
+		renderEquippedArmor: function() {
 			this.removeEquippedArmorTag();
-			thisItem.setAttribute('class', 'equipped-armor');
+			for(var i = 0; i < Player.equippedArmor.length; i++) {
+				UI.inventory.el.querySelector('[data-item="'+Player.equippedArmor[i].name+'"').setAttribute('class', 'equipped-armor');
+			}
 		}
 	},
 
