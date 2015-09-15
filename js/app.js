@@ -219,15 +219,19 @@ var Player = {
 	equipArmor: function(thisItemId) {
 		var armor = getObj(this.inventory, thisItemId);
 		if(this.checkIfArmorSlotIsTaken(armor)) {
-			var index = this.equippedArmor.indexOf(getFromArr(this.equippedArmor, armor.slot));
-			getFromArr(this.equippedArmor, armor.slot).removeEquipBuff();
-			if(index > -1) {
-				this.equippedArmor.splice(index, 1);
-			}
+			this.unequipArmor(armor);
 		}
 		if(!getObj(this.equippedArmor, thisItemId)) {
 			this.equippedArmor.push(armor);
 			this.updateStats();
+		}
+	},
+
+	unequipArmor: function(armor) {
+		var index = this.equippedArmor.indexOf(getFromArr(this.equippedArmor, armor.slot));
+		getFromArr(this.equippedArmor, armor.slot).removeEquipBuff();
+		if(index > -1) {
+			this.equippedArmor.splice(index, 1);
 		}
 	},
 
@@ -267,8 +271,8 @@ var Player = {
 		if(item === Player.equippedWeapon) {
 			Player.unequipCurrentWeapon();
 		}
-		if(item === Player.equippedArmor) {
-			Player.unequipCurrentArmor();
+		if(getObj(Player.equippedArmor, itemId)) {
+			Player.unequipArmor(item);
 		}
 
 		Player.removeFromInventory(itemId);
@@ -375,8 +379,8 @@ var UI = {
 				if(thisItem === Player.equippedWeapon) {
 					this.renderEquippedWeapon(itemWrapper);
 				}
-				if(thisItem === Player.equippedArmor) {
-					this.renderEquippedArmor(itemWrapper);
+				if(getObj(Player.equippedArmor, thisItem.name)) {
+					itemWrapper.setAttribute('class', 'equipped-armor');
 				}
 			}
 			UI.items = document.querySelectorAll('[data-item]');
@@ -515,7 +519,7 @@ var UI = {
 			damage: function(){
 				var avg = (Player.equippedWeapon.damageMax + Player.equippedWeapon.damageMin)/2;
 				var weightedAvg = (avg + (Player.quicknessProc/100*avg)).toFixed(2);
-				return ''+weightedAvg+' average gamage per hit';
+				return ''+weightedAvg+' average damage per hit';
 			},
 			strength: function(){return 'Increases armor and max health by '+Player.strength+'';}
 		},
@@ -651,9 +655,6 @@ var runCombat = function(){
 };
 
 document.addEventListener('DOMContentLoaded', function(){
-	Player.addToInventory('Linen Shirt');
-	Player.addToInventory('Wool Cap');
-	Player.addToInventory('Wool Shirt');
 	Player.updateStats();
 	Player.updateGold(0);
 });
