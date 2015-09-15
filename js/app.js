@@ -89,7 +89,7 @@ var Player = {
 	strength: 0,
 	quickness: 1,
 	equippedWeapon: '',
-	equippedArmor: '',
+	equippedArmor: [],
 	inventory: [],
 	gold: 0,
 
@@ -111,9 +111,19 @@ var Player = {
 		this.health = ''+this.healthTotal+'/'+this.healthMax+'';
 	},
 
+	// setArmor: function() {
+	// 	if(this.equippedArmor) {
+	// 		this.armor = this.equippedArmor.armorAmt + this.strength;
+	// 	}
+	// },
+
 	setArmor: function() {
-		if(this.equippedArmor) {
-			this.armor = this.equippedArmor.armorAmt + this.strength;
+		this.armor = 0;
+		if(this.equippedArmor.length > 0) {
+			for(var i = 0; i < this.equippedArmor.length; i++) {
+				this.armor += this.equippedArmor[i].armorAmt;
+			}
+			this.armor += this.strength;
 		}
 	},
 
@@ -212,10 +222,24 @@ var Player = {
 		this.updateStats();
 	},
 
+	// equipArmor: function(thisItemId) {
+	// 	this.unequipCurrentArmor();
+	// 	this.equippedArmor = getObj(this.inventory, thisItemId);
+	// 	this.updateStats();
+	// },
+
 	equipArmor: function(thisItemId) {
-		this.unequipCurrentArmor();
-		this.equippedArmor = getObj(this.inventory, thisItemId);
-		this.updateStats();
+		var armor = getObj(this.inventory, thisItemId);
+		if(this.checkIfArmorSlotIsTaken(armor)) {
+			var index = this.equippedArmor.indexOf(getFromArr(this.equippedArmor, armor.slot));
+			if(index > -1) {
+				this.equippedArmor.splice(index, 1);
+			}
+		}
+		if(!getObj(this.equippedArmor, thisItemId)) {
+			this.equippedArmor.push(armor);
+			this.updateStats();
+		}
 	},
 
 	unequipCurrentWeapon: function(){
@@ -225,13 +249,20 @@ var Player = {
 		}
 	},
 
-	unequipCurrentArmor: function(){
-		if(this.equippedArmor) {
-			this.equippedArmor.removeEquipBuff();
-			this.armor -= this.equippedArmor.armorAmt;
-			this.equippedArmor = '';
+	checkIfArmorSlotIsTaken: function(armor) {
+		console.log(getFromArr(this.equippedArmor, armor.slot));
+		if(getFromArr(this.equippedArmor, armor.slot)) {
+			return true;
 		}
 	},
+
+	// unequipCurrentArmor: function(){
+	// 	if(this.equippedArmor) {
+	// 		this.equippedArmor.removeEquipBuff();
+	// 		this.armor -= this.equippedArmor.armorAmt;
+	// 		this.equippedArmor = '';
+	// 	}
+	// },
 
 	purchaseItem: function() {
 		var itemId = this.getAttribute('data-item');
@@ -583,6 +614,13 @@ var roll = function (min, max) {
 var getObj = function(arr, val) {
 	var result = arr.filter(function(o){
 		return o.name === val;
+	});
+	return result? result[0] : null;
+};
+
+var getFromArr = function(arr, val) {
+	var result = arr.filter(function(o){
+		return o.slot === val;
 	});
 	return result? result[0] : null;
 };
