@@ -379,7 +379,7 @@ var UI = {
 				if(thisItem === Player.equippedWeapon) {
 					this.renderEquippedWeapon(itemWrapper);
 				}
-				if(getObj(Player.equippedArmor, thisItem.name)) {
+				if(getObj(Player.equippedArmor, thisItem.name) && !UI.inventory.el.querySelector('[data-item="'+thisItem.name+'"]').getAttribute('class', 'equipped-armor')) {
 					itemWrapper.setAttribute('class', 'equipped-armor');
 				}
 			}
