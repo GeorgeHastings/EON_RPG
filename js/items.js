@@ -140,7 +140,7 @@ Item.effects = {
 		desc: function(amt) {
 			return 'Restore '+amt+' hp';
 		}
-	}
+	},
 };
 
 var Weapon = function(name, level, rarity, flavorText, damageMin, damageMax, effect, effectAmt){
@@ -203,7 +203,17 @@ Armors.push(new Armor('Damp Boots', 1, 'none', '','Boots', 1));
 Armors.push(new Armor('Linen Shirt', 1, 'common', '','Chest', 2, 'addQuickness', 1));
 Armors.push(new Armor('Leather Belt', 1, 'common', '','Belt', 2));
 Armors.push(new Armor('Wool Cap', 1, 'common', '','Head', 2));
-Armors.push(new Armor('Wool Cloak', 1, 'common', '','Back', 2));
+Armors.push(new Armor('Old Cloak', 1, 'common', '','Back', 2));
+Armors.push(new Armor('Leather Sandals', 1, 'none', '','Boots', 2));
+
+Armors.push(new Armor('Wool Sash', 2, 'none', '','Belt', 2));
+Armors.push(new Armor('Old Canvas Pants', 2, 'none', '','Pants', 2));
+Armors.push(new Armor('Skull Cap', 2, 'none', '','Head', 2));
+Armors.push(new Armor('Thick Wool Shirt', 2, 'common', '','Chest', 4));
+Armors.push(new Armor('Thick Leather Belt', 2, 'common', '','Belt', 3));
+Armors.push(new Armor('Leather Hat', 2, 'common', '','Head', 3));
+Armors.push(new Armor('Wool Cloak', 2, 'common', '','Back', 3));
+Armors.push(new Armor('Travelers Boots', 2, 'common', '','Boots', 3));
 
 Consumables.push(new Consumable('Chicken Egg', 1, 'none', '', 'healPlayer', 4));
 Consumables.push(new Consumable('Peasant Bread', 1, 'none', '', 'healPlayer', 5));

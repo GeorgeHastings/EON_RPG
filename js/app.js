@@ -192,7 +192,6 @@ var Player = {
 			var loot = GameState.currentMoment.dropLoot[i];
 			this.addToInventory(loot);
 		}
-		
 		UI.combatLog.renderLootMessage();
 	},
 

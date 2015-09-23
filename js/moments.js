@@ -1,5 +1,19 @@
 'use strict';
 
+var callAjax = function(callback){
+  var c = new XMLHttpRequest;
+  c.onload = callback;
+  c.open('GET', 'http://sheetsu.com/apis/38104659#<ApiSheet:0x00000009ef09f8>');
+  c.send();
+};
+
+var logRequest = function(e) {
+	var obj = JSON.parse(e.target.response);
+	console.log(obj);
+};
+
+callAjax(logRequest);
+
 var moment1 = {
 	message: 'You are suddenly conscious, and remember nothing.',
 	choices: [{message: 'Blink',link: 2}],
@@ -96,7 +110,7 @@ var playerLost = {
 
 var moment20 = {
 	message: 'You enter the arms shop. "Ahoy there traveler," says the owner. "What can I do for you?"',
-	shop: [getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Armors, 1)],
+	shop: [getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Armors, 2)],
 	choices: [{message: 'Leave the shop', link: 19}]
 };
 
