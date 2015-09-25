@@ -117,8 +117,8 @@ var Player = {
 			for(var i = 0; i < this.equippedArmor.length; i++) {
 				this.armor += this.equippedArmor[i].armorAmt;
 			}
-			this.armor += this.strength;
 		}
+		this.armor += this.strength;
 	},
 
 	setDamage: function() {
@@ -235,8 +235,10 @@ var Player = {
 	},
 
 	unequipCurrentWeapon: function(){
+		if(this.equippedWeapon.effect) {
+			this.equippedWeapon.effect.removeBuff();
+		}
 		if(this.equippedWeapon) {
-			this.equippedWeapon.removeEquipBuff();
 			this.equippedWeapon = '';
 		}
 	},
@@ -296,7 +298,9 @@ var UI = {
 
 		getMomentByClick: function() {
 			var num = this.getAttribute('data-moment');
-			GameState.setCurrentMoment(window['moment'+num]);
+			console.log(num);
+			console.log(Moments['moment'+num+'']);
+			GameState.setCurrentMoment(Moments['moment'+num+'']);
 		},
 
 		renderShop: function() {
@@ -591,7 +595,7 @@ var UI = {
 	}
 };
 
-var roll = function (min, max) {
+var roll = function(min, max) {
   	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -641,14 +645,14 @@ var runCombat = function(){
 				Player.pickUpLoot();
 				Player.pickUpGold();
 				Player.updateStats();
-				GameState.setCurrentMoment(window['moment'+GameState.currentMoment.link]);
+				GameState.setCurrentMoment(Moments['moment'+GameState.currentMoment.link+'']);
 			}
 		} 
 		else {
 			fighting = false;
 			UI.combatLog.renderCombatLog('You were slain by '+enemy.name+'');
 			Player.updateStats();
-			GameState.setCurrentMoment(playerLost);
+			GameState.setCurrentMoment(Moments.playerLost);
 		}
 	}
 };
