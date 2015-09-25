@@ -166,7 +166,7 @@ var Player = {
 
 	attack: function(target) {
 		this.getBaseDamage();
-		var damageDealt = (this.baseDamage * target.damageReduction).toFixed(0);
+		var damageDealt = Math.round(this.baseDamage * target.damageReduction);
 		var hitType = 'hit';
 		if(this.rollQuicknessProc()) {
 			damageDealt = damageDealt*2;
@@ -182,8 +182,8 @@ var Player = {
 	},
 
 	pickUpGold: function() {
-		var enemy = getObj(Enemies, GameState.currentMoment.enemy).level;
-		var gold = roll(3, 5)*enemy;
+		var multiplier = getObj(Enemies, GameState.currentMoment.enemy).level;
+		var gold = roll(3, 6)*multiplier;
 		Player.updateGold(gold);
 	},
 
@@ -227,8 +227,11 @@ var Player = {
 	},
 
 	unequipArmor: function(armor) {
-		var index = this.equippedArmor.indexOf(getFromArr(this.equippedArmor, armor.slot));
-		getFromArr(this.equippedArmor, armor.slot).removeEquipBuff();
+		var thisArmor = getFromArr(this.equippedArmor, armor.slot);
+		var index = this.equippedArmor.indexOf(thisArmor);
+		if(thisArmor.effect) {
+			thisArmor.effect.removeBuff();
+		}	
 		if(index > -1) {
 			this.equippedArmor.splice(index, 1);
 		}
@@ -244,7 +247,6 @@ var Player = {
 	},
 
 	checkIfArmorSlotIsTaken: function(armor) {
-		console.log(getFromArr(this.equippedArmor, armor.slot));
 		if(getFromArr(this.equippedArmor, armor.slot)) {
 			return true;
 		}
@@ -298,8 +300,6 @@ var UI = {
 
 		getMomentByClick: function() {
 			var num = this.getAttribute('data-moment');
-			console.log(num);
-			console.log(Moments['moment'+num+'']);
 			GameState.setCurrentMoment(Moments['moment'+num+'']);
 		},
 

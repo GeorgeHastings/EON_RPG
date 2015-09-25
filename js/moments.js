@@ -22,7 +22,7 @@ var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
-		dropLoot: ['Sword of Saladin']
+		// dropLoot: ['Sword of Saladin']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',

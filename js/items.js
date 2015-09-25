@@ -19,7 +19,6 @@ Item.prototype.use = function() {
 };
 
 Item.prototype.desc = function() {
-	console.log(this.effect);
 	return this.effect.desc();
 };
 
@@ -44,61 +43,6 @@ Item.prototype.getSalePrice = function() {
 
 Item.prototype.getPurchasePrice = function() {
 	return (this.level*10) * this.getRarityMultiplier() + (this.level*5);
-};
-
-Item.effects = {
-	buffMaxDamage: {
-		run: function(amt) {
-			var logMessage;
-
-			if(Player.equippedWeapon) {
-				Player.equippedWeapon.damageMax += amt;
-				logMessage = 'Your '+Player.equippedWeapon.name+'s max attack is increased by '+amt+'';	
-			}
-			else {
-				logMessage = 'You need to equip a weapon to use this';
-			}
-
-			UI.combatLog.renderCombatLog(logMessage);
-		},
-		desc: function(amt) {
-			return 'Increase your equipped weapons max damage by '+amt+'';
-		}
-	},
-	buffMinDamage: {
-		run: function(amt) {
-			var logMessage;
-
-			if(Player.equippedWeapon) {
-				Player.equippedWeapon.damageMin += amt;
-				logMessage = 'Your '+Player.equippedWeapon.name+'s min attack is increased by '+amt+'';	
-			}
-			else {
-				logMessage = 'You need to equip a weapon to use this';
-			}
-
-			UI.combatLog.renderCombatLog(logMessage);
-		},
-		desc: function(amt) {
-			return 'Increase your equipped weapons min damage by '+amt+'';
-		}
-	},
-	healPlayer: {
-		run: function(amt) {
-			var logMessage = 'You are healed for '+amt+'';
-			var lostHealth = Player.healthMax - Player.healthTotal;
-			if(amt <= lostHealth) {
-				Player.healthTotal += amt;	
-			}
-			else {
-				Player.healthTotal += lostHealth;
-			}
-			UI.combatLog.renderCombatLog(logMessage);
-		},
-		desc: function(amt) {
-			return 'Restore '+amt+' hp';
-		}
-	},
 };
 
 var Weapon = function(name, level, rarity, flavorText, damageMin, damageMax, effect){
@@ -127,7 +71,6 @@ var Armor = function(name, level, rarity, flavorText, slot, armorAmt, effect, ef
 var Consumable = function(name, level, rarity, flavorText, effect){
 	var consumable = new Item(name,level, rarity, flavorText);
 	consumable.effect = effect;
-	// consumable.effectAmt = effectAmt;
 	consumable.itemType = 'consumable';
 	return consumable;
 };
@@ -173,11 +116,11 @@ Armors.push(new Armor('Wool Cloak', 2, 'common', '','Back', 3));
 Armors.push(new Armor('Travelers Boots', 2, 'common', '','Boots', 3));
 
 Consumables.push(new Consumable('Chicken Egg', 1, 'none', '', healPlayer(4)));
-Consumables.push(new Consumable('Peasant Bread', 1, 'none', '', 'healPlayer', 5));
-Consumables.push(new Consumable('Jerky', 1, 'common', '', 'healPlayer', 6));
-Consumables.push(new Consumable('Dried Trout', 2, 'none', '', 'healPlayer', 8));
+Consumables.push(new Consumable('Peasant Bread', 1, 'none', '', healPlayer(5)));
+Consumables.push(new Consumable('Jerky', 1, 'common', '', healPlayer(6)));
+Consumables.push(new Consumable('Dried Trout', 2, 'none', '', healPlayer(8)));
 Consumables.push(new Consumable('Sharpsword Oil', 2, 'rare', '', buffMaxDamage(2)));
-Consumables.push(new Consumable('Whetstone', 2, 'common', '', 'buffMinDamage', 1));
+Consumables.push(new Consumable('Whetstone', 2, 'common', '', buffMinDamage(1)));
 
 
 
