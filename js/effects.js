@@ -83,5 +83,36 @@ var buffMaxDamage = function(amt) {
 };
 
 var buffMinDamage = function(amt) {
-	return new WeaponBuff(amt, 'damageMin', 'Increase your equipped weapons max damage by '+amt+'');
+	return new WeaponBuff(amt, 'damageMin', 'Increase your equipped weapons min damage by '+amt+'');
 };
+
+var ItemProc = function(amt, chance, description) {
+	this.amt = amt;
+	this.chance = chance;
+	this.description = description;
+};
+
+ItemProc.prototype.proc = function(target, item) {
+	target.healthTotal -= this.amt;
+	UI.combatLog.renderCombatLog(''+item.name+' hits '+target.name+' for '+this.amt+'')
+};
+
+ItemProc.prototype.run = function() {
+	var procChance = roll(0,100);
+	if(procChance <= this.chance) {
+		return true;
+	}
+};
+
+ItemProc.prototype.desc = function() {
+	return this.description;
+};
+
+var quickStrike = function(amt, chance) {
+	return new ItemProc(amt, chance, ''+chance+'% chance to deal an additional '+amt+' damage')
+};
+
+
+
+
+

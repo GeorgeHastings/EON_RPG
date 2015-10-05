@@ -32,8 +32,11 @@ Item.prototype.getRarityMultiplier = function() {
 	if(this.rarity === 'rare') {
 		return 1.5;
 	}
-	if(this.rarity === 'legendary') {
+	if(this.rarity === 'epic') {
 		return 2;
+	}
+	if(this.rarity === 'legendary') {
+		return 2.5;
 	}
 };
 
@@ -56,14 +59,13 @@ var Weapon = function(name, level, rarity, flavorText, damageMin, damageMax, eff
 	return weapon;
 };
 
-var Armor = function(name, level, rarity, flavorText, slot, armorAmt, effect, effectAmt) {
+var Armor = function(name, level, rarity, flavorText, slot, armorAmt, effect) {
 	var armor = new Item(name,level, rarity, flavorText);
 	armor.slot = slot;
 	armor.armorAmt = armorAmt;
 	armor.itemType = 'armor';
-	if(effect && effectAmt) {
-		armor.effect = Item.effects[effect];
-		armor.effectAmt = effectAmt;
+	if(effect) {
+		armor.effect = effect;
 	}
 	return armor;
 };
@@ -94,7 +96,11 @@ Weapons.push(new Weapon('Oily Dagger', 2, 'common', '', 3, 5, addQuickness(1)));
 Weapons.push(new Weapon('Fang Claws', 2, 'common', '', 2, 7));
 Weapons.push(new Weapon('Iron Short Sword', 2, 'common', '', 3, 6));
 
-Weapons.push(new Weapon('Sword of Saladin', 15, 'legendary', '', 30, 60, addQuicknessAndStrength(20)));
+Weapons.push(new Weapon('Wind Blade', 3, 'rare', '', 4, 9, quickStrike(2, 15)));
+Weapons.push(new Weapon('Sword of Saladin', 15, 'legendary', 'It can cut a scarf in the air.', 30, 60, addQuicknessAndStrength(20)));
+Weapons.push(new Weapon('Doubl2e Edged Katana', 10, 'epic', '', 5, 7, quickStrike(5, 10)));
+Weapons.push(new Weapon('Sadams Golden AK-47', 20, 'legendary', 'Complete with incendiary rounds', 77, 133, quickStrike(33, 20)));
+Weapons.push(new Weapon('Stealth Ops P-60', 8, 'epic', '', 17, 25, addQuickness(8)));
 
 Armors.push(new Armor('Wool Shirt', 1, 'none', '', 'Chest', 2));
 Armors.push(new Armor('Twine Cinch', 1, 'none', '','Belt', 1));
@@ -115,6 +121,8 @@ Armors.push(new Armor('Leather Hat', 2, 'common', '','Head', 3));
 Armors.push(new Armor('Wool Cloak', 2, 'common', '','Back', 3));
 Armors.push(new Armor('Travelers Boots', 2, 'common', '','Boots', 3));
 
+Armors.push(new Armor('Arturus Tabard', 10, 'legendary', 'This belonged to a true badass.','Chest', 50, addQuicknessAndStrength(10)));
+
 Consumables.push(new Consumable('Chicken Egg', 1, 'none', '', healPlayer(4)));
 Consumables.push(new Consumable('Peasant Bread', 1, 'none', '', healPlayer(5)));
 Consumables.push(new Consumable('Jerky', 1, 'common', '', healPlayer(6)));
@@ -123,7 +131,16 @@ Consumables.push(new Consumable('Sharpsword Oil', 2, 'rare', '', buffMaxDamage(2
 Consumables.push(new Consumable('Whetstone', 2, 'common', '', buffMinDamage(1)));
 
 
-
 var Items = Weapons.concat(Armors, Consumables);
-
 Items.push(new Item('Message', 1, 'epic', 'It reads: "To be delivered to Jawn Peteron"'));
+
+// var weaponTypes = ['Sword', 'Shortsword', 'Longsword', 'Bastardsword', 'Rapier', 'Katana', 'Dirk', 'Gladius', 'Broadsword', 'Fencer', 'Claymore', 'Scimitar', 'Cutlass'];
+// var weaponDescriptors = ['Double Edged', 'Damascus', 'Steel', 'Iron', 'Folded', 'Cobalt', 'Fine', 'Serrated', 'Sharp', 'Heavy', 'Weighted', 'Ancient', 'Bloody', 'Blinding'];
+
+// var newSword = function() {
+// 	var type = weaponTypes[roll(0,weaponTypes.length)];
+// 	var kind = weaponDescriptors[roll(0,weaponDescriptors.length)];
+// 	var minDamage = roll(0,100);
+// 	var maxDamage = minDamage + roll(0, minDamage);
+// 	return new Weapon(''+kind+' '+type+'', 4, 'common', '', minDamage, maxDamage);
+// };

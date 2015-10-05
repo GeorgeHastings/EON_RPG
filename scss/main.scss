@@ -61,18 +61,23 @@ ul {
 }
 
 dl {
-	margin-top: 0;
+	margin-top: 0.5em;
 	@extend .clearfix;
 }
 
 a {
 	display: block;
 	color: inherit;
-	text-decoration: underline;
 	cursor: pointer;
 	animation: load-in 0.25s ease;
 
+	&:before {
+		content: '>';
+		margin-right: 5px;
+	}
+
 	&:hover {
+		text-decoration: underline;
 		font-weight: bold;
 	}
 }
@@ -131,9 +136,9 @@ label {
 		margin-top: 2em;
 	}
 	
-	p:first-child {
-		margin-top: 0;
-	}
+	// p:first-child {
+	// 	margin-top: 0;
+	// }
 }
 
 .inventory-container {
@@ -161,25 +166,31 @@ label {
 		cursor: pointer;
 		animation: load-in 0.25s ease;
 
-		&:hover {
+		&.equipped-wep {
 			font-weight: bold;
 		}
 
-		&.equipped-wep::before {
-			position: absolute;
-			content: "⚔ ";
-			margin-left: -20px;
-			font-size: 1em;
-			color: rgba(0,0,0,1);
+		&.equipped-armor {
+			font-weight: bold;
 		}
 
-		&.equipped-armor::before {
-			position: absolute;
-			content: "⚱ ";
-			margin-left: -20px;
-			font-size: 1em;
-			color: rgba(0,0,0,1);
-		}
+		//In case I find some cool icons for equipping
+
+		// &.equipped-wep::before {
+		// 	position: absolute;
+		// 	content: "⚔ ";
+		// 	margin-left: -20px;
+		// 	font-size: 1em;
+		// 	color: rgba(0,0,0,1);
+		// }
+
+		// &.equipped-armor::before {
+		// 	position: absolute;
+		// 	content: "⚱ ";
+		// 	margin-left: -20px;
+		// 	font-size: 1em;
+		// 	color: rgba(0,0,0,1);
+		// }
 
 		&.none {
 			color: #fff;
@@ -247,8 +258,8 @@ label {
 
 	#itemEffect {
 		color: $green;
-		// line-height: 1.5em;
-  //   	margin-top: 0.5em;
+		line-height: 1.5em;
+    	margin: 0.25em 0;
 	}
 
 	#salePrice {

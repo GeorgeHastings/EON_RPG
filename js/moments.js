@@ -1,28 +1,11 @@
 'use strict';
 
-// var Moments = [];
-
-// var callAjax = function(callback){
-//   var c = new XMLHttpRequest;
-//   c.onload = callback;
-//   c.open('GET', 'http://sheetsu.com/apis/43c1ef34');
-//   c.send();
-// };
-
-// var logRequest = function(e) {
-// 	var obj = JSON.parse(e.target.response);
-// 	for(var i = 0; i < obj.result.length; i++) {
-// 		Moments.push(obj.result[i]);
-// 	}	
-// };
-
-// callAjax(logRequest);
-
 var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
-		// dropLoot: ['Sword of Saladin']
+		dropLoot: ['Stealth Ops P-60']
+		// dropLoot: ['Arturus Tabard', 'Sadams Golden AK-47']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -33,7 +16,7 @@ var Moments = {
 		choices: [{message: 'Start walking',link: 5}]
 	},
 	moment4: {
-		message: 'Looped to your belt you find a muddy hatchet.',
+		message: 'Looped to your belt you find a weapon.',
 		choices: [{message: 'Look around',link: 3},{message: 'Start Walking',link: 5}],
 		dropLoot: [getRandomLootByLevel(Weapons, 1)]
 	},
@@ -82,6 +65,20 @@ var Moments = {
 		message: 'You draw your weapon and stand your ground.',
 		enemy: 'Highway Bandit',
 		dropLoot: [getRandomLootByLevel(Items, 1)],
+		link: 18
+	},
+	moment17: {
+		message: 'You approach the shoddy old mill until you can hear voices coming from inside.',
+		choices: [{message: 'Take a peek',link: '17a'},{message: 'Bust in there',link: '17b'},{message: 'Go back to the road',link: 18}]
+	},
+	moment17b: {
+		message: '"Who the fuck are you?" says Sinclair Black, a notable thief.',
+		choices: [{message: '"Your mom"',link: '17c'},{message: 'Punch him in the face',link: '17c'},{message: 'Run away',link: 18}]
+	},
+	moment17c: {
+		message: '"You bitch, I will end you."',
+		enemy: 'Sinclair Black',
+		dropLoot: ['Wind Blade', 'Jerky'],
 		link: 18
 	},
 	moment18: {

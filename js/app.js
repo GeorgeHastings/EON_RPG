@@ -95,6 +95,7 @@ var Player = {
 
 	updateStats: function() {
 		this.setHealth();
+		// this.setStrength();
 		this.setDamage();
 		this.setArmor();
 		this.setDamageReduction();
@@ -179,6 +180,9 @@ var Player = {
 			target.healthTotal -= damageDealt;
 			UI.combatLog.renderCombatLog('('+this.healthTotal+') '+this.name+' '+hitType+' '+target.name+' for '+damageDealt+'');
 		}
+		if(this.equippedWeapon.effect && this.equippedWeapon.effect.run() === true) {
+			this.equippedWeapon.effect.proc(target, this.equippedWeapon);
+		}
 	},
 
 	pickUpGold: function() {
@@ -238,7 +242,7 @@ var Player = {
 	},
 
 	unequipCurrentWeapon: function(){
-		if(this.equippedWeapon.effect) {
+		if(this.equippedWeapon.effect === typeof Statbuff) {
 			this.equippedWeapon.effect.removeBuff();
 		}
 		if(this.equippedWeapon) {

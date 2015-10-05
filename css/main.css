@@ -42,15 +42,18 @@ ul {
   margin-top: 1em; }
 
 dl {
-  margin-top: 0; }
+  margin-top: 0.5em; }
 
 a {
   display: block;
   color: inherit;
-  text-decoration: underline;
   cursor: pointer;
   animation: load-in 0.25s ease; }
+  a:before {
+    content: '>';
+    margin-right: 5px; }
   a:hover {
+    text-decoration: underline;
     font-weight: bold; }
 
 h1 {
@@ -94,8 +97,6 @@ label {
   padding-bottom: 8em; }
   .narrative-container p {
     margin-top: 2em; }
-  .narrative-container p:first-child {
-    margin-top: 0; }
 
 .inventory-container {
   position: relative;
@@ -113,20 +114,10 @@ label {
   line-height: 1em;
   cursor: pointer;
   animation: load-in 0.25s ease; }
-  .inventory-list li:hover {
+  .inventory-list li.equipped-wep {
     font-weight: bold; }
-  .inventory-list li.equipped-wep::before {
-    position: absolute;
-    content: "⚔ ";
-    margin-left: -20px;
-    font-size: 1em;
-    color: black; }
-  .inventory-list li.equipped-armor::before {
-    position: absolute;
-    content: "⚱ ";
-    margin-left: -20px;
-    font-size: 1em;
-    color: black; }
+  .inventory-list li.equipped-armor {
+    font-weight: bold; }
   .inventory-list li.none {
     color: #fff; }
   .inventory-list li.rare {
@@ -167,7 +158,9 @@ label {
     line-height: 1.5em;
     padding-top: 0.75em; }
   .item-description-container #itemEffect {
-    color: #24fb27; }
+    color: #24fb27;
+    line-height: 1.5em;
+    margin: 0.25em 0; }
   .item-description-container #salePrice {
     float: left; }
     .item-description-container #salePrice:before {
