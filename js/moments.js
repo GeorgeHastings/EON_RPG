@@ -4,7 +4,7 @@ var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
-		dropLoot: ['Stealth Ops P-60']
+		dropLoot: ['P-70 Stealthhawk']
 		// dropLoot: ['Arturus Tabard', 'Sadams Golden AK-47']
 	},
 	moment2: {

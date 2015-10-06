@@ -100,7 +100,7 @@ Weapons.push(new Weapon('Wind Blade', 3, 'rare', '', 4, 9, quickStrike(2, 15)));
 Weapons.push(new Weapon('Sword of Saladin', 15, 'legendary', 'It can cut a scarf in the air.', 30, 60, addQuicknessAndStrength(20)));
 Weapons.push(new Weapon('Doubl2e Edged Katana', 10, 'epic', '', 5, 7, quickStrike(5, 10)));
 Weapons.push(new Weapon('Sadams Golden AK-47', 20, 'legendary', 'Complete with incendiary rounds', 77, 133, quickStrike(33, 20)));
-Weapons.push(new Weapon('Stealth Ops P-60', 8, 'epic', '', 17, 25, addQuickness(8)));
+Weapons.push(new Weapon('P-70 Stealthhawk', 8, 'epic', '', 17, 25, addQuickness(8)));
 
 Armors.push(new Armor('Wool Shirt', 1, 'none', '', 'Chest', 2));
 Armors.push(new Armor('Twine Cinch', 1, 'none', '','Belt', 1));

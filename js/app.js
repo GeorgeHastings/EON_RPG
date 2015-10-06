@@ -95,7 +95,6 @@ var Player = {
 
 	updateStats: function() {
 		this.setHealth();
-		// this.setStrength();
 		this.setDamage();
 		this.setArmor();
 		this.setDamageReduction();
@@ -180,7 +179,7 @@ var Player = {
 			target.healthTotal -= damageDealt;
 			UI.combatLog.renderCombatLog('('+this.healthTotal+') '+this.name+' '+hitType+' '+target.name+' for '+damageDealt+'');
 		}
-		if(this.equippedWeapon.effect && this.equippedWeapon.effect.run() === true) {
+		if(this.equippedWeapon.effect === typeof ItemProc && this.equippedWeapon.effect.run() === true) {
 			this.equippedWeapon.effect.proc(target, this.equippedWeapon);
 		}
 	},
