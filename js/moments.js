@@ -4,7 +4,7 @@ var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
-		dropLoot: ['Heartsbane', 'Centurian Cask', 'Double Edged Katana']
+		// dropLoot: ['Heartsbane', 'Centurian Cask', 'Double Edged Katana']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -24,12 +24,12 @@ var Moments = {
 		choices: [{message: 'Take a closer look',link: 6},{message: 'Continue on',link: 9}]
 	},
 	moment6: {
-		message: 'From behind a tree you see a goblin stoking a fire. With him is a man tied up, slumped at the base of a tree.',
+		message: 'From behind a tree you see a hunter stoking a fire. With him is a man tied up, slumped at the base of a tree.',
 		choices: [{message: 'Fight',link: 8},{message: 'Continue on',link: 9}]
 	},
 	moment8: {
-		message: 'You step out and rush at the goblin.',
-		enemy: 'Goblin Loan Shark',
+		message: 'You draw your weapon and charge.',
+		enemy: 'Vagrant Ranger',
 		dropLoot: [getRandomLootByLevel(Armors, 1), 'Chicken Egg'],
 		link: 10
 	},
@@ -48,7 +48,11 @@ var Moments = {
 		link: 13
 	},
 	moment13: {
-		message: 'You done beat the ol maniac. Next to him is a locked chest. Since youre such a lock pro, you open that shit up no problem.',
+		message: 'You notice a lockbox on the ground near the fire.',
+		choices: [{message: 'Check it out',link: '13a'}, {message: 'Continue on',link: 9}],
+	},
+	moment13a: {
+		message: 'There\'s nothing else here.',
 		choices: [{message: 'Continue on',link: 9}],
 		dropLoot: [getRandomLootByLevel(Consumables, 1)]
 	},

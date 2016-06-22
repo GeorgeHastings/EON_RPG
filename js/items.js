@@ -24,7 +24,7 @@ Item.prototype.desc = function() {
 
 Item.prototype.getRarityMultiplier = function() {
 	if(this.rarity === 'none') {
-		return 0.5;
+		return 0;
 	}
 	if(this.rarity === 'common') {
 		return 1;

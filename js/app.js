@@ -169,12 +169,12 @@ var Player = {
   attack: function(target) {
     this.getBaseDamage();
     var damageDealt = Math.round(this.baseDamage * target.damageReduction);
-    var hitType = ''+colorize('hit', 'yellow')+'';
+    var hitType = 'hit';
     var hitColor = 'yellow';
     if (this.rollQuicknessProc()) {
       damageDealt = damageDealt * 2;
-      hitType = ''+colorize('critically hit', '#ff6839')+'';
-      hitColor = '#ff6839';
+      hitType = ''+colorize('critically hit', UI.colors.red)+'';
+      hitColor = UI.colors.red;
     }
     if (target.rollQuicknessProc()) {
       UI.combatLog.renderCombatLog('(' + colorize(target.healthTotal, colorHealth(target.healthTotal/target.healthMax)) + ') ' + colorize(target.name, UI.colors.entity) + ' '+colorize('dodged', 'yellow')+' ' + colorize(this.name, UI.colors.entity) + ' for 0');
@@ -193,7 +193,7 @@ var Player = {
 
   pickUpGold: function() {
     var multiplier = getObj(Enemies, GameState.currentMoment.enemy).level;
-    var gold = roll(3, 6) * multiplier;
+    var gold = roll(4, 8) * multiplier;
     Player.updateGold(gold);
     UI.combatLog.renderCombatLog(''+colorize('You', UI.colors.player)+' found ' + colorize(gold + ' gold.', UI.colors.gold));
   },
@@ -302,7 +302,8 @@ var UI = {
     entity: '#fff',
     player: '#fff',
     enemy: '#fff',
-    gold: '#E5CA48'
+    gold: '#E5CA48',
+    red: '#ff6839'
   },
 
   narrative: {
@@ -720,8 +721,9 @@ var Combat = {
   },
   runCombat: function() {
     var thisCombat;
-    Combat.generateEnemy();
     var count = 0;
+    Combat.generateEnemy();
+    UI.combatLog.renderCombatLog(colorize('You engage '+Combat.enemy.name+'', UI.colors.red));
     thisCombat = setInterval(function() {
       if (Combat.fighting) {
         count++;
@@ -730,7 +732,7 @@ var Combat = {
         clearInterval(thisCombat);
         Combat.fighting = true;
       }
-    }, 500);
+    }, 750);
   }
 };
 

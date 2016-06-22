@@ -24,7 +24,7 @@ Enemy.prototype.rollQuicknessProc = function() {
 	Player.rollQuicknessProc.call(this);
 };
 
-Enemies.push(new Enemy('Goblin Loan Shark', 1, 12, 'Muddy Hatchet', 1, 0.03));
+Enemies.push(new Enemy('Vagrant Ranger', 1, 12, 'Muddy Hatchet', 1, 0.03));
 Enemies.push(new Enemy('Derranged Lunatic', 1, 12, 'Muddy Hatchet', 2, 0.03));
 Enemies.push(new Enemy('Highway Bandit', 1, 15, 'Dull Axe', 1, 0.05));
 Enemies.push(new Enemy('Wandering Looter', 1, 15, 'Rusty Short Sword', 1, 0.03));
@@ -34,6 +34,6 @@ Enemies.push(new Enemy('Cloaked Assassin', 1, 17, 'Iron Dagger', 2, 0.05));
 Enemies.push(new Enemy('Town Guard', 2, 16, 'Bronze Short Sword', 5, 0.03));
 Enemies.push(new Enemy('Black Wolf', 2, 12, 'Fang Claws', 1, 0.10));
 
-Enemies.push(new Enemy('Sinclair Black', 4, 40, 'Wind Blade', 10, 0.05));
+Enemies.push(new Enemy('Sinclair Graves', 4, 40, 'Wind Blade', 10, 0.05));
 
 Enemies.push(new Enemy('Target Dummy', 2, 1000, 'Fang Claws', 1, 0.10));
