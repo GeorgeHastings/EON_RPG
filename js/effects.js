@@ -26,7 +26,7 @@ var Heal = function(amt, stats, description) {
 	this.amt = amt;
 	this.stats = stats;
 	this.description = description;
-	this.logMessage = 'You are healed for '+this.amt+'';
+	this.logMessage = colorize('You', UI.colors.player)+' are '+colorize('healed', '#24fb27')+' for '+colorize(this.amt, '#24fb27')+'';
 };
 
 Heal.prototype = new StatBuff();
@@ -34,7 +34,7 @@ Heal.prototype = new StatBuff();
 Heal.prototype.run = function() {
 	var lostHealth = Player.healthMax - Player.healthTotal;
 	if(this.amt <= lostHealth) {
-		Player.healthTotal += this.amt;	
+		Player.healthTotal += this.amt;
 	}
 	else {
 		Player.healthTotal += lostHealth;
@@ -58,19 +58,19 @@ var healPlayer = function(amt) {
 	return new Heal(amt, ['healthTotal'], 'Restore '+amt+' hp');
 };
 
-var WeaponBuff = function(amt, stats, description) {
+var DamageBuff = function(amt, stats, description) {
 	this.amt = amt;
 	this.stats = stats;
 	this.description = description;
 };
 
-WeaponBuff.prototype = new StatBuff();
+DamageBuff.prototype = new StatBuff();
 
-WeaponBuff.prototype.run = function() {
+DamageBuff.prototype.run = function() {
 	var logMessage;
 	if(Player.equippedWeapon) {
-		Player.equippedWeapon[this.stats] += this.amt;
-		logMessage = 'Your '+Player.equippedWeapon.name+'s max attack is increased by '+this.amt+'';	
+		Player.equippedWeapon.damage[this.stats] += this.amt;
+		logMessage = 'Your '+colorize(Player.equippedWeapon.name, UI.colors[Player.equippedWeapon.rarity])+'\'s max attack is increased by '+this.amt+'';
 	}
 	else {
 		logMessage = 'You need to equip a weapon to use this';
@@ -79,22 +79,17 @@ WeaponBuff.prototype.run = function() {
 };
 
 var buffMaxDamage = function(amt) {
-	return new WeaponBuff(amt, 'damageMax', 'Increase your equipped weapons max damage by '+amt+'');
+	return new DamageBuff(amt, 1, 'Increase your equipped weapons max damage by '+amt+'');
 };
 
 var buffMinDamage = function(amt) {
-	return new WeaponBuff(amt, 'damageMin', 'Increase your equipped weapons min damage by '+amt+'');
+	return new DamageBuff(amt, 0, 'Increase your equipped weapons min damage by '+amt+'');
 };
 
 var ItemProc = function(amt, chance, description) {
 	this.amt = amt;
 	this.chance = chance;
 	this.description = description;
-};
-
-ItemProc.prototype.proc = function(target, item) {
-	target.healthTotal -= this.amt;
-	UI.combatLog.renderCombatLog(''+item.name+' hits '+target.name+' for '+this.amt+'')
 };
 
 ItemProc.prototype.run = function() {
@@ -111,8 +106,3 @@ ItemProc.prototype.desc = function() {
 var quickStrike = function(amt, chance) {
 	return new ItemProc(amt, chance, ''+chance+'% chance to deal an additional '+amt+' damage')
 };
-
-
-
-
-

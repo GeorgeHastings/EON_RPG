@@ -36,4 +36,4 @@ Enemies.push(new Enemy('Black Wolf', 2, 12, 'Fang Claws', 1, 0.10));
 
 Enemies.push(new Enemy('Sinclair Black', 4, 40, 'Wind Blade', 10, 0.05));
 
-Enemies.push(new Enemy('Target Dummy', 2, 100000000000000, 'Fang Claws', 1, 0.10));
+Enemies.push(new Enemy('Target Dummy', 2, 1000, 'Fang Claws', 1, 0.10));

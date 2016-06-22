@@ -4,8 +4,7 @@ var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
-		dropLoot: ['P-70 Stealthhawk']
-		// dropLoot: ['Arturus Tabard', 'Sadams Golden AK-47']
+		dropLoot: ['Heartsbane', 'Centurian Cask', 'Double Edged Katana']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -77,7 +76,7 @@ var Moments = {
 	},
 	moment17c: {
 		message: '"You bitch, I will end you."',
-		enemy: 'Sinclair Black',
+		enemy: 'Sinclair Graves',
 		dropLoot: ['Wind Blade', 'Jerky'],
 		link: 18
 	},
