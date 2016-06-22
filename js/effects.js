@@ -6,6 +6,17 @@ var StatBuff = function(amt, stats, description) {
 	this.description = description;
 };
 
+var QuestEffect = function(description, content) {
+	this.description = description;
+	this.content = content;
+};
+
+QuestEffect.prototype.run = function() {
+	UI.combatLog.renderCombatLog(this.content);
+};
+
+// var ReadLetter = new QuestEffect('Click to read', 'Hey there, you can go fuck yourself Jawn.');
+
 StatBuff.prototype.run = function() {
 	for(var i = 0; i < this.stats.length; i++) {
 		Player[this.stats[i]] += this.amt;

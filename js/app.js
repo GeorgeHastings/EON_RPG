@@ -81,6 +81,7 @@ var GameState = {
 
 var Player = {
   name: 'You',
+  level: 1,
   healthMax: 25,
   healthTotal: 25,
   armor: 0,
@@ -97,11 +98,27 @@ var Player = {
   },
   inventory: [],
   gold: 0,
+  experience: 0,
+
+  levelUp: function() {
+    this.level = this.level + 1;
+    this.strength = this.strength + 1;
+    this.quickness = this.quickness + 1;
+    this.healthTotal = this.healthMax;
+    this.updateStats();
+    UI.combatLog.renderCombatLog(colorize('You gained a level! Your strength and quickness have increased by 1.', 'yellow'));
+  },
+
+  updateExperience: function(exp) {
+    this.experience = this.experience + exp;
+    UI.combatLog.renderCombatLog('You gained '+colorize(exp, '#fff')+' experience.');
+  },
 
   updateStats: function() {
     this.setHealth();
     this.setDamage();
     this.setArmor();
+    this.setStrength();
     this.setDamageReduction();
     this.setQuicknessProc();
     UI.statlist.renderStats();
@@ -139,8 +156,8 @@ var Player = {
   },
 
   setStrength: function() {
-    this.healthTotal = this.healthTotal + this.strength;
-    this.healthMax = this.healthMax + this.strength;
+    // this.healthTotal = this.healthTotal + this.strength;
+    this.healthMax = 25 + this.strength;
   },
 
   setQuicknessProc: function() {
@@ -254,9 +271,9 @@ var Player = {
       Player.updateGold(-item.getPurchasePrice());
       Player.addToInventory(itemId);
       UI.inventory.renderInventory();
-      UI.combatLog.renderItemTransaction(item.name, item.getPurchasePrice(), 'bought');
+      UI.combatLog.renderItemTransaction(colorize(item.name, UI.colors[item.rarity]), item.getPurchasePrice(), 'bought');
     } else {
-      UI.combatLog.renderCannotPurchaseMessage(item.name, item.getPurchasePrice());
+      UI.combatLog.renderCannotPurchaseMessage(colorize(item.name, UI.colors[item.rarity]), item.getPurchasePrice());
     }
   },
 
@@ -274,8 +291,9 @@ var Player = {
 
     Player.removeFromInventory(itemId);
     Player.updateStats();
+    UI.itemDescription.hideItemDescription();
     UI.inventory.renderInventory();
-    UI.combatLog.renderItemTransaction(item.name, item.getSalePrice(), 'sold');
+    UI.combatLog.renderItemTransaction(colorize(item.name, UI.colors[item.rarity]), item.getSalePrice(), 'sold');
   }
 };
 
@@ -453,6 +471,9 @@ var UI = {
         UI.inventory.renderInventory();
         item.use();
       }
+      if(item.itemType === 'quest') {
+        item.use();
+      }
     },
   },
 
@@ -562,6 +583,9 @@ var UI = {
     },
 
     getStatDescriptions: {
+      level: function() {
+        return 'You are level '+Player.level+'';
+      },
       health: function() {
         return 'You have '+(Player.healthTotal/Player.healthMax*100).toFixed(0)+'% health';
       },
@@ -680,6 +704,7 @@ var UI = {
 
 var Combat = {
   fighting: true,
+  rounds: 0,
   generateEnemy: function() {
     var enemyType = getObj(Enemies, GameState.currentMoment.enemy);
     var enemy = new Enemy(enemyType.name, enemyType.level, enemyType.healthTotal, getObj(Items, enemyType.equippedWeapon), enemyType.armor, enemyType.critChance);
@@ -690,6 +715,7 @@ var Combat = {
     Combat.fighting = false;
     Player.pickUpLoot();
     Player.pickUpGold();
+    Combat.awardExperience();
     GameState.setCurrentMoment(Moments['moment' + GameState.currentMoment.link + '']);
   },
   playerLoses: function() {
@@ -697,6 +723,10 @@ var Combat = {
     UI.combatLog.renderCombatLog(''+colorize('You', UI.colors.player)+' were slain by ' + colorize(Combat.enemy.name, '#fff') + '');
     Player.updateStats();
     GameState.setCurrentMoment(Moments.playerLost);
+  },
+  awardExperience: function() {
+    var exp = this.rounds + 15*Combat.enemy.level;
+    Player.updateExperience(exp);
   },
   fight: function(count) {
     var attacker;
@@ -731,8 +761,9 @@ var Combat = {
       } else {
         clearInterval(thisCombat);
         Combat.fighting = true;
+        Combat.rounds = count;
       }
-    }, 750);
+    }, 700);
   }
 };
 

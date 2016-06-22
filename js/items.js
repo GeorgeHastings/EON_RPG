@@ -4,12 +4,27 @@ var Weapons = [];
 var Armors = [];
 var Consumables = [];
 
-function Item(name, level, rarity, flavorText) {
+var Pricing = {
+	rarities: {
+		'none': 0.5,
+		'common': 1,
+		'rare': 1.5,
+		'epic': 2,
+		'legendary': 2.5
+	},
+	types: {
+		'weapon': 1,
+		'armor': 0.6,
+		'consumable': 0.4
+	}
+};
+
+var Item = function(name, level, rarity, flavorText) {
 	this.name = name;
 	this.level = level;
 	this.rarity = rarity;
 	this.flavorText = flavorText;
-}
+};
 
 Item.prototype.use = function() {
 	if(this.hasOwnProperty('effect')) {
@@ -23,21 +38,8 @@ Item.prototype.desc = function() {
 };
 
 Item.prototype.getRarityMultiplier = function() {
-	if(this.rarity === 'none') {
-		return 0;
-	}
-	if(this.rarity === 'common') {
-		return 1;
-	}
-	if(this.rarity === 'rare') {
-		return 1.5;
-	}
-	if(this.rarity === 'epic') {
-		return 2;
-	}
-	if(this.rarity === 'legendary') {
-		return 2.5;
-	}
+	console.log(this.itemType);
+	return Pricing.rarities[this.rarity] * Pricing.types[this.itemType];
 };
 
 Item.prototype.getSalePrice = function() {
@@ -81,7 +83,7 @@ Weapons.push(new Weapon('Rusty Short Sword', 1, 'none', '', [2, 4]));
 Weapons.push(new Weapon('Dull Axe', 1, 'none', '', [1, 5]));
 Weapons.push(new Weapon('Wooden Staff', 1, 'none', '', [2, 3]));
 Weapons.push(new Weapon('Bent Spear', 1, 'none', '', [1, 4]));
-Weapons.push(new Weapon('Iron Dagger', 1, 'common', '', [3, 4], addStrength(1)));
+Weapons.push(new Weapon('Iron Dagger', 1, 'common', '', [3, 4]));
 Weapons.push(new Weapon('Short Spear', 1, 'common', '', [1, 6]));
 Weapons.push(new Weapon('Blacksmith Hammer', 1, 'common', '', [2, 5]));
 Weapons.push(new Weapon('Bronze Short Sword', 1, 'common', '', [3, 4]));
@@ -91,7 +93,7 @@ Weapons.push(new Weapon('Oak Club', 2, 'none', '', [2, 5]));
 Weapons.push(new Weapon('Old Longsword', 2, 'none', '', [3, 4]));
 Weapons.push(new Weapon('Logging Axe', 2, 'none', '', [2, 6]));
 Weapons.push(new Weapon('Bronze Spear', 2, 'common', '', [1, 8]));
-Weapons.push(new Weapon('Oily Dagger', 2, 'common', '', [3, 5], addQuickness(1)));
+Weapons.push(new Weapon('Balanced Dagger', 2, 'rare', '', [3, 5], addQuickness(1)));
 Weapons.push(new Weapon('Fang Claws', 2, 'common', '', [2, 7]));
 Weapons.push(new Weapon('Iron Short Sword', 2, 'common', '', [3, 6]));
 
@@ -133,7 +135,17 @@ Consumables.push(new Consumable('Whetstone', 2, 'common', '', buffMinDamage(1)))
 
 
 var Items = Weapons.concat(Armors, Consumables);
-Items.push(new Item('Message', 1, 'epic', 'It reads: "To be delivered to Jawn Peteron"'));
+
+var QuestItem = function(name, rarity, flavorText, effect) {
+	this.name = name;
+	this.itemType = 'quest';
+	this.rarity = rarity;
+	this.flavorText = flavorText;
+	this.use = Item.prototype.use;
+	this.effect = effect;
+};
+
+Items.push(new QuestItem('Message', 'epic', 'The cover says: "To be delivered to Jawn Peteron"', new QuestEffect('Click to read', 'It reads "There used to be a graying tower alone on the sea."')));
 
 // var weaponTypes = ['Sword', 'Shortsword', 'Longsword', 'Bastardsword', 'Rapier', 'Katana', 'Dirk', 'Gladius', 'Broadsword', 'Fencer', 'Claymore', 'Scimitar', 'Cutlass'];
 // var weaponDescriptors = ['Double Edged', 'Damascus', 'Steel', 'Iron', 'Folded', 'Cobalt', 'Fine', 'Serrated', 'Sharp', 'Heavy', 'Weighted', 'Ancient', 'Bloody', 'Blinding'];

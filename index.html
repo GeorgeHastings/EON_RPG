@@ -12,6 +12,8 @@
 		<div class="container inventory-container">
 			<label>Stats</label>
 			<dl id="stat-list">
+				<dt>Level: </dt>
+			  <dd data-stat='level'></dd>
 			  <dt>Health: </dt>
 			  <dd data-stat='health'></dd>
 			  <dt>Damage: </dt>
@@ -35,7 +37,10 @@
 		</div>
 		<div id="narrative" class="container narrative-container">
 			<label>Narrative</label>
-			<p><a data-moment="1" onclick="GameState.setCurrentMoment(Moments.moment1)">Wake Up</a></p>
+			<p>
+				<p>You're dreaming you're in a small rowboat. The black water around you stirs.</p>
+				<a data-moment="1" onclick="GameState.setCurrentMoment(Moments.moment1)">Wake Up</a>
+			</p>
 		</div>
 		<div id="combatLog" class="container combat-log-container dark-text">
 			<label>Activity Log</label>

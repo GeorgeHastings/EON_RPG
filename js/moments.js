@@ -39,7 +39,7 @@ var Moments = {
 	},
 	moment10: {
 		message: 'After taking a minute to recover, you turn to the captured man.',
-		choices: [{message: '"Who are you?"',link: 11},{message: 'Take a closer look',link: 12}]
+		choices: [{message: '"Where am I?"',link: 11},{message: 'Take a closer look',link: 12}]
 	},
 	moment12: {
 		message: 'As you lean in to check if the man is alive, he suddenly lunges at you.',
@@ -54,7 +54,7 @@ var Moments = {
 	moment13a: {
 		message: 'There\'s nothing else here.',
 		choices: [{message: 'Continue on',link: 9}],
-		dropLoot: [getRandomLootByLevel(Consumables, 1)]
+		dropLoot: [getRandomLootByLevel(Items, 1), getRandomLootByLevel(Consumables, 1)]
 	},
 	moment14: {
 		message: 'As the man gets closer, he draws a sword.',
@@ -67,7 +67,7 @@ var Moments = {
 	moment16: {
 		message: 'You draw your weapon and stand your ground.',
 		enemy: 'Highway Bandit',
-		dropLoot: [getRandomLootByLevel(Items, 1)],
+		dropLoot: [getRandomLootByLevel(Items, 2)],
 		link: 18
 	},
 	moment17: {
@@ -103,12 +103,12 @@ var Moments = {
 		choices: [{message: 'Leave the shop', link: 19}]
 	},
 	moment22: {
-		message: 'You enter the inn. "Sup playa," says the innkeeper. "Would you like a room? Its 5 gold for the night."',
+		message: 'You enter the inn. "Sup playa," says the innkeeper. "Would you like a room? Its 2 gold for the night."',
 		choices: [{message: 'Yes please', link: 23}, {message: 'No thanks', link: 19}]
 	},
 	moment23: {
 		message: 'You go up to your room and sleep off your wounds. You wake up feeling like a million bucks.',
-		inn: 5,
+		inn: 2,
 		choices: [{message: 'Leave the inn', link: 19}, {message: 'Get another room', link: 23}]
 	},
 	moment24: {

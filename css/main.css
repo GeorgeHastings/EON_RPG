@@ -14,6 +14,9 @@ body {
   body.white {
     background-color: #F5F6F7; }
 
+::-webkit-scrollbar {
+  display: none; }
+
 .dark-text {
   color: #939DBD; }
   .dark-text p:before {
@@ -76,7 +79,7 @@ label {
   opacity: 0.5;
   text-transform: uppercase; }
 
-.clearfix:after, dl:after {
+.clearfix:after, dl:after, .narrative-container:after {
   content: "";
   display: table;
   clear: both; }

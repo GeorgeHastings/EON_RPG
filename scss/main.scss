@@ -28,6 +28,10 @@ body {
 	}
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .dark-text {
 	color: $gray;
 	p:before {
@@ -137,6 +141,7 @@ label {
 .narrative-container {
 	width: calc(75% / 2);
 	padding-bottom: 8em;
+	@extend .clearfix;
 
 	p {
 		margin-top: 3em;
