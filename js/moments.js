@@ -8,14 +8,14 @@ var Moments = {
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
-		choices: [{message: 'Look around',link: 3},{message: 'Check your belongings',link: 4}]
+		choices: [{message: 'Check your belongings',link: 4},{message: 'Look around',link: 3}]
 	},
 	moment3: {
 		message: 'The sun has just set. You are surrounded by trees bathed in twilight.',
 		choices: [{message: 'Start walking',link: 5}]
 	},
 	moment4: {
-		message: 'Looped to your belt you find a weapon.',
+		message: 'Looped to your belt you find a weapon. Click on it in your inventory to equip it.',
 		choices: [{message: 'Look around',link: 3},{message: 'Start Walking',link: 5}],
 		dropLoot: [getRandomLootByLevel(Weapons, 1)]
 	},
@@ -38,7 +38,7 @@ var Moments = {
 		choices: [{message: 'Keep walking',link: 14},{message: 'Hide',link: 15}]
 	},
 	moment10: {
-		message: 'After taking a minute to recover, you turn to the captured man.',
+		message: 'After taking a minute to recover, you turn to the captured man. You\'re damaged. Try clicking on the chicken egg to heal yourself.',
 		choices: [{message: '"Where am I?"',link: 11},{message: 'Take a closer look',link: 12}]
 	},
 	moment12: {

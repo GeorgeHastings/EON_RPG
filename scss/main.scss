@@ -134,8 +134,37 @@ label {
 .container {
 	float:left;
 	height: inherit;
-	padding: 4em;
+	padding: 6em 4em 4em 4em;
 	overflow: scroll;
+}
+
+.header {
+	position: absolute;
+	z-index: 1;
+	background-color: #fff;
+	width: calc(75% / 2 + 25%);
+	padding: 0.5em 4em;
+	box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+
+.stat-list {
+	display: flex;
+	flex-flow: row;
+	font-size: 0.8em;
+
+	li {
+		display: flex;
+		flex-flow: row;
+	}
+
+	li + li {
+		margin-left: 2em;
+	}
+
+	label {
+		font-size: inherit;
+		text-transform: capitalize;
+	}
 }
 
 .narrative-container {
@@ -175,11 +204,30 @@ label {
 
 		&.equipped-wep {
 			font-weight: bold;
+			// animation: equipWep 0.3s cubic-bezier(0, 1.8, 1, 1.8); ;
 		}
 
 		&.equipped-armor {
 			font-weight: bold;
 		}
+
+		// &:first-child {
+		// 	&:after {
+		// 		position: absolute;
+		// 		content: "";
+		// 		width: 20px;
+		// 		height: 20px;
+		// 		border-radius: 20px;
+		// 		background-color: rgb(0,155,255);
+		// 		box-shadow: 0 0 5px 0px rgb(0,155,255) inset;
+		// 	}
+		// }
+		//
+		// @keyframes pulse {
+		// 	0% {
+		// 		box-shadow: ;
+		// 	}
+		// }
 
 		//In case I find some cool icons for equipping
 
@@ -209,9 +257,25 @@ label {
 	}
 }
 
+@keyframes equipWep {
+	0% {
+		transform: translate3d(0,0,0);
+	}
+	50% {
+		transform: translate3d(10px,0,0);
+	}
+	100% {
+		transform: translate3d(0,0,0);
+	}
+}
+
 .combat-log-container {
 	width: calc(75% / 2);
 	background-color: $deeppurp;
+
+	&.container {
+		padding-top: 2em;
+	}
 
 	p {
 		font-size: 1em;
@@ -230,6 +294,7 @@ label {
 .item-description-container {
 	display: none;
 	position: absolute;
+	z-index: 2;
 	width: 230px;
 	padding: 15px 20px;
 	color: #fff;

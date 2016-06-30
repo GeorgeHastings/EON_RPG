@@ -40,7 +40,8 @@ var GameState = {
   },
 
   checkForAndRunInn: function() {
-    if (this.currentMoment.hasOwnProperty('inn')) {
+    var innExists = this.currentMoment.hasOwnProperty('inn');
+    if (innExists) {
       var price = this.currentMoment.inn;
       if (Player.gold >= price) {
         Player.updateGold(-price);
@@ -55,7 +56,8 @@ var GameState = {
   },
 
   checkForAndCreateChoices: function() {
-    if (this.currentMoment.hasOwnProperty('choices')) {
+    var choicesExist = this.currentMoment.hasOwnProperty('choices');
+    if (choicesExist) {
       UI.narrative.renderChoices();
     }
   },
@@ -109,9 +111,17 @@ var Player = {
     UI.combatLog.renderCombatLog(colorize('You gained a level! Your strength and quickness have increased by 1.', 'yellow'));
   },
 
+  calcNexLevelExp: function() {
+    var nextLevelExp = 80;
+    for(var i = 0; i < Player.level; i++) {
+      nextLevelExp = nextLevelExp + (i+1)*20;
+    }
+    return nextLevelExp;
+  },
+
   updateExperience: function(exp) {
     this.experience = this.experience + exp;
-    UI.combatLog.renderCombatLog('You gained '+colorize(exp, '#fff')+' experience.');
+    UI.combatLog.renderCombatLog(colorize('You', '#fff')+' gained '+colorize(exp +' experience.', '#fff'));
   },
 
   updateStats: function() {
@@ -156,7 +166,6 @@ var Player = {
   },
 
   setStrength: function() {
-    // this.healthTotal = this.healthTotal + this.strength;
     this.healthMax = 25 + this.strength;
   },
 
@@ -251,23 +260,33 @@ var Player = {
   unequipArmor: function(armor) {
     this.equippedArmor[armor.slot] = '';
     if(armor.effect) {
-      armor.effect.removeBuff();
+      for(var i = 0; i < armor.effect.length; i++ ) {
+        armor.effect[i].removeBuff();
+      }
     }
   },
 
   unequipCurrentWeapon: function() {
-    if (this.equippedWeapon.effect === typeof Statbuff) {
-      this.equippedWeapon.effect.removeBuff();
+    var wep = this.equippedWeapon;
+    if(wep.effect) {
+      for (var i = 0; i < wep.effect.length; i++ ) {
+        var isStatbuff = wep.effect[i].constructor.name === 'StatBuff';
+        if (isStatbuff === true) {
+          console.log('up');
+          wep.effect[i].removeBuff();
+        }
+      }
     }
-    if (this.equippedWeapon) {
-      this.equippedWeapon = '';
+    if (wep) {
+      wep = '';
     }
   },
 
   purchaseItem: function() {
     var itemId = this.getAttribute('data-item');
     var item = getObj(Items, itemId);
-    if (Player.gold >= item.getPurchasePrice()) {
+    var playerHasEnoughGold = Player.gold >= item.getPurchasePrice();
+    if (playerHasEnoughGold) {
       Player.updateGold(-item.getPurchasePrice());
       Player.addToInventory(itemId);
       UI.inventory.renderInventory();
@@ -379,9 +398,9 @@ var UI = {
     el: document.getElementById('stat-list'),
 
     renderStats: function() {
-      var stats = this.el.querySelectorAll('dd');
+      var stats = this.el.querySelectorAll('div');
       for (var i = 0; i < stats.length; i++) {
-        var thisStat = stats[i].getAttribute('data-stat');
+        var thisStat = stats[i].parentNode.getAttribute('data-stat');
         stats[i].innerHTML = Player[thisStat];
       }
     }
@@ -397,11 +416,14 @@ var UI = {
         var item = Player.inventory[i];
         var itemWrapper = document.createElement('li');
         var itemText = document.createTextNode(item.name);
+        var momentIsShop = GameState.currentMoment.hasOwnProperty('shop');
+        var armorIsEquipped = item.itemType === 'armor' && item === Player.equippedArmor[item.slot];
         itemWrapper.appendChild(itemText);
         itemWrapper.setAttribute('data-item', item.name);
+        // itemWrapper.style.color = UI.colors[item.rarity];
         this.el.appendChild(itemWrapper);
 
-        if (GameState.currentMoment.hasOwnProperty('shop')) {
+        if (momentIsShop) {
           GameState.bindShopItemEvents();
         } else {
           GameState.bindWorldItemEvents();
@@ -411,7 +433,7 @@ var UI = {
           this.renderEquippedWeapon(itemWrapper);
         }
 
-        if(item.itemType === 'armor' && item === Player.equippedArmor[item.slot]) {
+        if(armorIsEquipped) {
           itemWrapper.classList.add('equipped-armor');
         }
       }
@@ -454,13 +476,15 @@ var UI = {
     activateItem: function() {
       var thisItemId = this.getAttribute('data-item');
       var item = getObj(Items, thisItemId);
+      var isUnequippedWep = item.itemType === 'weapon' && Player.equippedWeapon !== item;
+      var isUnequippedArmor = item.itemType === 'armor' && item !== Player.equippedArmor[item.slot];
 
-      if (item.itemType === 'weapon' && Player.equippedWeapon !== item) {
+      if (isUnequippedWep) {
         Player.equipWeapon(item);
         UI.inventory.renderEquippedWeapon(this);
         item.use();
       }
-      if (item.itemType === 'armor' && item !== Player.equippedArmor[item.slot]) {
+      if (isUnequippedArmor) {
         Player.equipArmor(item);
         UI.inventory.renderEquippedArmor();
         item.use();
@@ -551,6 +575,10 @@ var UI = {
           }
           if (prop === 'effect'){
             property = UI.itemDescription.createEl(item[prop].description, ''+prop+'');
+            for(var i = 0; i < item.effect.length; i++ ) {
+              property = UI.itemDescription.createEl(item[prop][i].description, ''+prop+'');
+              UI.itemDescription.items.appendChild(property);
+            }
           }
           if(prop === 'rarity') {
             document.querySelector('.name').style.color = UI.colors[item[prop]];
@@ -584,7 +612,7 @@ var UI = {
 
     getStatDescriptions: {
       level: function() {
-        return 'You are level '+Player.level+'';
+        return 'You have '+Player.experience+' points. You need '+(Player.calcNexLevelExp() - Player.experience)+' to reach the next level.';
       },
       health: function() {
         return 'You have '+(Player.healthTotal/Player.healthMax*100).toFixed(0)+'% health';
@@ -727,6 +755,9 @@ var Combat = {
   awardExperience: function() {
     var exp = this.rounds + 15*Combat.enemy.level;
     Player.updateExperience(exp);
+    if(Player.experience > Player.calcNexLevelExp()) {
+      Player.levelUp();
+    }
   },
   fight: function(count) {
     var attacker;
