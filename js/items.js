@@ -146,7 +146,7 @@ var QuestItem = function(name, rarity, flavorText, effects) {
 	this.effect = effects;
 };
 
-Items.push(new QuestItem('Message', 'epic', 'The cover says: "To be delivered to Jawn Peteron"', new QuestEffect('Click to read', 'It reads "There used to be a graying tower alone on the sea." That\'s the opening lyric to Seal\'s "Kiss from a Rose." Curious.')));
+Items.push(new QuestItem('Message', 'epic', 'The cover says: "To be delivered to Jawn Peteron"', [new QuestEffect('Click to read', 'It reads "There used to be a graying tower alone on the sea." That\'s the opening lyric to Seal\'s "Kiss from a Rose." Curious.')]));
 
 // var weaponTypes = ['Sword', 'Shortsword', 'Longsword', 'Bastardsword', 'Rapier', 'Katana', 'Dirk', 'Gladius', 'Broadsword', 'Fencer', 'Claymore', 'Scimitar', 'Cutlass'];
 // var weaponDescriptors = ['Double Edged', 'Damascus', 'Steel', 'Iron', 'Folded', 'Cobalt', 'Fine', 'Serrated', 'Sharp', 'Heavy', 'Weighted', 'Ancient', 'Bloody', 'Blinding'];

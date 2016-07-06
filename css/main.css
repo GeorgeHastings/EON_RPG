@@ -49,11 +49,14 @@ a {
   display: table;
   padding: 5px 20px;
   background-color: #F0F2FA;
+  color: #192342;
   border-radius: 2px;
   border-collapse: collapse;
-  color: inherit;
   cursor: pointer;
   animation: load-in 0.25s ease; }
+  a:before, a:after {
+    content: "B";
+    opacity: 0; }
   a:hover {
     font-weight: bold; }
   a + a {
@@ -96,6 +99,7 @@ label {
   background-color: #fff;
   width: calc(75% / 2 + 25%);
   padding: 0.5em 4em;
+  background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
 
 .stat-list {
@@ -128,20 +132,27 @@ label {
     .inventory-container dl dt {
       float: left; }
 
-.inventory-list li {
-  display: table;
-  padding-bottom: 1em;
-  line-height: 1em;
-  cursor: pointer;
-  animation: load-in 0.25s ease; }
-  .inventory-list li.equipped-wep {
-    font-weight: bold; }
-  .inventory-list li.equipped-armor {
-    font-weight: bold; }
-  .inventory-list li.none {
-    color: #fff; }
-  .inventory-list li.rare {
-    color: #009bff; }
+.inventory-list {
+  display: flex;
+  flex-flow: column; }
+  .inventory-list > * {
+    order: 3; }
+  .inventory-list li {
+    display: table;
+    padding-bottom: 1em;
+    line-height: 1em;
+    cursor: pointer;
+    animation: load-in 0.25s ease; }
+    .inventory-list li.equipped-wep {
+      font-weight: bold;
+      order: 1; }
+    .inventory-list li.equipped-armor {
+      font-weight: bold;
+      order: 2; }
+    .inventory-list li.none {
+      color: #fff; }
+    .inventory-list li.rare {
+      color: #009bff; }
 
 @keyframes equipWep {
   0% {

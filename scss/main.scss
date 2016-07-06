@@ -75,16 +75,21 @@ a {
 	display: table;
 	padding: 5px 20px;
 	background-color: $lightburp;
+	color: $deeppurp;
 	border-radius: 2px;
 	border-collapse: collapse;
-	color: inherit;
+	// color: inherit;
 	cursor: pointer;
 	animation: load-in 0.25s ease;
 
+	&:before,
+	&:after {
+		content: "B";
+		opacity: 0;
+	}
+
 	&:hover {
-		// text-decoration: underline;
 		font-weight: bold;
-		// border: 1px solid #333;
 	}
 
 	& + a {
@@ -107,13 +112,6 @@ h2 {
 p {
 	position: relative;
 	animation: load-in 0.25s ease;
-	//
-	// &:before {
-	// 	position: absolute;
-	// 	margin-left: -20px;
-	// 	content: "⚬";
-	// 	color: #ccc;
-	// }
 }
 
 label {
@@ -144,6 +142,7 @@ label {
 	background-color: #fff;
 	width: calc(75% / 2 + 25%);
 	padding: 0.5em 4em;
+	background-color: #fff;
 	box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }
 
@@ -195,6 +194,13 @@ label {
 }
 
 .inventory-list {
+	display: flex;
+	flex-flow: column;
+
+	& > * {
+		order: 3;
+	}
+
 	li {
 		display: table;
 		padding-bottom: 1em;
@@ -204,11 +210,13 @@ label {
 
 		&.equipped-wep {
 			font-weight: bold;
+			order: 1;
 			// animation: equipWep 0.3s cubic-bezier(0, 1.8, 1, 1.8); ;
 		}
 
 		&.equipped-armor {
 			font-weight: bold;
+			order: 2;
 		}
 
 		// &:first-child {
@@ -232,17 +240,15 @@ label {
 		//In case I find some cool icons for equipping
 
 		// &.equipped-wep::before {
-		// 	position: absolute;
-		// 	content: "⚔ ";
-		// 	margin-left: -20px;
+		// 	content: "🔵";
+		// 	margin-right: 5px;
 		// 	font-size: 1em;
 		// 	color: rgba(0,0,0,1);
 		// }
 		//
 		// &.equipped-armor::before {
-		// 	position: absolute;
-		// 	content: "⚱ ";
-		// 	margin-left: -20px;
+		// 	content: "🔵";
+		// 	margin-right: 5px;
 		// 	font-size: 1em;
 		// 	color: rgba(0,0,0,1);
 		// }

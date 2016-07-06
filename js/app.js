@@ -203,10 +203,10 @@ var Player = {
       hitColor = UI.colors.red;
     }
     if (target.rollQuicknessProc()) {
-      UI.combatLog.renderCombatLog('(' + colorize(target.healthTotal, colorHealth(target.healthTotal/target.healthMax)) + ') ' + colorize(target.name, UI.colors.entity) + ' '+colorize('dodged', 'yellow')+' ' + colorize(this.name, UI.colors.entity) + ' for 0');
+      UI.combatLog.renderCombatLog(colorize(target.healthTotal, colorHealth(target.healthTotal/target.healthMax)) + ' ' + colorize(target.name, UI.colors.entity) + ' '+colorize('dodged', 'yellow')+' ' + colorize(this.name, UI.colors.entity) + ' for 0');
     } else {
       target.healthTotal -= damageDealt;
-      UI.combatLog.renderCombatLog('(' + colorize(this.healthTotal, colorHealth(this.healthTotal/this.healthMax)) + ') ' + colorize(this.name, UI.colors.entity) + ' ' + hitType + ' ' + colorize(target.name, UI.colors.entity) + ' for <span style="color: '+hitColor+';">' + damageDealt + '</span>');
+      UI.combatLog.renderCombatLog(colorize(this.healthTotal, colorHealth(this.healthTotal/this.healthMax)) + ' ' + colorize(this.name, UI.colors.entity) + ' ' + hitType + ' ' + colorize(target.name, UI.colors.entity) + ' for <span style="color: '+hitColor+';">' + damageDealt + '</span>');
     }
     if (target !== Player && Player.equippedWeapon.effect) {
       if (Player.equippedWeapon.effect.constructor.name === 'ItemProc' && Player.equippedWeapon.effect.run()) {
