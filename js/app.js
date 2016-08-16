@@ -1,5 +1,43 @@
 'use strict';
 
+var colorize = function(str, color) {
+  return '<span style="color: '+color+';">'+str+'</span>';
+};
+
+var roll = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+
+var getObj = function(arr, val) {
+  var result = arr.filter(function(o) {
+    return o.name === val;
+  });
+  return result ? result[0] : null;
+};
+
+var getFromArr = function(arr, val) {
+  var result = arr.filter(function(o) {
+    return o.slot === val;
+  });
+  return result ? result[0] : null;
+};
+
+var getObjLvl = function(arr, val) {
+  var result = [];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].level === val) {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
+
+var getRandomLootByLevel = function(type, level) {
+  var itemsOfLevel = getObjLvl(type, level);
+  return itemsOfLevel[roll(0, itemsOfLevel.length - 1)].name;
+};
+
 var GameState = {
   currentMoment: '',
 
@@ -78,6 +116,10 @@ var GameState = {
     for (var j = 0; j < inventoryItems.length; j++) {
       inventoryItems[j].onclick = Player.sellItem;
     }
+  },
+
+  messages: {
+    gainLvl: colorize('You gained a level! Your strength and quickness have increased by 1.', 'yellow')
   }
 };
 
@@ -108,7 +150,7 @@ var Player = {
     this.quickness = this.quickness + 1;
     this.healthTotal = this.healthMax;
     this.updateStats();
-    UI.combatLog.renderCombatLog(colorize('You gained a level! Your strength and quickness have increased by 1.', 'yellow'));
+    UI.combatLog.renderCombatLog(GameState.messages.gainLvl);
   },
 
   calcNexLevelExp: function() {
@@ -796,44 +838,6 @@ var Combat = {
       }
     }, 700);
   }
-};
-
-var roll = function(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-
-var getObj = function(arr, val) {
-  var result = arr.filter(function(o) {
-    return o.name === val;
-  });
-  return result ? result[0] : null;
-};
-
-var getFromArr = function(arr, val) {
-  var result = arr.filter(function(o) {
-    return o.slot === val;
-  });
-  return result ? result[0] : null;
-};
-
-var getObjLvl = function(arr, val) {
-  var result = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].level === val) {
-      result.push(arr[i]);
-    }
-  }
-  return result;
-};
-
-var colorize = function(str, color) {
-  return '<span style="color: '+color+';">'+str+'</span>';
-};
-
-var getRandomLootByLevel = function(type, level) {
-  var itemsOfLevel = getObjLvl(type, level);
-  return itemsOfLevel[roll(0, itemsOfLevel.length - 1)].name;
 };
 
 document.addEventListener('DOMContentLoaded', function() {
