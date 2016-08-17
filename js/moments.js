@@ -4,7 +4,7 @@ var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
-		// dropLoot: ['Heartsbane', 'Centurian Cask', 'Double Edged Katana']
+		// dropLoot: ['Heartsbane', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -17,7 +17,7 @@ var Moments = {
 	moment4: {
 		message: 'Looped to your belt you find a weapon. Click on it in your inventory to equip it.',
 		choices: [{message: 'Look around',link: 3},{message: 'Start Walking',link: 5}],
-		dropLoot: [getRandomLootByLevel(Weapons, 1)]
+		dropLoot: [['weapons', 1]]
 	},
 	moment5: {
 		message: 'You walk until you see a glowing light spidering through the trees.',
@@ -30,7 +30,7 @@ var Moments = {
 	moment8: {
 		message: 'You draw your weapon and charge.',
 		enemy: 'Vagrant Ranger',
-		dropLoot: [getRandomLootByLevel(Armors, 1), 'Chicken Egg'],
+		dropLoot: [['armor', 1], 'Chicken Egg'],
 		link: 10
 	},
 	moment9: {
@@ -44,7 +44,7 @@ var Moments = {
 	moment12: {
 		message: 'As you lean in to check if the man is alive, he suddenly lunges at you.',
 		enemy: 'Derranged Lunatic',
-		dropLoot: [getRandomLootByLevel(Armors, 1), 'Message'],
+		dropLoot: [['armor', 1], 'Message'],
 		link: 13
 	},
 	moment13: {
@@ -54,7 +54,7 @@ var Moments = {
 	moment13a: {
 		message: 'There\'s nothing else here.',
 		choices: [{message: 'Continue on',link: 9}],
-		dropLoot: [getRandomLootByLevel(Items, 1), getRandomLootByLevel(Consumables, 1)]
+		dropLoot: [['all', 1], ['consumables', 1]]
 	},
 	moment14: {
 		message: 'As the man gets closer, he draws a sword.',
@@ -67,7 +67,7 @@ var Moments = {
 	moment16: {
 		message: 'You draw your weapon and stand your ground.',
 		enemy: 'Highway Bandit',
-		dropLoot: [getRandomLootByLevel(Items, 2)],
+		dropLoot: [['all', 1]],
 		link: 18
 	},
 	moment17: {
@@ -94,12 +94,12 @@ var Moments = {
 	},
 	moment20: {
 		message: 'You enter the arms shop. "Ahoy there traveler," says the owner. "What can I do for you?"',
-		shop: [getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 1), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Weapons, 2), getRandomLootByLevel(Armors, 2)],
+		shop: [['weapons', 1], ['weapons', 1], ['weapons', 2], ['armor', 1], ['armor', 2]],
 		choices: [{message: 'Leave the shop', link: 19}]
 	},
 	moment21: {
 		message: 'You enter the general store. "Hey baby," says the clerk. "What can I help you with?"',
-		shop: [getRandomLootByLevel(Consumables, 1), getRandomLootByLevel(Consumables, 1), getRandomLootByLevel(Consumables, 2), getRandomLootByLevel(Consumables, 2)],
+		shop: [['consumables', 1], ['consumables', 1], ['consumables', 2], ['consumables', 2]],
 		choices: [{message: 'Leave the shop', link: 19}]
 	},
 	moment22: {
@@ -126,7 +126,7 @@ var Moments = {
 	moment28: {
 		message: 'You walk outside and turn the corner. The cloaked man with Jawn Peterson suddenly pulls a dagger on you and attacks.',
 		enemy: 'Cloaked Assassin',
-		dropLoot: [getRandomLootByLevel(Items, 2)],
+		dropLoot: [['all', 2]],
 		link: 24
 	},
 	playerLost: {

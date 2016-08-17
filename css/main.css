@@ -145,22 +145,22 @@ label {
     animation: load-in 0.25s ease; }
     .inventory-list li.equipped-wep {
       font-weight: bold;
-      order: 1; }
+      order: 1;
+      animation: equipItem 1s cubic-bezier(1, 0, 0, 0); }
     .inventory-list li.equipped-armor {
       font-weight: bold;
-      order: 2; }
+      order: 2;
+      animation: equipItem 1s cubic-bezier(1, 0, 0, 0); }
     .inventory-list li.none {
       color: #fff; }
     .inventory-list li.rare {
       color: #009bff; }
 
-@keyframes equipWep {
+@keyframes equipItem {
   0% {
-    transform: translate3d(0, 0, 0); }
-  50% {
-    transform: translate3d(10px, 0, 0); }
+    color: #0047FF; }
   100% {
-    transform: translate3d(0, 0, 0); } }
+    color: #192342; } }
 .combat-log-container {
   width: calc(75% / 2);
   background-color: #192342; }

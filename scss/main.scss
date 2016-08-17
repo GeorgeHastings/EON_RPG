@@ -4,7 +4,7 @@ $charcoal: #2B2B2B;
 $deeppurp: #192342;
 $lightburp: #F0F2FA;
 $babyblue: #cbf9ff;
-$cobalt: #cbdcff;
+$cobalt: #0047FF;
 $green: #24fb27;
 $gray: #939DBD;
 * {box-sizing: border-box;}
@@ -211,47 +211,14 @@ label {
 		&.equipped-wep {
 			font-weight: bold;
 			order: 1;
-			// animation: equipWep 0.3s cubic-bezier(0, 1.8, 1, 1.8); ;
+			animation: equipItem 1s cubic-bezier(1, 0, 0, 0);
 		}
 
 		&.equipped-armor {
 			font-weight: bold;
 			order: 2;
+			animation: equipItem 1s cubic-bezier(1, 0, 0, 0);
 		}
-
-		// &:first-child {
-		// 	&:after {
-		// 		position: absolute;
-		// 		content: "";
-		// 		width: 20px;
-		// 		height: 20px;
-		// 		border-radius: 20px;
-		// 		background-color: rgb(0,155,255);
-		// 		box-shadow: 0 0 5px 0px rgb(0,155,255) inset;
-		// 	}
-		// }
-		//
-		// @keyframes pulse {
-		// 	0% {
-		// 		box-shadow: ;
-		// 	}
-		// }
-
-		//In case I find some cool icons for equipping
-
-		// &.equipped-wep::before {
-		// 	content: "🔵";
-		// 	margin-right: 5px;
-		// 	font-size: 1em;
-		// 	color: rgba(0,0,0,1);
-		// }
-		//
-		// &.equipped-armor::before {
-		// 	content: "🔵";
-		// 	margin-right: 5px;
-		// 	font-size: 1em;
-		// 	color: rgba(0,0,0,1);
-		// }
 
 		&.none {
 			color: #fff;
@@ -263,15 +230,12 @@ label {
 	}
 }
 
-@keyframes equipWep {
+@keyframes equipItem {
 	0% {
-		transform: translate3d(0,0,0);
-	}
-	50% {
-		transform: translate3d(10px,0,0);
+		color: $cobalt;
 	}
 	100% {
-		transform: translate3d(0,0,0);
+		color: $deeppurp;
 	}
 }
 

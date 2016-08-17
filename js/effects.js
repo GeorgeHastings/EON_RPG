@@ -18,9 +18,10 @@ QuestEffect.prototype.run = function() {
 // var ReadLetter = new QuestEffect('Click to read', 'Hey there, you can go fuck yourself Jawn.');
 
 StatBuff.prototype.run = function() {
-	for(var i = 0; i < this.stats.length; i++) {
-		Player[this.stats[i]] += this.amt;
-	}
+	var amount = this.amt;
+	forEach(this.stats, function(stat) {
+		Player[stat] += amount;
+	});
 };
 
 StatBuff.prototype.desc = function() {
