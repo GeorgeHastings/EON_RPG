@@ -28,13 +28,7 @@ var GameState = {
   checkForAndPickUpLoot: function() {
     var lootIsDiscovered = this.currentMoment.hasOwnProperty('dropLoot') && !this.currentMoment.hasOwnProperty('enemy');
     if (lootIsDiscovered) {
-      var loots = GameState.currentMoment.dropLoot;
-      var items = [];
-      forEach(loots, function(loot) {
-        items.push(GameState.processRandomLoot(loot));
-      });
-      GameState.currentMoment.dropLoot = items;
-      Player.pickUpLoot(items);
+      Player.pickUpLoot();
     }
   },
 
@@ -95,6 +89,6 @@ var GameState = {
   },
 
   messages: {
-    gainLvl: colorize('You gained a level! Your strength and quickness have increased by 1.', 'yellow')
+    gainLvl: colorize('You gained a level! Your toughness and quickness have increased by 1.', 'yellow')
   }
 };

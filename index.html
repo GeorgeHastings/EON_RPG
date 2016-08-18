@@ -28,8 +28,8 @@
 				  <label>Armor: </label>
 				  <div></div>
 				</li>
-				<li data-stat='strength'>
-				  <label>Strength: </label>
+				<li data-stat='toughness'>
+				  <label>Toughness: </label>
 				  <div></div>
 				</li>
 				<li data-stat='quickness'>
@@ -47,12 +47,14 @@
 			<label>Inventory</label>
 			<ul id="inventory" class="inventory-list"></ul>
 		</div>
-		<div id="narrative" class="container narrative-container">
+		<div class="container narrative-container">
 			<label>Narrative</label>
-			<p>
-				<p>You're dreaming you're in a small boat. The black water around you stirs.</p>
-				<a data-moment="1" onclick="GameState.setCurrentMoment(Moments.moment1)">Wake Up</a>
-			</p>
+			<div id="narrative">
+				<p>
+					<p>You're dreaming you're in a small boat. The black water around you stirs.</p>
+					<a data-moment="1" onclick="GameState.setCurrentMoment(Moments.moment1)">Wake Up</a>
+				</p>
+			</div>
 		</div>
 		<div id="combatLog" class="container combat-log-container dark-text">
 			<label>Activity Log</label>

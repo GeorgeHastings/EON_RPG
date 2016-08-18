@@ -39,7 +39,7 @@ var Moments = {
 	},
 	moment10: {
 		message: 'After taking a minute to recover, you turn to the captured man. You\'re damaged. Try clicking on the chicken egg to heal yourself.',
-		choices: [{message: '"Where am I?"',link: 11},{message: 'Take a closer look',link: 12}]
+		choices: [{message: '"Where am I?"',link: 12},{message: 'Take a closer look',link: 12}]
 	},
 	moment12: {
 		message: 'As you lean in to check if the man is alive, he suddenly lunges at you.',

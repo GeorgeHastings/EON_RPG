@@ -103,7 +103,6 @@ Items.weapons.push(
 	new Weapon('Iron Short Sword', 2, 'common', '', [3, 6]),
 
 	new Weapon('Wind Blade', 3, 'rare', '', [4, 9], [quickStrike(2, 15)]),
-	new Weapon('Sword of Saladin', 15, 'legendary', 'It can cut a scarf in the air.', [30, 60], [addQuicknessAndStrength(20)]),
 	new Weapon('Double Edged Katana', 10, 'epic', '', [5, 7], quickStrike(5, 10)),
 	new Weapon('Sadams Golden AK-47', 20, 'legendary', 'Complete with incendiary rounds', [77, 133], [quickStrike(33, 20)]),
 	new Weapon('P-70 Stealthhawk', 8, 'epic', '', [17, 25], [addQuickness(8)]),
@@ -131,7 +130,7 @@ Items.armor.push(
 	new Armor('Travelers Boots', 2, 'common', '','boots', 3),
 
 	new Armor('Centurian Cask', 8, 'epic', '','head', 18),
-	new Armor('Arturus Tabard', 10, 'legendary', 'This belonged to a true badass.','chest', 50, [addQuickness(10), addStrength(10)])
+	new Armor('Arturus Tabard', 10, 'legendary', 'This belonged to a true badass.','chest', 50, [addQuickness(10), addToughness(10)])
 );
 
 Items.consumables.push(

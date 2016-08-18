@@ -5,7 +5,7 @@ var Combat = {
   rounds: 0,
   generateEnemy: function() {
     var enemyType = getObj(Enemies, GameState.currentMoment.enemy);
-    var enemy = new Enemy(enemyType.name, enemyType.level, enemyType.healthTotal, getObj(Items, enemyType.equippedWeapon), enemyType.armor, enemyType.critChance);
+    var enemy = new Enemy(enemyType.name, enemyType.level, enemyType.healthTotal, getObj(Items.weapons, enemyType.equippedWeapon), enemyType.armor, enemyType.critChance);
     enemy.healthMax = enemy.healthTotal;
     Combat.enemy = enemy;
   },

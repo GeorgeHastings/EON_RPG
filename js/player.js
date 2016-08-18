@@ -6,7 +6,7 @@ var Player = {
   healthMax: 25,
   healthTotal: 25,
   armor: 0,
-  strength: 0,
+  toughness: 0,
   quickness: 1,
   equippedWeapon: '',
   equippedArmor: {
@@ -23,7 +23,7 @@ var Player = {
 
   levelUp: function() {
     this.level = this.level + 1;
-    this.strength = this.strength + 1;
+    this.toughness = this.toughness + 1;
     this.quickness = this.quickness + 1;
     this.healthTotal = this.healthMax;
     this.updateStats();
@@ -47,7 +47,7 @@ var Player = {
     this.setHealth();
     this.setDamage();
     this.setArmor();
-    this.setStrength();
+    this.setToughness();
     this.setDamageReduction();
     this.setQuicknessProc();
     UI.statlist.renderStats();
@@ -69,7 +69,7 @@ var Player = {
         this.armor += this.equippedArmor[item].armorAmt;
       }
     }
-    this.armor += this.strength;
+    this.armor += this.toughness;
   },
 
   setDamage: function() {
@@ -84,8 +84,8 @@ var Player = {
     this.damageReduction = (1 - (0.03 * this.armor) / (1 + 0.03 * this.armor)).toFixed(2);
   },
 
-  setStrength: function() {
-    this.healthMax = 25 + this.strength;
+  setToughness: function() {
+    this.healthMax = 25 + this.toughness;
   },
 
   setQuicknessProc: function() {
@@ -143,19 +143,21 @@ var Player = {
     UI.combatLog.renderCombatLog(''+colorize('You', UI.colors.player)+' found ' + colorize(gold + ' gold.', UI.colors.gold));
   },
 
-  pickUpLoot: function(items) {
-    forEach(items, this.addToInventory);
+  pickUpLoot: function() {
+    var items = map(GameState.currentMoment.dropLoot, GameState.processRandomLoot);
+    GameState.currentMoment.dropLoot = items;
+    forEach(items, Player.addToInventory);
     UI.combatLog.renderLootMessage();
   },
 
   addToInventory: function(item) {
     Player.inventory.push(item);
-    UI.inventory.renderInventory();
+    UI.inventory.renderInventoryItem(item);
   },
 
-  removeFromInventory: function(itemId) {
-    var thisItem = getObj(this.inventory, itemId);
-    removeFromArr(this.inventory, thisItem);
+  removeFromInventory: function(item, element) {
+    removeFromArr(this.inventory, item);
+    UI.inventory.removeInventoryItem(element);
   },
 
   equipWeapon: function(item) {
@@ -203,8 +205,7 @@ var Player = {
     var playerHasEnoughGold = Player.gold >= item.getPurchasePrice();
     if (playerHasEnoughGold) {
       Player.updateGold(-item.getPurchasePrice());
-      Player.addToInventory(itemId);
-      UI.inventory.renderInventory();
+      Player.addToInventory(item);
       UI.combatLog.renderItemTransaction(colorize(item.name, UI.colors[item.rarity]), item.getPurchasePrice(), 'bought');
     } else {
       UI.combatLog.renderCannotPurchaseMessage(colorize(item.name, UI.colors[item.rarity]), item.getPurchasePrice());
@@ -222,11 +223,9 @@ var Player = {
     if (item === Player.equippedArmor[item.slot]) {
       Player.unequipArmor(item);
     }
-
-    Player.removeFromInventory(itemId);
+    Player.removeFromInventory(item, this);
     Player.updateStats();
     UI.itemDescription.hideItemDescription();
-    UI.inventory.renderInventory();
     UI.combatLog.renderItemTransaction(colorize(item.name, UI.colors[item.rarity]), item.getSalePrice(), 'sold');
   }
 };

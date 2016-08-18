@@ -22,21 +22,20 @@ var UI = {
       GameState.setCurrentMoment(Moments['moment' + num + '']);
     },
 
-    renderShopItem: function(shopItem) {
-      var item = getObj(Items.all, shopItem);
+    renderShopItem: function(item) {
       var itemEl = document.createElement('a');
       var itemText = document.createTextNode(item.name);
       itemEl.setAttribute('data-item', item.name);
+      UI.itemDescription.bindEvents(itemEl);
       itemEl.appendChild(itemText);
       UI.narrative.el.appendChild(itemEl);
       itemEl.onclick = Player.purchaseItem;
     },
 
     renderShop: function() {
-      var shopList = GameState.currentMoment.shop;
+      var shopList = map(GameState.currentMoment.shop, GameState.processRandomLoot);
       forEach(shopList, UI.narrative.renderShopItem);
       bindToMany('#inventory [data-item]', 'onclick', Player.sellItem);
-      UI.itemDescription.bindItemDescriptionEvents();
     },
 
     renderChoice: function(choice) {
@@ -54,6 +53,7 @@ var UI = {
     },
 
     renderMoment: function() {
+      UI.narrative.el.innerHTML = '';
       var messageWrapper = document.createElement('p');
       var messageText = document.createTextNode(GameState.currentMoment.message);
       messageWrapper.appendChild(messageText);
@@ -87,7 +87,9 @@ var UI = {
       var isEquippedWep = Player.equippedWeapon && item === Player.equippedWeapon;
       itemWrapper.appendChild(itemText);
       itemWrapper.setAttribute('data-item', item.name);
+      UI.itemDescription.bindEvents(itemWrapper);
       UI.inventory.el.appendChild(itemWrapper);
+
 
       if (momentIsShop) {
         GameState.bindShopItemEvents();
@@ -104,10 +106,13 @@ var UI = {
       }
     },
 
+    removeInventoryItem: function(element) {
+      element.remove();
+    },
+
     renderInventory: function() {
       this.el.innerHTML = '';
       forEach(Player.inventory, this.renderInventoryItem);
-      UI.itemDescription.bindItemDescriptionEvents();
     },
 
     renderGold: function() {
@@ -159,9 +164,8 @@ var UI = {
         item.use();
       }
       if (item.itemType === 'consumable') {
-        Player.removeFromInventory(thisItemId);
+        Player.removeFromInventory(item, this);
         UI.itemDescription.hideItemDescription();
-        UI.inventory.renderInventory();
         item.use();
       }
       if(item.itemType === 'quest') {
@@ -304,8 +308,8 @@ var UI = {
         }
         return '' + weightedAvg.toFixed(2) + ' average total damage per hit';
       },
-      strength: function() {
-        return 'Increases armor and max health by ' + Player.strength + '';
+      toughness: function() {
+        return 'Increases armor and max health by ' + Player.toughness + '';
       }
     },
 
@@ -316,6 +320,12 @@ var UI = {
       UI.itemDescription.items.innerHTML = '';
       UI.itemDescription.items.appendChild(property);
       UI.itemDescription.showItemDescription();
+    },
+
+    bindEvents: function(element) {
+      element.onmouseenter = UI.itemDescription.renderItemDescription;
+      element.onmousemove = UI.itemDescription.position;
+      element.onmouseleave = UI.itemDescription.hideItemDescription;
     },
 
     bindItemDescriptionEvents: function() {
@@ -361,27 +371,19 @@ var UI = {
       if(multipleLoots) {
         foundLoot = ' found';
         if(oneLoot) {
-          var item = loot;
+          var item = loot[0];
+          // console.log(item);
           foundLoot += ' '+colorize(item.name, UI.colors[item.rarity])+'';
         }
         else {
           forEach(loot, function(item) {
-            if(i < loot.length-1) {
+            if(loot.indexOf(item) < loot.length-1) {
                 foundLoot += ' '+colorize(item.name, UI.colors[item.rarity])+',';
             }
             else {
               foundLoot += ' and '+colorize(item.name, UI.colors[item.rarity])+'';
             }
           });
-          // for (var i = 0; i < loot.length; i++) {
-          //   var item = getObj(Items.all, loot[i]);
-          //   if(i < loot.length-1) {
-          //       foundLoot += ' '+colorize(loot[i], UI.colors[item.rarity])+',';
-          //   }
-          //   else {
-          //     foundLoot += ' and '+colorize(loot[i], UI.colors[item.rarity])+'';
-          //   }
-          // }
         }
       }
       else {

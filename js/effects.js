@@ -54,16 +54,16 @@ Heal.prototype.run = function() {
 	UI.combatLog.renderCombatLog(this.logMessage);
 };
 
-var addStrength = function(amt) {
-	return new StatBuff(amt, ['strength', 'healthTotal', 'healthMax', 'armor'], 'Strength +'+amt+'');
+var addToughness = function(amt) {
+	return new StatBuff(amt, ['toughness', 'healthTotal', 'healthMax', 'armor'], 'toughness +'+amt+'');
 };
 
 var addQuickness = function(amt) {
 	return new StatBuff(amt, ['quickness'], 'Quickness +'+amt+'');
 };
 
-var addQuicknessAndStrength = function(amt) {
-	return new StatBuff(amt, ['quickness', 'strength'], 'Quickness +'+amt+'<br>Strength +'+amt+'');
+var addQuicknessAndtoughness = function(amt) {
+	return new StatBuff(amt, ['quickness', 'toughness'], 'Quickness +'+amt+'<br>toughness +'+amt+'');
 };
 
 var healPlayer = function(amt) {

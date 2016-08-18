@@ -68,6 +68,14 @@ var bindToMany = function(elements, eventType, fn) {
   }
 };
 
+function map(arr, fn) {
+  var result = [];
+  forEach(arr, function (element) {
+    result.push(fn(element));
+  });
+  return result;
+}
+
 var getRandomLootByLevel = function(type, level) {
   var itemsOfLevel = getObjLvl(Items[type], level);
   return itemsOfLevel[roll(0, itemsOfLevel.length - 1)];
