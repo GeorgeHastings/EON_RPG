@@ -32,7 +32,7 @@ var Player = {
 
   calcNexLevelExp: function() {
     var nextLevelExp = 80;
-    for(var i = 0; i < Player.level; i++) {
+    for(var i = 0; i < this.level; i++) {
       nextLevelExp = nextLevelExp + (i+1)*20;
     }
     return nextLevelExp;
@@ -145,9 +145,8 @@ var Player = {
 
   pickUpLoot: function() {
     var items = map(GameState.currentMoment.dropLoot, GameState.processRandomLoot);
-    GameState.currentMoment.dropLoot = items;
     forEach(items, Player.addToInventory);
-    UI.combatLog.renderLootMessage();
+    UI.combatLog.renderLootMessage(items);
   },
 
   addToInventory: function(item) {
@@ -192,7 +191,7 @@ var Player = {
   unequipCurrentWeapon: function() {
     var wep = this.equippedWeapon;
     if(wep.effect) {
-      forEach(wep.effect, Player.removeWepBuff);
+      forEach(wep.effect, this.removeWepBuff);
     }
     if (wep) {
       wep = '';
@@ -202,8 +201,8 @@ var Player = {
   purchaseItem: function() {
     var itemId = this.getAttribute('data-item');
     var item = getObj(Items.all, itemId);
-    var playerHasEnoughGold = Player.gold >= item.getPurchasePrice();
-    if (playerHasEnoughGold) {
+    var NewPlayerHasEnoughGold = Player.gold >= item.getPurchasePrice();
+    if (NewPlayerHasEnoughGold) {
       Player.updateGold(-item.getPurchasePrice());
       Player.addToInventory(item);
       UI.combatLog.renderItemTransaction(colorize(item.name, UI.colors[item.rarity]), item.getPurchasePrice(), 'bought');
@@ -227,5 +226,29 @@ var Player = {
     Player.updateStats();
     UI.itemDescription.hideItemDescription();
     UI.combatLog.renderItemTransaction(colorize(item.name, UI.colors[item.rarity]), item.getSalePrice(), 'sold');
+  },
+
+  reset: function() {
+    this.name = 'You';
+    this.level = 1;
+    this.healthMax = 25;
+    this.healthTotal = 25;
+    this.armor = 0;
+    this.toughness = 0;
+    this.quickness = 1;
+    this.equippedWeapon = '';
+    this.equippedArmor = {
+      head: '',
+      chest: '',
+      back: '',
+      belt: '',
+      pants: '',
+      boots: ''
+    };
+    this.inventory = [];
+    this.gold = 0;
+    this.experience = 0;
+    Player.updateStats();
+    Player.updateGold(0);
   }
 };

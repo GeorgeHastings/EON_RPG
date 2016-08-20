@@ -1,5 +1,9 @@
 'use strict';
 
+// requirejs(['player'], function(player){
+//   var Player = Player;
+// });
+
 var UI = {
   colors: {
     none: '#939DBD',
@@ -79,7 +83,7 @@ var UI = {
     el: document.getElementById('inventory'),
     gold: document.getElementById('gold'),
 
-    renderInventoryItem(item) {
+    renderInventoryItem: function(item) {
       var itemWrapper = document.createElement('li');
       var itemText = document.createTextNode(item.name);
       var momentIsShop = GameState.currentMoment.hasOwnProperty('shop');
@@ -298,7 +302,13 @@ var UI = {
         return '' + Player.quicknessProc + '% chance to critical hit and dodge';
       },
       damage: function() {
-        var avg = (this.wep.damage[0] + this.wep.damage[1]) / 2;
+        var avg;
+        if(this.wep) {
+          avg = (this.wep.damage[0] + this.wep.damage[1]) / 2;
+        }
+        else {
+          avg = 1;
+        }
         var weightedAvg = (avg + (Player.quicknessProc / 100 * avg));
         var hasProcEffect = this.wep.effect && this.wep.effect.constructor.name === 'ItemProc';
         if(hasProcEffect) {
@@ -328,11 +338,10 @@ var UI = {
       element.onmouseleave = UI.itemDescription.hideItemDescription;
     },
 
-    bindItemDescriptionEvents: function() {
-      bindToMany('[data-item]', 'onmouseenter', this.renderItemDescription);
+    bindStatEvents: function() {
       bindToMany('[data-stat]', 'onmouseenter', this.renderStatDescription);
-      bindToMany('[data-item], [data-stat]', 'onmousemove', this.position);
-      bindToMany('[data-item], [data-stat]', 'onmouseleave', this.hideItemDescription);
+      bindToMany('[data-stat]', 'onmousemove', this.position);
+      bindToMany('[data-stat]', 'onmouseleave', this.hideItemDescription);
     },
   },
 
@@ -354,16 +363,16 @@ var UI = {
       this.renderCombatLog(colorize('You', UI.colors.player) + ' need ' + colorize(price - Player.gold + ' gold', UI.colors.gold) + ' to buy ' + name + '.');
     },
 
-    renderLootMessage: function() {
-      var moment = GameState.currentMoment;
-      var loot = moment.dropLoot;
+    renderLootMessage: function(items) {
+      var enemy = GameState.currentMoment.enemy;
+      var loot = items;
       var multipleLoots = loot.length > 0;
       var oneLoot = loot.length === 1;
       var defeatedEnemy;
       var foundLoot;
       var conj;
-      if(moment.enemy) {
-        defeatedEnemy = ' defeated '+colorize(moment.enemy, '#fff')+'';
+      if(enemy) {
+        defeatedEnemy = ' defeated '+colorize(enemy, '#fff')+'';
       }
       else {
         defeatedEnemy = '';
@@ -372,7 +381,6 @@ var UI = {
         foundLoot = ' found';
         if(oneLoot) {
           var item = loot[0];
-          // console.log(item);
           foundLoot += ' '+colorize(item.name, UI.colors[item.rarity])+'';
         }
         else {
@@ -389,7 +397,7 @@ var UI = {
       else {
         foundLoot = '';
       }
-      if(moment.enemy && multipleLoots) {
+      if(enemy && multipleLoots) {
         conj = ' and';
       }
       else {
@@ -401,5 +409,11 @@ var UI = {
 
   scrollToBottom: function(pane) {
     pane.scrollTop = pane.scrollHeight;
+  },
+
+  reset: function() {
+    this.combatLog.el.innerHTML = '';
+    this.inventory.el.innerHTML = '';
+    UI.statlist.renderStats();
   }
 };

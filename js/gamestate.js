@@ -11,7 +11,14 @@ var GameState = {
     this.checkForAndRunCombat();
     this.checkForAndOpenUpShop();
     this.checkForAndRunInn();
+    this.checkForAndRunOnLoad();
     UI.scrollToBottom(UI.narrative.el);
+  },
+
+  checkForAndRunOnLoad: function() {
+    if (this.currentMoment.hasOwnProperty('onLoad')) {
+      this.currentMoment.onLoad();
+    }
   },
 
   processRandomLoot: function(loot) {

@@ -1,6 +1,14 @@
 'use strict';
 
 var Moments = {
+	moment0: {
+		onLoad: function() {
+			Player.reset();
+			UI.reset();
+		},
+		message: 'You\'re dreaming you\'re in a small boat. The black water around you stirs.',
+		choices: [{message: 'Wake up', link: 1}]
+	},
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 2}],
@@ -131,6 +139,6 @@ var Moments = {
 	},
 	playerLost: {
 		message: 'You were killed. Sorry.',
-		choices: [{message: 'Start over',link: 1}]
+		choices: [{message: 'Start over',link: 0}]
 	}
 };
