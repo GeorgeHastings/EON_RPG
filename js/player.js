@@ -60,6 +60,7 @@ var Player = {
 
   setHealth: function() {
     this.health = '' + this.healthTotal + '/' + this.healthMax + '';
+    UI.combat.updateHealthBar();
   },
 
   setArmor: function() {
@@ -94,12 +95,8 @@ var Player = {
 
   getBaseDamage: function() {
     var baseDamage;
-    if (this.equippedWeapon) {
-      baseDamage = roll(this.equippedWeapon.damage[0], this.equippedWeapon.damage[1]);
-    } else {
-      baseDamage = roll(0, 3);
-    }
-    this.baseDamage = baseDamage;
+    baseDamage = this.equippedWeapon ? roll(this.equippedWeapon.damage[0],this.equippedWeapon.damage[1]) : roll(0,3);
+    return baseDamage;
   },
 
   rollQuicknessProc: function() {
@@ -112,26 +109,37 @@ var Player = {
   },
 
   attack: function(target) {
-    this.getBaseDamage();
-    var damageDealt = Math.round(this.baseDamage * target.damageReduction);
+    var damageDealt = Math.round(this.getBaseDamage() * target.damageReduction);
+    var effects = this.equippedWeapon.effect;
+    var procExists;
+    var procFires;
     var hitType = 'hit';
     var hitColor = 'yellow';
-    if (this.rollQuicknessProc()) {
+    var criticallyHit = this.rollQuicknessProc();
+    var targetDodged = target.rollQuicknessProc();
+
+    if(effects) {
+      procExists = effects[effects.length - 1].constructor.name === 'itemProc';
+      procFires = effects[effects.length - 1].run();
+    }
+    if (criticallyHit) {
       damageDealt = damageDealt * 2;
       hitType = ''+colorize('critically hit', UI.colors.red)+'';
       hitColor = UI.colors.red;
     }
-    if (target.rollQuicknessProc()) {
+    if (targetDodged) {
       UI.combatLog.renderCombatLog(colorize(target.healthTotal, colorHealth(target.healthTotal/target.healthMax)) + ' ' + colorize(target.name, UI.colors.entity) + ' '+colorize('dodged', 'yellow')+' ' + colorize(this.name, UI.colors.entity) + ' for 0');
     } else {
       target.healthTotal -= damageDealt;
-      UI.combatLog.renderCombatLog(colorize(this.healthTotal, colorHealth(this.healthTotal/this.healthMax)) + ' ' + colorize(this.name, UI.colors.entity) + ' ' + hitType + ' ' + colorize(target.name, UI.colors.entity) + ' for <span style="color: '+hitColor+';">' + damageDealt + '</span>');
+      UI.combatLog.renderCombatLog(colorize(this.healthTotal, colorHealth(this.healthTotal/this.healthMax)) + ' ' + colorize(this.name, UI.colors.entity) + ' ' + hitType + ' ' + colorize(target.name, UI.colors.entity) + ' for '+colorize(damageDealt, hitColor));
     }
-    if (target !== Player && Player.equippedWeapon.effect) {
-      if (Player.equippedWeapon.effect.constructor.name === 'ItemProc' && Player.equippedWeapon.effect.run()) {
-        target.healthTotal -= Player.equippedWeapon.effect.amt;
-        UI.combatLog.renderCombatLog('Your '+colorize(Player.equippedWeapon.name, UI.colors[Player.equippedWeapon.rarity])+' strikes ' + colorize(target.name, UI.colors.entity) + ' for <span style="color: '+hitColor+';">' + Player.equippedWeapon.effect.amt + '</span>');
-      }
+    if (procExists && procFires) {
+      var proc = effects[effects.length - 1];
+      var attackerName;
+      if(this.name === 'You') {attackerName = 'Your';}
+      else {attackerName = this.name + '\'s';}
+      target.healthTotal -= proc.amt;
+      UI.combatLog.renderCombatLog(colorize(attackerName, UI.colors.player)+' '+colorize(this.equippedWeapon.name, UI.colors[this.equippedWeapon.rarity])+' strikes ' + colorize(target.name, UI.colors.entity) + ' for '+colorize(proc.amt, 'yellow'));
     }
     Player.updateStats();
   },
@@ -177,14 +185,14 @@ var Player = {
   unequipArmor: function(armor) {
     this.equippedArmor[armor.slot] = '';
     if(armor.effect) {
-      forEachMethod(armor.effect, 'removeBuff');
+      forEachMethod(armor.effect, 'remove');
     }
   },
 
-  removeWepBuff: function(wep) {
-    var isStatbuff = wep.constructor.name === 'StatBuff';
+  removeWepBuff: function(effect) {
+    var isStatbuff = effect.constructor.name === 'statBuff';
     if (isStatbuff === true) {
-      wep.removeBuff();
+      effect.remove();
     }
   },
 

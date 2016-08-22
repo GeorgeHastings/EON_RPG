@@ -11,8 +11,8 @@ var Moments = {
 	},
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
-		choices: [{message: 'Blink',link: 2}],
-		// dropLoot: ['Heartsbane', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt']
+		choices: [{message: 'Blink',link: 8}],
+		dropLoot: ['Kusanagi', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt', 'Sharpsword Oil']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -20,11 +20,11 @@ var Moments = {
 	},
 	moment3: {
 		message: 'The sun has just set. You are surrounded by trees bathed in twilight.',
-		choices: [{message: 'Start walking',link: 5}]
+		choices: [{message: 'Check your belongings',link: 4}, {message: 'Start walking',link: 5}]
 	},
 	moment4: {
 		message: 'Looped to your belt you find a weapon. Click on it in your inventory to equip it.',
-		choices: [{message: 'Look around',link: 3},{message: 'Start Walking',link: 5}],
+		choices: [{message: 'Start Walking',link: 5}],
 		dropLoot: [['weapons', 1]]
 	},
 	moment5: {
@@ -37,7 +37,9 @@ var Moments = {
 	},
 	moment8: {
 		message: 'You draw your weapon and charge.',
-		enemy: 'Vagrant Ranger',
+		// enemy: 'Vagrant Ranger',
+		// enemy: 'Target Dummy',
+		enemy: 'Volkswain the Unmarred',
 		dropLoot: [['armor', 1], 'Chicken Egg'],
 		link: 10
 	},

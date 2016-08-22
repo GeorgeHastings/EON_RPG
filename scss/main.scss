@@ -18,9 +18,8 @@ body {
 }
 
 body {
-	font: 17px / 27px 'Source Code Pro';
+	font: 17px / 27px 'Source Code Pro', 'Arial';
 	color: $deeppurp;
-	// font-family: 'Source Code Pro', ;
 
 	&.white {
 		background-color: #F5F6F7;
@@ -225,7 +224,7 @@ label {
 		}
 
 		&.rare {
-			color: rgb(0,155,255);
+			color: $cobalt;
 		}
 	}
 }
@@ -240,6 +239,7 @@ label {
 }
 
 .combat-log-container {
+	position: relative;
 	width: calc(75% / 2);
 	background-color: $deeppurp;
 
@@ -261,6 +261,15 @@ label {
 	}
 }
 
+.health-bar {
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 5px;
+	margin-left: -4em;
+	// background: linear-gradient(to bottom, #1e5799 20%,#1e5799 20%,#7db9e8 20%);
+}
+
 .item-description-container {
 	display: none;
 	position: absolute;
@@ -280,6 +289,7 @@ label {
 		justify-content: center;
 
 		* {
+			width: 100%;
 			margin-bottom: 10px;
 			line-height: 1.5em;
 		}

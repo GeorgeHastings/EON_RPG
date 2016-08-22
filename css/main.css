@@ -9,7 +9,7 @@ body {
   overflow: hidden; }
 
 body {
-  font: 17px / 27px 'Source Code Pro';
+  font: 17px / 27px 'Source Code Pro', 'Arial';
   color: #192342; }
   body.white {
     background-color: #F5F6F7; }
@@ -154,7 +154,7 @@ label {
     .inventory-list li.none {
       color: #fff; }
     .inventory-list li.rare {
-      color: #009bff; }
+      color: #0047FF; }
 
 @keyframes equipItem {
   0% {
@@ -162,6 +162,7 @@ label {
   100% {
     color: #192342; } }
 .combat-log-container {
+  position: relative;
   width: calc(75% / 2);
   background-color: #192342; }
   .combat-log-container.container {
@@ -170,6 +171,13 @@ label {
     font-size: 1em; }
     .combat-log-container p + p {
       margin-top: 1.5em; }
+
+.health-bar {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  margin-left: -4em; }
 
 .item-description-container {
   display: none;
@@ -188,6 +196,7 @@ label {
     flex-flow: column;
     justify-content: center; }
     .item-description-container .flex-container * {
+      width: 100%;
       margin-bottom: 10px;
       line-height: 1.5em; }
     .item-description-container .flex-container .name {

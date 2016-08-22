@@ -8,14 +8,16 @@ var UI = {
   colors: {
     none: '#939DBD',
     common: '#fff',
-    rare: '#4D75CE',
+    rare: '#0047FF',
     epic: '#9E65C4',
     legendary: '#C6AF66',
+    set: '#32cbb4',
     entity: '#fff',
     player: '#fff',
     enemy: '#fff',
     gold: '#E5CA48',
-    red: '#ff6839'
+    red: '#ff6839',
+    green: '#24fb27'
   },
 
   narrative: {
@@ -154,19 +156,21 @@ var UI = {
     activateItem: function() {
       var thisItemId = this.getAttribute('data-item');
       var item = getObj(Items.all, thisItemId);
-      var isUnequippedWep = item.itemType === 'weapon' && Player.equippedWeapon !== item;
-      var isUnequippedArmor = item.itemType === 'armor' && item !== Player.equippedArmor[item.slot];
+      var isUnequipped = Player.equippedWeapon !== item && item !== Player.equippedArmor[item.slot];
 
-      if (isUnequippedWep) {
-        Player.equipWeapon(item);
-        UI.inventory.renderEquippedWeapon(this);
-        item.use();
+      if(isUnequipped) {
+        if(item.itemType === 'weapon') {
+          Player.equipWeapon(item);
+          UI.inventory.renderEquippedWeapon(this);
+          item.use();
+        }
+        else if(item.itemType === 'armor') {
+          Player.equipArmor(item);
+          UI.inventory.renderEquippedArmor();
+          item.use();
+        }
       }
-      if (isUnequippedArmor) {
-        Player.equipArmor(item);
-        UI.inventory.renderEquippedArmor();
-        item.use();
-      }
+
       if (item.itemType === 'consumable') {
         Player.removeFromInventory(item, this);
         UI.itemDescription.hideItemDescription();
@@ -303,17 +307,18 @@ var UI = {
       },
       damage: function() {
         var avg;
-        if(this.wep) {
-          avg = (this.wep.damage[0] + this.wep.damage[1]) / 2;
+        var wep = Player.equippedWeapon;
+        if(wep) {
+          avg = (wep.damage[0] + wep.damage[1]) / 2;
         }
         else {
           avg = 1;
         }
         var weightedAvg = (avg + (Player.quicknessProc / 100 * avg));
-        var hasProcEffect = this.wep.effect && this.wep.effect.constructor.name === 'ItemProc';
+        var hasProcEffect = wep.effect && wep.effect.constructor.name === 'ItemProc';
         if(hasProcEffect) {
-          var chance = this.wep.effect.chance / 100;
-          var amt = this.wep.effect.amt;
+          var chance = wep.effect.chance / 100;
+          var amt = wep.effect.amt;
           weightedAvg = (weightedAvg + chance * amt);
         }
         return '' + weightedAvg.toFixed(2) + ' average total damage per hit';
@@ -352,7 +357,7 @@ var UI = {
       var logitemWrapper = document.createElement('p');
       logitemWrapper.innerHTML = (logitem);
       this.el.appendChild(logitemWrapper);
-      UI.scrollToBottom(UI.combatLog.el);
+      UI.scrollToBottom(document.querySelector('.combat-log-container'));
     },
 
     renderItemTransaction: function(name, price, transaction) {
@@ -405,6 +410,20 @@ var UI = {
       }
       this.renderCombatLog(colorize('You', UI.colors.player) + defeatedEnemy + conj + foundLoot + '.');
     },
+  },
+
+  combat: {
+    renderHealthBar: function() {
+      var healthBar = document.createElement('div');
+      healthBar.classList.add('health-bar');
+      UI.combatLog.el.appendChild(healthBar);
+    },
+    updateHealthBar: function() {
+      var el = document.querySelector('.health-bar');
+      var pct = (Player.healthTotal/Player.healthMax).toFixed(2);
+      var adjustedPct = (100 - pct * 100);
+      el.style.background = 'linear-gradient(to bottom, #1e5799 '+(adjustedPct)+'% ,#1e5799 '+(adjustedPct)+'% ,'+colorHealth(pct)+' '+(adjustedPct)+'%)';
+    }
   },
 
   scrollToBottom: function(pane) {

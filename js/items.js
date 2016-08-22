@@ -47,7 +47,7 @@ Item.prototype.getRarityMultiplier = function() {
 };
 
 Item.prototype.getSalePrice = function() {
-	return (this.level*10) * this.getRarityMultiplier();
+	return ((this.level*10) * this.getRarityMultiplier()).toFixed(0);
 };
 
 Item.prototype.getPurchasePrice = function() {
@@ -83,6 +83,8 @@ var Consumable = function(name, level, rarity, flavorText, effects){
 };
 
 Items.weapons.push(
+	new Weapon('Foam Sword', 1, 'none', 'Just for fun', [0,0]),
+
 	new Weapon('Muddy Hatchet', 1, 'none', '', [1, 3]),
 	new Weapon('Rusty Short Sword', 1, 'none', '', [2, 4]),
 	new Weapon('Dull Axe', 1, 'none', '', [1, 5]),
@@ -98,15 +100,16 @@ Items.weapons.push(
 	new Weapon('Old Longsword', 2, 'none', '', [3, 4]),
 	new Weapon('Logging Axe', 2, 'none', '', [2, 6]),
 	new Weapon('Bronze Spear', 2, 'common', '', [1, 8]),
-	new Weapon('Balanced Dagger', 2, 'rare', '', [3, 5], [addQuickness(1)]),
+	new Weapon('Balanced Dagger', 2, 'rare', '', [3, 5], [Effects.buffs.quickness(1)]),
 	new Weapon('Fang Claws', 2, 'common', '', [2, 7]),
 	new Weapon('Iron Short Sword', 2, 'common', '', [3, 6]),
 
-	new Weapon('Wind Blade', 3, 'rare', '', [4, 9], [quickStrike(2, 15)]),
-	new Weapon('Double Edged Katana', 10, 'epic', '', [5, 7], quickStrike(5, 10)),
-	new Weapon('Sadams Golden AK-47', 20, 'legendary', 'Complete with incendiary rounds', [77, 133], [quickStrike(33, 20)]),
-	new Weapon('P-70 Stealthhawk', 8, 'epic', '', [17, 25], [addQuickness(8)]),
-	new Weapon('Heartsbane', 10, 'legendary', 'A real heartbreaker', [7, 13], [addQuickness(7), quickStrike(100, 5)])
+	new Weapon('Wind Blade', 3, 'rare', '', [4, 9], [Effects.procs.weaponDamage(2, 15)]),
+	new Weapon('Double Edged Katana', 10, 'epic', '', [5, 7], [Effects.procs.weaponDamage(5, 10)]),
+	new Weapon('Sadams Golden AK-47', 20, 'legendary', 'Complete with incendiary rounds', [77, 133], [Effects.procs.weaponDamage(33, 20)]),
+	new Weapon('P-70 Stealthhawk', 8, 'epic', '', [17, 25], [Effects.buffs.quickness(8)]),
+	new Weapon('Heartsbane', 10, 'legendary', 'A real heartbreaker', [7, 13], [Effects.buffs.quickness(7), Effects.procs.weaponDamage(100, 5)]),
+	new Weapon('Kusanagi', 30, 'set', 'The Grass Cutter', [123, 244], [Effects.buffs.toughness(20), Effects.buffs.quickness(35), Effects.procs.weaponDamage(50, 15)])
 );
 
 Items.armor.push(
@@ -114,7 +117,7 @@ Items.armor.push(
 	new Armor('Twine Cinch', 1, 'none', '','belt', 1),
 	new Armor('Ragged Trousers', 1, 'none', '','pants', 1),
 	new Armor('Damp Boots', 1, 'none', '','boots', 1),
-	new Armor('Linen Shirt', 1, 'common', '','chest', 2, [addQuickness(1)]),
+	new Armor('Linen Shirt', 1, 'rare', '','chest', 2, [Effects.buffs.quickness(1)]),
 	new Armor('Leather Belt', 1, 'common', '','belt', 2),
 	new Armor('Wool Cap', 1, 'common', '','head', 2),
 	new Armor('Old Cloak', 1, 'common', '','back', 2),
@@ -129,17 +132,18 @@ Items.armor.push(
 	new Armor('Wool Cloak', 2, 'common', '','back', 3),
 	new Armor('Travelers Boots', 2, 'common', '','boots', 3),
 
-	new Armor('Centurian Cask', 8, 'epic', '','head', 18),
-	new Armor('Arturus Tabard', 10, 'legendary', 'This belonged to a true badass.','chest', 50, [addQuickness(10), addToughness(10)])
+	new Armor('Centurian Cask', 8, 'epic', '','head', 18, [Effects.buffs.toughness(6), Effects.buffs.quickness(6)]),
+	new Armor('Yata no Kagami', 30, 'set', '','back', 90, [Effects.buffs.toughness(40), Effects.procs.mirrorDamage(2, 20)]),
+	new Armor('Arturus Tabard', 10, 'legendary', 'This belonged to a true badass.','chest', 50, [Effects.buffs.toughness(10), Effects.buffs.quickness(10)])
 );
 
 Items.consumables.push(
-	new Consumable('Chicken Egg', 1, 'none', '', [healPlayer(4)]),
-	new Consumable('Peasant Bread', 1, 'none', '', [healPlayer(5)]),
-	new Consumable('Jerky', 1, 'common', '', [healPlayer(6)]),
-	new Consumable('Dried Trout', 2, 'none', '', [healPlayer(8)]),
-	new Consumable('Sharpsword Oil', 2, 'rare', '', [buffMaxDamage(2)]),
-	new Consumable('Whetstone', 2, 'common', '', [buffMinDamage(1)])
+	new Consumable('Chicken Egg', 1, 'none', '', [Effects.heals.healPlayer(4)]),
+	new Consumable('Peasant Bread', 1, 'none', '', [Effects.heals.healPlayer(5)]),
+	new Consumable('Jerky', 1, 'common', '', [Effects.heals.healPlayer(6)]),
+	new Consumable('Dried Trout', 2, 'none', '', [Effects.heals.healPlayer(8)]),
+	new Consumable('Sharpsword Oil', 2, 'rare', '', [Effects.buffs.weaponDamage(2, 'max')]),
+	new Consumable('Whetstone', 2, 'common', '', [Effects.buffs.weaponDamage(1, 'min')])
 );
 
 var QuestItem = function(name, rarity, flavorText, effects) {
