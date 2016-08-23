@@ -5,7 +5,8 @@ var Combat = {
   rounds: 0,
   generateEnemy: function() {
     var enemyType = getObj(Enemies, GameState.currentMoment.enemy);
-    var enemy = new Enemy(enemyType.name, enemyType.level, enemyType.healthTotal, getObj(Items.weapons, enemyType.equippedWeapon), enemyType.armor, enemyType.quicknessProc);
+    console.log(enemyType);
+    var enemy = new Enemy(enemyType.name, enemyType.level);
     enemy.healthMax = enemy.healthTotal;
     Combat.enemy = enemy;
   },
@@ -24,8 +25,8 @@ var Combat = {
   },
   awardExperience: function() {
     var exp = this.rounds + 15*Combat.enemy.level;
-    var hasEnoughExp = Player.experience > Player.calcNexLevelExp();
     Player.updateExperience(exp);
+    var hasEnoughExp = Player.experience > Player.calcNexLevelExp();
     if(hasEnoughExp) {
       Player.levelUp();
     }

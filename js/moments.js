@@ -12,7 +12,7 @@ var Moments = {
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
 		choices: [{message: 'Blink',link: 8}],
-		dropLoot: ['Kusanagi', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt', 'Sharpsword Oil']
+		dropLoot: ['Kusanagi the Grass Cutter', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt', 'Sharpsword Oil']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -37,9 +37,9 @@ var Moments = {
 	},
 	moment8: {
 		message: 'You draw your weapon and charge.',
-		// enemy: 'Vagrant Ranger',
+		enemy: 'Vagrant Ranger',
 		// enemy: 'Target Dummy',
-		enemy: 'Volkswain the Unmarred',
+		// enemy: 'Volkswain the Unmarred',
 		dropLoot: [['armor', 1], 'Chicken Egg'],
 		link: 10
 	},
@@ -82,7 +82,7 @@ var Moments = {
 	},
 	moment17: {
 		message: 'You approach the shoddy old mill until you can hear voices coming from inside.',
-		choices: [{message: 'Take a peek',link: '17a'},{message: 'Bust in there',link: '17b'},{message: 'Go back to the road',link: 18}]
+		choices: [{message: 'Take a peek',link: '17b'},{message: 'Bust in there',link: '17b'},{message: 'Go back to the road',link: 18}]
 	},
 	moment17b: {
 		message: '"Who the fuck are you?" says Sinclair Black, a notable thief.',

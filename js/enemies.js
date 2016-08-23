@@ -2,7 +2,17 @@
 
 var Enemies = [];
 
-function Enemy(name, level, healthTotal, weapon, armor, quicknessProc) {
+function Enemy(name, level) {
+	this.name = name;
+	this.level = level;
+	this.healthTotal = 10 + ((level - 1) * 4 + 1);
+	this.armor = ((level - 1) * 4 + 1);
+	this.quicknessProc = 5;
+	this.equippedWeapon = getRandomLootByLevel('weapons', level);
+	this.damageReduction  = (1 - (0.03*this.armor)/(1 + 0.03*this.armor)).toFixed(2);
+}
+
+function CustomEnemy(name, level, healthTotal, weapon, armor, quicknessProc) {
 	this.name = name;
 	this.level = level;
 	this.healthTotal = healthTotal;
@@ -14,9 +24,7 @@ function Enemy(name, level, healthTotal, weapon, armor, quicknessProc) {
 
 Enemy.prototype.getBaseDamage = function() {
 	// Player.getBaseDamage.call(this);
-	var baseDamage;
-	baseDamage = this.equippedWeapon ? roll(this.equippedWeapon.damage[0],this.equippedWeapon.damage[1]) : roll(0,3);
-	return baseDamage;
+	return this.equippedWeapon ? roll(this.equippedWeapon.damage[0],this.equippedWeapon.damage[1]) : roll(0,3);
 };
 
 Enemy.prototype.attack = function(target) {
@@ -24,26 +32,50 @@ Enemy.prototype.attack = function(target) {
 };
 
 Enemy.prototype.rollQuicknessProc = function() {
-	var result = roll(0, 100);
-	if (result <= this.quicknessProc) {
-		return true;
-	} else {
-		return false;
-	}
+	return roll(0, 100) <= this.quicknessProc ? true : false;
 };
 
-Enemies.push(new Enemy('Vagrant Ranger', 1, 12, 'Muddy Hatchet', 1, 3));
-Enemies.push(new Enemy('Derranged Lunatic', 1, 12, 'Muddy Hatchet', 2, 3));
-Enemies.push(new Enemy('Highway Bandit', 1, 15, 'Dull Axe', 1, 0.05));
-Enemies.push(new Enemy('Wandering Looter', 1, 15, 'Rusty Short Sword', 1, 3));
-Enemies.push(new Enemy('Goblin Trapper', 1, 17, 'Bent Spear', 2, 0.04));
-Enemies.push(new Enemy('Cloaked Assassin', 1, 17, 'Iron Dagger', 2, 5));
+var enemies = [
+	['Vagrant Ranger', 1],
+	['Derranged Lunatic', 1],
+	['Highway Bandit', 1],
+	['Wandering Looter', 1],
+	['Cloaked Assassin', 1],
+	['Town Guard', 2],
+	['Black Wolf', 2],
+];
 
-Enemies.push(new Enemy('Town Guard', 2, 16, 'Bronze Short Sword', 5, 3));
-Enemies.push(new Enemy('Black Wolf', 2, 12, 'Fang Claws', 1, 10));
+var customEnemies = [
+	['Sinclair Graves', 4, 40, 'Wind Blade', 10, 5],
+	['Target Dummy', 2, 1000, 'Foam Sword', 1, 0],
+	['Volkswain the Unmarred', 10, 400, 'Heartsbane', 20, 15]
+];
 
-Enemies.push(new Enemy('Sinclair Graves', 4, 40, 'Wind Blade', 10, 5));
+var buildEnemy = function(args){
+	console.log(args);
+	Enemies.push(new Enemy(args));
+};
 
-Enemies.push(new Enemy('Target Dummy', 2, 1000, 'Foam Sword', 1, 30));
+var buildEnemies = function() {
+	enemies.concat(customEnemies);
+	forEach(enemies, function(enemy) {
+		buildEnemy(...enemy);
+		// buildEnemy.apply(this, enemy);
+	});
+};
 
-Enemies.push(new Enemy('Volkswain the Unmarred', 10, 300, 'Wind Blade', 20, 15));
+buildEnemies();
+
+// Enemies.push(new Enemy('Vagrant Ranger', 1));
+// Enemies.push(new Enemy('Derranged Lunatic', 1));
+// Enemies.push(new Enemy('Highway Bandit', 1));
+// Enemies.push(new Enemy('Wandering Looter', 1));
+// Enemies.push(new Enemy('Goblin Trapper', 1));
+// Enemies.push(new Enemy('Cloaked Assassin', 1));
+//
+// Enemies.push(new Enemy('Town Guard', 2));
+// Enemies.push(new Enemy('Black Wolf', 2));
+//
+// Enemies.push(new CustomEnemy('Sinclair Graves', 4, 40, 'Wind Blade', 10, 5));
+// Enemies.push(new CustomEnemy('Target Dummy', 2, 1000, 'Foam Sword', 1, 0));
+// Enemies.push(new CustomEnemy('Volkswain the Unmarred', 10, 400, 'Heartsbane', 20, 15));

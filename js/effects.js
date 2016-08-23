@@ -66,7 +66,7 @@ var Effects = {
 			var e = new Effects.procs.itemProc(amt, chance, chance + '% chance to reflect damage');
 			e.run = function() {
 				var procChance = roll(0,100);
-				if(procChance <= this.chance) {
+				if(procChance <= chance) {
 					return true;
 				}
 			};

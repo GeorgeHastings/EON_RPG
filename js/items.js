@@ -13,12 +13,13 @@ var Pricing = {
 		'common': 1,
 		'rare': 1.5,
 		'epic': 2,
-		'legendary': 2.5
+		'legendary': 3,
+		'set': 3
 	},
 	types: {
 		'weapon': 1,
 		'armor': 0.6,
-		'consumable': 0.4
+		'consumable': 0.3
 	}
 };
 
@@ -47,7 +48,7 @@ Item.prototype.getRarityMultiplier = function() {
 };
 
 Item.prototype.getSalePrice = function() {
-	return ((this.level*10) * this.getRarityMultiplier()).toFixed(0);
+	return ((this.level*10) * this.getRarityMultiplier().toFixed(0));
 };
 
 Item.prototype.getPurchasePrice = function() {
@@ -82,8 +83,14 @@ var Consumable = function(name, level, rarity, flavorText, effects){
 	return consumable;
 };
 
+var buildItems = function() {
+	forEach(items, function(enemy){
+		Enemies.push(new Enemy(enemy[0], enemy[1]));
+	});
+};
+
 Items.weapons.push(
-	new Weapon('Foam Sword', 1, 'none', 'Just for fun', [0,0]),
+	new Weapon('Foam Sword', 0, 'none', 'Just for fun', [0,0]),
 
 	new Weapon('Muddy Hatchet', 1, 'none', '', [1, 3]),
 	new Weapon('Rusty Short Sword', 1, 'none', '', [2, 4]),
@@ -109,7 +116,7 @@ Items.weapons.push(
 	new Weapon('Sadams Golden AK-47', 20, 'legendary', 'Complete with incendiary rounds', [77, 133], [Effects.procs.weaponDamage(33, 20)]),
 	new Weapon('P-70 Stealthhawk', 8, 'epic', '', [17, 25], [Effects.buffs.quickness(8)]),
 	new Weapon('Heartsbane', 10, 'legendary', 'A real heartbreaker', [7, 13], [Effects.buffs.quickness(7), Effects.procs.weaponDamage(100, 5)]),
-	new Weapon('Kusanagi', 30, 'set', 'The Grass Cutter', [123, 244], [Effects.buffs.toughness(20), Effects.buffs.quickness(35), Effects.procs.weaponDamage(50, 15)])
+	new Weapon('Kusanagi the Grass Cutter', 30, 'set', 'Previously known as Sword of the Gathering Clouds of Heaven', [123, 244], [Effects.buffs.toughness(20), Effects.buffs.quickness(35), Effects.procs.weaponDamage(50, 15)])
 );
 
 Items.armor.push(
