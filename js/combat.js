@@ -5,8 +5,7 @@ var Combat = {
   rounds: 0,
   generateEnemy: function() {
     var enemyType = getObj(Enemies, GameState.currentMoment.enemy);
-    console.log(enemyType);
-    var enemy = new Enemy(enemyType.name, enemyType.level);
+    var enemy = enemyType.constructor.name === 'Enemy' ? buildNormalEnemy(enemyType.name, enemyType.level) : buildCustomEnemy(enemyType.name, enemyType.level, enemyType.healthTotal, enemyType.equippedWeapon.name, enemyType.armor, enemyType.quicknessProc);
     enemy.healthMax = enemy.healthTotal;
     Combat.enemy = enemy;
   },
@@ -57,7 +56,6 @@ var Combat = {
     var count = 0;
     Combat.generateEnemy();
     UI.combatLog.renderCombatLog(colorize('You engage '+Combat.enemy.name+'', UI.colors.red));
-    // UI.combat.renderHealthBar();
     thisCombat = setInterval(function() {
       if (Combat.fighting) {
         count++;

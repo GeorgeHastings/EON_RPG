@@ -9,6 +9,50 @@ $green: #24fb27;
 $gray: #939DBD;
 * {box-sizing: border-box;}
 
+// =============================================================================
+// Font Face
+// =============================================================================
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff ttf svg) {
+	$src: null;
+
+	$extmods: (
+		eot: "?",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+@include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Regular', 300);
+// @include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Medium', 400);
+@include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Bold', 600);
+// @include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Regular');
+// @font-face {
+//   font-family: 'Proxima Nova';
+//   src:  url('assets/fonts/ProximaNova-Regular.otf');
+// }
+// @font-face {
+//   font-family: 'News_Plantin_MT';
+//   src:  url('assets/fonts/News_Plantin_MT');
+// }
+
 html,
 body {
 	margin: 0;
@@ -138,6 +182,7 @@ label {
 .header {
 	position: absolute;
 	z-index: 1;
+	// left: 25%;
 	background-color: #fff;
 	width: calc(75% / 2 + 25%);
 	padding: 0.5em 4em;
@@ -155,8 +200,12 @@ label {
 		flex-flow: row;
 	}
 
+	span {
+		margin-right: .5em;
+	}
+
 	li + li {
-		margin-left: 2em;
+		margin-left: 2.5em;
 	}
 
 	label {
@@ -274,7 +323,7 @@ label {
 .item-description-container {
 	display: none;
 	position: absolute;
-	z-index: 2;
+	z-index: 3;
 	width: 230px;
 	padding: 15px 20px;
 	color: #fff;
@@ -379,6 +428,10 @@ label {
 	}
 }
 
+span {
+	text-transform: capitalize;
+}
+
 .load-in {
 	animation: load-in 0.25s ease;
 }
@@ -392,4 +445,95 @@ label {
 		opacity: 1;
 		transform: translate3d(0,0,0);
 	}
+}
+
+.tutorial-tip {
+	position: absolute;
+	z-index: 2;
+	max-width: 250px;
+	padding: 15px;
+	color: #fff;
+	font-size: 0.8em;
+	line-height: 1.5em;
+	background-color: $cobalt;
+	box-shadow: 0px 12px 12px -12px rgba(0,0,30,.50);
+	border-radius: 3px;
+	animation: bounce 2s cubic-bezier(0,0,0,1) infinite;
+}
+
+@keyframes bounce {
+	0% {
+		transform: translate3d(0, -3px, 0);
+	}
+	50% {
+		transform: translate3d(0, 3px, 0);
+	}
+	100% {
+		transform: translate3d(0, -3px, 0);
+	}
+}
+
+.icn {
+	position: relative;
+	width: 1px;
+	height: 1px;
+	margin: 12px 12px 12px 0;
+	border-radius: 50%;
+	background-color: transparent;
+
+	&:after {
+	    position: absolute;
+	    content:"";
+	    left: -9px;
+	    top: -9px;
+	    width: 20px;
+	    height: 20px;
+	    cursor: pointer;
+	}
+}
+
+@font-face {
+	font-family: 'Linearicons';
+	src: url('../assets/fonts/Linearicons.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'Linearicons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	// font-size: 20px;
+	line-height: 1.75rem;
+	color: $gray;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-dagger:before {
+	content: "\e63b";
+}
+
+.icon-heart:before {
+	content: "\e68c";
+}
+
+.icon-shield:before {
+	content: "\e667";
+}
+
+.icon-power:before {
+	content: "\e7b9";
+}
+
+.icon-dumbbell:before {
+	content: "\e861";
+}
+
+.icon-user:before {
+	content: "\e71e";
 }

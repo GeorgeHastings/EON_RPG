@@ -103,7 +103,6 @@ var Player = {
 
   attack: function(target) {
     var damageDealt = Math.round(this.getBaseDamage() * target.damageReduction);
-    var effects = this.equippedWeapon.effect;
     var procExists;
     var procFires;
     var procHit = '';
@@ -113,7 +112,8 @@ var Player = {
     var targetDodged = target.rollQuicknessProc();
     var hitMessage;
 
-    if(effects) {
+    if(this.equippedWeapon.effect) {
+      var effects = this.equippedWeapon.effect;
       procExists = effects[effects.length - 1].constructor.name === 'itemProc';
       procFires = effects[effects.length - 1].run();
     }
@@ -164,7 +164,9 @@ var Player = {
   },
 
   equipWeapon: function(item) {
-    this.unequipCurrentWeapon();
+    if(this.equippedWeapon){
+      this.unequipCurrentWeapon();
+    }
     this.equippedWeapon = item;
     this.updateStats();
   },

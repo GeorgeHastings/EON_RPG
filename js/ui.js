@@ -333,6 +333,7 @@ var UI = {
       var statDesc = UI.itemDescription.getStatDescriptions[thisStatId]();
       var property = UI.itemDescription.createEl(statDesc, 'stat');
       UI.itemDescription.items.innerHTML = '';
+      UI.itemDescription.items.innerHTML = colorize(thisStatId, UI.colors.green);
       UI.itemDescription.items.appendChild(property);
       UI.itemDescription.showItemDescription();
     },

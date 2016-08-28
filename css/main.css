@@ -1,6 +1,14 @@
 * {
   box-sizing: border-box; }
 
+@font-face {
+  font-family: "Source Code Pro";
+  font-weight: 300;
+  src: url("../assets/fonts/SourceCodePro-Regular.eot?") format("eot"), url("../assets/fonts/SourceCodePro-Regular.woff") format("woff"), url("../assets/fonts/SourceCodePro-Regular.ttf") format("truetype"), url('../assets/fonts/SourceCodePro-Regular.svg#str-replace("Source Code Pro", " ", "_")') format("svg"); }
+@font-face {
+  font-family: "Source Code Pro";
+  font-weight: 600;
+  src: url("../assets/fonts/SourceCodePro-Bold.eot?") format("eot"), url("../assets/fonts/SourceCodePro-Bold.woff") format("woff"), url("../assets/fonts/SourceCodePro-Bold.ttf") format("truetype"), url('../assets/fonts/SourceCodePro-Bold.svg#str-replace("Source Code Pro", " ", "_")') format("svg"); }
 html,
 body {
   margin: 0;
@@ -109,8 +117,10 @@ label {
   .stat-list li {
     display: flex;
     flex-flow: row; }
+  .stat-list span {
+    margin-right: .5em; }
   .stat-list li + li {
-    margin-left: 2em; }
+    margin-left: 2.5em; }
   .stat-list label {
     font-size: inherit;
     text-transform: capitalize; }
@@ -183,7 +193,7 @@ label {
 .item-description-container {
   display: none;
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   width: 230px;
   padding: 15px 20px;
   color: #fff;
@@ -253,6 +263,9 @@ label {
     .item-description-container .flex-container .stat {
       margin-bottom: 0; }
 
+span {
+  text-transform: capitalize; }
+
 .load-in {
   animation: load-in 0.25s ease; }
 
@@ -263,3 +276,74 @@ label {
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0); } }
+.tutorial-tip {
+  position: absolute;
+  z-index: 2;
+  max-width: 250px;
+  padding: 15px;
+  color: #fff;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  background-color: #0047FF;
+  box-shadow: 0px 12px 12px -12px rgba(0, 0, 30, 0.5);
+  border-radius: 3px;
+  animation: bounce 2s cubic-bezier(0, 0, 0, 1) infinite; }
+
+@keyframes bounce {
+  0% {
+    transform: translate3d(0, -3px, 0); }
+  50% {
+    transform: translate3d(0, 3px, 0); }
+  100% {
+    transform: translate3d(0, -3px, 0); } }
+.icn {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  margin: 12px 12px 12px 0;
+  border-radius: 50%;
+  background-color: transparent; }
+  .icn:after {
+    position: absolute;
+    content: "";
+    left: -9px;
+    top: -9px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer; }
+
+@font-face {
+  font-family: 'Linearicons';
+  src: url("../assets/fonts/Linearicons.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'Linearicons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1.75rem;
+  color: #939DBD;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-dagger:before {
+  content: "\e63b"; }
+
+.icon-heart:before {
+  content: "\e68c"; }
+
+.icon-shield:before {
+  content: "\e667"; }
+
+.icon-power:before {
+  content: "\e7b9"; }
+
+.icon-dumbbell:before {
+  content: "\e861"; }
+
+.icon-user:before {
+  content: "\e71e"; }

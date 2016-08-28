@@ -2,17 +2,17 @@
 
 var Moments = {
 	moment0: {
+		message: 'You\'re dreaming you\'re in a small boat. The black water around you stirs.',
+		choices: [{message: 'Wake up', link: 1}],
 		onLoad: function() {
 			Player.reset();
 			UI.reset();
-		},
-		message: 'You\'re dreaming you\'re in a small boat. The black water around you stirs.',
-		choices: [{message: 'Wake up', link: 1}]
+		}
 	},
 	moment1: {
 		message: 'You are suddenly conscious, and remember nothing.',
-		choices: [{message: 'Blink',link: 8}],
-		dropLoot: ['Kusanagi the Grass Cutter', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt', 'Sharpsword Oil']
+		choices: [{message: 'Blink',link: 2}],
+		// dropLoot: ['Kusanagi the Grass Cutter', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt', 'Sharpsword Oil']
 	},
 	moment2: {
 		message: 'You are standing in a dark woods.',
@@ -25,7 +25,10 @@ var Moments = {
 	moment4: {
 		message: 'Looped to your belt you find a weapon. Click on it in your inventory to equip it.',
 		choices: [{message: 'Start Walking',link: 5}],
-		dropLoot: [['weapons', 1]]
+		dropLoot: [['weapons', 1]],
+		onLoad: function() {
+			Tut.initTut('equip');
+		},
 	},
 	moment5: {
 		message: 'You walk until you see a glowing light spidering through the trees.',
@@ -123,7 +126,7 @@ var Moments = {
 	},
 	moment24: {
 		message: 'You stand in the large chamber of the Town Hall. Merchants and town leaders are assembled in discussion.',
-		choices: [{message: 'Leave the hall', link: 19}, {message: 'Look around', link: 25}, {message: 'Ask for Jawn Peterson', link: 26}, {message: 'Talk to the tenant-in-chief', link: 27}]
+		choices: [{message: 'Leave the hall', link: 19}, {message: 'Look around', link: 26}, {message: 'Ask for Jawn Peterson', link: 26}, {message: 'Talk to the tenant-in-chief', link: 27}]
 	},
 	moment26: {
 		message: 'You approach a man writing at a desk near the entrance. "Do you know a man who goes by Jawn Peterson?" you ask. "The man points to two men standing near a side entrance."',
