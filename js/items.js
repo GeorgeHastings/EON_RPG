@@ -48,7 +48,7 @@ Item.prototype.getRarityMultiplier = function() {
 };
 
 Item.prototype.getSalePrice = function() {
-	return ((this.level*10) * this.getRarityMultiplier().toFixed(0));
+	return ((this.level*10) * this.getRarityMultiplier().toFixed(1));
 };
 
 Item.prototype.getPurchasePrice = function() {

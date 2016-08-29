@@ -448,28 +448,60 @@ span {
 }
 
 .tutorial-tip {
+	display: flex;
+	flex-direction: column;
 	position: absolute;
 	z-index: 2;
-	max-width: 250px;
+	max-width: 300px;
 	padding: 15px;
 	color: #fff;
 	font-size: 0.8em;
 	line-height: 1.5em;
 	background-color: $cobalt;
-	box-shadow: 0px 12px 12px -12px rgba(0,0,30,.50);
+	box-shadow: 0px 14px 14px -12px rgba(0,0,30,.50);
 	border-radius: 3px;
-	animation: bounce 2s cubic-bezier(0,0,0,1) infinite;
-}
+	transition: all .3s cubic-bezier(0,0,0,1);
+	animation: enter .3s cubic-bezier(0,0,0,1), bounce 2s cubic-bezier(0,0,0,1) infinite;
 
-@keyframes bounce {
-	0% {
-		transform: translate3d(0, -3px, 0);
+	.tut-header {
+		font-size: 0.8em;
+		opacity: 0.5;
+		order: 1;
+		text-transform: uppercase;
 	}
-	50% {
-		transform: translate3d(0, 3px, 0);
+
+	.tut-text {
+		order: 2;
+		margin: 1em 0;
 	}
-	100% {
-		transform: translate3d(0, -3px, 0);
+
+	.tut-button {
+		display: table;
+		order: 3;
+		padding: 5px 20px;
+		border: 1px solid #fff;
+		border-radius: 3px;
+	}
+
+	@keyframes enter {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes bounce {
+		0% {
+			transform: translate3d(0, -3px, 0);
+		}
+		50% {
+			transform: translate3d(0, 3px, 0);
+		}
+		100% {
+			transform: translate3d(0, -3px, 0);
+		}
 	}
 }
 

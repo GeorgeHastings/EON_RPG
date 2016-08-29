@@ -23,11 +23,11 @@ var Moments = {
 		choices: [{message: 'Check your belongings',link: 4}, {message: 'Start walking',link: 5}]
 	},
 	moment4: {
-		message: 'Looped to your belt you find a weapon. Click on it in your inventory to equip it.',
+		message: 'Looped to your belt you find a weapon.',
 		choices: [{message: 'Start Walking',link: 5}],
 		dropLoot: [['weapons', 1]],
 		onLoad: function() {
-			Tut.initTut('equip');
+			Tut.initTut('equipping');
 		},
 	},
 	moment5: {
@@ -51,8 +51,11 @@ var Moments = {
 		choices: [{message: 'Keep walking',link: 14},{message: 'Hide',link: 15}]
 	},
 	moment10: {
-		message: 'After taking a minute to recover, you turn to the captured man. You\'re damaged. Try clicking on the chicken egg to heal yourself.',
-		choices: [{message: '"Where am I?"',link: 12},{message: 'Take a closer look',link: 12}]
+		message: 'After taking a minute to recover, you turn to the captured man.',
+		choices: [{message: '"Where am I?"',link: 12},{message: 'Take a closer look',link: 12}],
+		onLoad: function() {
+			Tut.initTut('healing');
+		},
 	},
 	moment12: {
 		message: 'As you lean in to check if the man is alive, he suddenly lunges at you.',
