@@ -7,6 +7,9 @@ $babyblue: #cbf9ff;
 $cobalt: #0047FF;
 $green: #24fb27;
 $gray: #939DBD;
+$bouce: cubic-bezier(.39,1.52,.46,.92);
+
+
 * {box-sizing: border-box;}
 
 // =============================================================================
@@ -450,6 +453,7 @@ span {
 .tutorial-tip {
 	display: flex;
 	flex-direction: column;
+	align-items: flex-end;
 	position: absolute;
 	z-index: 2;
 	max-width: 300px;
@@ -458,29 +462,37 @@ span {
 	font-size: 0.8em;
 	line-height: 1.5em;
 	background-color: $cobalt;
-	box-shadow: 0px 14px 14px -12px rgba(0,0,30,.50);
+	box-shadow: 0px 14px 14px -12px rgba(0,71,255,.50);
 	border-radius: 3px;
 	transition: all .3s cubic-bezier(0,0,0,1);
 	animation: enter .3s cubic-bezier(0,0,0,1), bounce 2s cubic-bezier(0,0,0,1) infinite;
 
 	.tut-header {
+		width: 100%;
 		font-size: 0.8em;
-		opacity: 0.5;
+		opacity: 0.6;
 		order: 1;
 		text-transform: uppercase;
 	}
 
 	.tut-text {
 		order: 2;
-		margin: 1em 0;
+		margin-top: 1em;
 	}
 
 	.tut-button {
 		display: table;
 		order: 3;
 		padding: 5px 20px;
-		border: 1px solid #fff;
+		margin-top: 2em;
+		background-color: #fff;
+		color: $cobalt;
 		border-radius: 3px;
+		cursor: pointer;
+
+		&:hover {
+			font-weight: bold;
+		}
 	}
 
 	@keyframes enter {

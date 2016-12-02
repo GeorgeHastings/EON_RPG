@@ -55,7 +55,7 @@ var Combat = {
     var thisCombat;
     var count = 0;
     Combat.generateEnemy();
-    UI.combatLog.renderCombatLog(colorize('You engage '+Combat.enemy.name+'', UI.colors.red));
+    UI.combatLog.renderCombatLog(colorize(Combat.enemy.name+' attacks!', UI.colors.red));
     thisCombat = setInterval(function() {
       if (Combat.fighting) {
         count++;

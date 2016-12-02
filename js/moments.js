@@ -20,7 +20,7 @@ var Moments = {
 	},
 	moment3: {
 		message: 'The sun has just set. You are surrounded by trees bathed in twilight.',
-		choices: [{message: 'Check your belongings',link: 4}, {message: 'Start walking',link: 5}]
+		choices: [{message: 'Check your belongings',link: 4}]
 	},
 	moment4: {
 		message: 'Looped to your belt you find a weapon.',
@@ -32,14 +32,14 @@ var Moments = {
 	},
 	moment5: {
 		message: 'You walk until you see a glowing light spidering through the trees.',
-		choices: [{message: 'Take a closer look',link: 6},{message: 'Continue on',link: 9}]
+		choices: [{message: 'Take a closer look',link: 6}]
 	},
 	moment6: {
 		message: 'From behind a tree you see a hunter stoking a fire. With him is a man tied up, slumped at the base of a tree.',
-		choices: [{message: 'Fight',link: 8},{message: 'Continue on',link: 9}]
+		choices: [{message: '"Where am I"?',link: 8}]
 	},
 	moment8: {
-		message: 'You draw your weapon and charge.',
+		message: '"Somewhere you shouldn\'t be."',
 		enemy: 'Vagrant Ranger',
 		// enemy: 'Target Dummy',
 		// enemy: 'Volkswain the Unmarred',
@@ -52,7 +52,7 @@ var Moments = {
 	},
 	moment10: {
 		message: 'After taking a minute to recover, you turn to the captured man.',
-		choices: [{message: '"Where am I?"',link: 12},{message: 'Take a closer look',link: 12}],
+		choices: [{message: '"Are you alright?"',link: 12},{message: 'Take a closer look',link: 12}],
 		onLoad: function() {
 			Tut.initTut('healing');
 		},

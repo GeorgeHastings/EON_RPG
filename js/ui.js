@@ -1,9 +1,5 @@
 'use strict';
 
-// requirejs(['player'], function(player){
-//   var Player = Player;
-// });
-
 var UI = {
   colors: {
     none: '#939DBD',
