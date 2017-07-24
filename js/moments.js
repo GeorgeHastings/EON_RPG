@@ -312,6 +312,10 @@ var Moments = {
     choices: [{
       message: 'Start over',
       link: 0
-    }]
+    }],
+    onLoad: function() {
+      equipping.enabled = false;
+      healing.enabled = false;
+    }
   }
 };
