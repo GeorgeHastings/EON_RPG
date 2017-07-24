@@ -39,12 +39,15 @@ Acquaint.prototype.render = function() {
   var step = _this.steps[_this.index];
   var wrapper = getWrapper();
   var template = getContents(_this.steps, _this.index);
+  let element;
+  let event;
+  let originalCallback;
   wrapper.innerHTML = template;
 
   if(step.advance) {
-    var event = step.advance.event;
-    var element = typeof step.advance.element === 'object' ? step.advance.element : document.querySelector(step.advance.element);
-    var originalCallback = element[event];
+    event = step.advance.event;
+    element = typeof step.advance.element === 'object' ? step.advance.element : document.querySelector(step.advance.element);
+    originalCallback = element[event];
 
     var resolve = function(e){
       if(!step.advance.condition && _this.enabled || step.advance.condition(e) && _this.enabled) {
@@ -67,7 +70,7 @@ Acquaint.prototype.render = function() {
   document.body.appendChild(wrapper);
   _this.elements.push(wrapper);
   wrapper.querySelector('.acquaint-close').onclick = function() {
-    // _this.minimize();
+    element[event] = originalCallback;
     _this.remove();
   };
   this.position();
