@@ -1,16 +1,12 @@
 'use strict';
 
-var Acquaint = function(name, aquaints) {
-  this.name = name;
-  this.bufferSpace = 15;
+var Acquaint = function(aquaints) {
+  this.buffer = 15;
   this.enabled = true;
   this.steps = aquaints;
   this.index = 0;
-  this.completeMessage = `That's all for now!`;
+  this.completeMessage = `That's it for now!`;
   this.elements = [];
-  this.getName = function () {
-    return this.name;
-  };
 };
 
 var getWrapper = function() {
@@ -28,9 +24,10 @@ var getContents = function(steps, index) {
   var stepCount = steps.length;
   var step = steps[index];
   var text = typeof step.message === 'function' ? step.message() : step.message;
+  var title = stepCount > 1 ? `${index+1}/${stepCount} - ${step.title}` : `${step.title}`;
   var el = `
       <div class="acquaint-close">✕</div>
-      ${step.title ? `<div class="acquaint-header">${index+1}/${stepCount} - ${step.title}</div>` : ''}
+      ${step.title ? `<div class="acquaint-header">${title}</div>` : ''}
       <div class="acquaint-text">${text}</div>
       ${step.button ? `<div class="acquaint-button">${step.button}</div>` : ''}
   `;
@@ -38,10 +35,10 @@ var getContents = function(steps, index) {
 };
 
 Acquaint.prototype.render = function() {
-  var base = this;
-  var step = base.steps[base.index];
+  var _this = this;
+  var step = _this.steps[_this.index];
   var wrapper = getWrapper();
-  var template = getContents(base.steps, base.index);
+  var template = getContents(_this.steps, _this.index);
   wrapper.innerHTML = template;
 
   if(step.advance) {
@@ -50,38 +47,37 @@ Acquaint.prototype.render = function() {
     var originalCallback = element[event];
 
     var resolve = function(e){
-      if(!step.advance.condition && base.enabled || step.advance.condition(e) && base.enabled) {
-
-        if(step.advance.callback) {
-          step.advance.callback();
-        }
+      if(!step.advance.condition && _this.enabled || step.advance.condition(e) && _this.enabled) {
 
         element[event] = originalCallback;
         if(originalCallback !== null) {
           element[event](e);
         }
-        base.advance();
+        _this.advance();
       }
     };
     originalCallback = element[event];
     element[event] = resolve;
   }
-  else {
+  else if (wrapper.querySelector('.acquaint-button')){
     wrapper.querySelector('.acquaint-button').addEventListener('click', function() {
-      base.advance();
+      _this.advance();
     });
   }
   document.body.appendChild(wrapper);
-  base.elements.push(wrapper);
+  _this.elements.push(wrapper);
   wrapper.querySelector('.acquaint-close').onclick = function() {
-    base.minimize();
+    // _this.minimize();
+    _this.remove();
   };
   this.position();
 };
 
 Acquaint.prototype.advance = function() {
+  if(this.steps[this.index].callback) {
+    this.steps[this.index].callback();
+  }
   if(this.index+1 < this.steps.length) {
-    this.remove();
     this.index++;
     this.render();
   }
@@ -94,8 +90,11 @@ Acquaint.prototype.position = function() {
   var wrapper = this.elements[this.index];
   var target = this.steps[this.index].target;
   var position = this.steps[this.index].position.split('-');
-  var y = position[0];
-  var x = position[1];
+  const ORIENTATION = position[0];
+  const ALIGN = position[1];
+  const WIN_HEIGHT = window.innerHeight;
+  const WIN_WIDTH = window.innerWidth;
+  const BUFFER = this.buffer;
   var anchor;
   var top;
   var bottom;
@@ -106,69 +105,65 @@ Acquaint.prototype.position = function() {
     anchor = {
       top: -window.scrollY,
       left: 0,
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: WIN_WIDTH,
+      height: WIN_HEIGHT,
     };
-    top = this.bufferSpace;
-    bottom = anchor.height - this.bufferSpace - wrapper.offsetHeight;
-    left = this.bufferSpace;
-    right = anchor.width - this.bufferSpace - wrapper.offsetWidth;
+    top = BUFFER;
+    bottom = anchor.height - BUFFER - wrapper.offsetHeight;
+    left = BUFFER;
+    right = anchor.width - BUFFER - wrapper.offsetWidth;
     wrapper.style.position = 'fixed';
   }
   else {
     anchor = document.querySelector(target).getBoundingClientRect();
-    top = (anchor.top + window.scrollY) - anchor.height - wrapper.offsetHeight + this.bufferSpace;
-    bottom = (anchor.bottom + window.scrollY) + this.bufferSpace;
+    top = (anchor.top + window.scrollY) - (wrapper.offsetHeight + BUFFER);
+    bottom = (anchor.bottom + window.scrollY) + BUFFER;
     left = anchor.left;
-    right = anchor.left + anchor.width - wrapper.offsetWidth;
-
-    if(top <= 0) {
-      y = 'bottom';
-    }
-    if(bottom >= window.innerHeight) {
-      y = 'top';
-    }
-    if(left <= 0) {
-      x = 'right';
-    }
-    if(right >= window.innerWidth) {
-      x = 'left';
-    }
+    right = anchor.left + (anchor.width - wrapper.offsetWidth);
   }
 
-  switch (y) {
+  switch (ORIENTATION) {
     case 'top':
-    top = top;
+      top = top;
+      left = ALIGN === 'left' ? left : right;
       break;
     case 'bottom':
       top = bottom;
+      left = ALIGN === 'left' ? left : right;
       break;
-  }
-  switch (x) {
     case 'left':
-      left = left;
+      left = anchor.left - wrapper.offsetWidth - BUFFER;
+      top = ALIGN === 'top' ? anchor.top + window.scrollY : bottom;
       break;
     case 'right':
-      left = right;
+      left = anchor.left + anchor.width + BUFFER;
+      top = ALIGN === 'top' ? anchor.top + window.scrollY : bottom;
       break;
   }
-  wrapper.style.top = `${top}px`;
-  wrapper.style.left = `${left}px`;
+  if(this.steps[this.index].fixed) {
+    wrapper.style.position = 'fixed';
+    wrapper.style.top = `${top - window.scrollY}px`;
+    wrapper.style.left = `${left}px`;
+  }
+  else {
+    wrapper.style.top = `${top}px`;
+    wrapper.style.left = `${left}px`;
+  }
 };
 
 Acquaint.prototype.minimize = function() {
+  var _this = this;
   var wrapper = document.createElement('div');
   var stepCount = this.steps.length;
   var title = this.steps[this.index].title;
   var minimized = `<div class="aquaint-minimized">${this.index+1}/${stepCount} - ${title}</div>`;
-  var name = this.getName();
   var step = this.elements[this.index];
   wrapper.innerHTML = minimized;
   this.enabled = false;
   step.style.display = 'none';
   wrapper.childNodes[0].onclick = function(event) {
     event.target.remove();
-    window[name].enabled = true;
+    _this.enabled = true;
     step.style.display = 'flex';
   };
   document.body.appendChild(wrapper.childNodes[0]);
@@ -176,6 +171,7 @@ Acquaint.prototype.minimize = function() {
 
 Acquaint.prototype.remove = function() {
   this.elements[this.index].remove();
+  this.enabled = false;
 };
 
 Acquaint.prototype.complete = function() {
@@ -188,13 +184,16 @@ Acquaint.prototype.complete = function() {
 };
 
 Acquaint.prototype.init = function() {
+  var _this = this;
   this.checkForErrors();
+  if(document.getElementById('acquaint')){
+    document.getElementById('acquaint').remove();
+  }
   if(this.enabled) {
-    var name = this.getName();
-    this.render(this.index);
+    this.render();
 
     window.onresize = function() {
-      window[name].position();
+      _this.position();
     };
   }
 };

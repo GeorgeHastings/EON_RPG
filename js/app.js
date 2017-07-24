@@ -4,7 +4,7 @@ Player.updateStats();
 Player.updateGold(0);
 UI.itemDescription.bindStatEvents();
 
-var equipping = new Acquaint('equipping', [
+var equipping = new Acquaint([
   {
     title: 'Equipping items',
     message: function(){return 'You found a weapon! When equipped, weapons and armor apply their stats to your character. Click on that '+Player.inventory[0].name+' now to equip.';},
@@ -24,7 +24,7 @@ var equipping = new Acquaint('equipping', [
   }
 ]);
 
-var healing = new Acquaint('healing', [
+var healing = new Acquaint([
   {
     title: 'Combat',
     message: 'Well done. In combat, you exchange damage with an enemy until one of your health reaches 0. Victory rewards you with loot, gold, and experience points. Die, and you start over.',
