@@ -5,7 +5,7 @@ $deeppurp: #192342;
 $lightburp: #F0F2FA;
 $babyblue: #cbf9ff;
 $cobalt: #0047FF;
-$green: #24fb27;
+$green: #23fa88;
 $gray: #939DBD;
 $bouce: cubic-bezier(.39,1.52,.46,.92);
 
@@ -44,17 +44,13 @@ $bouce: cubic-bezier(.39,1.52,.46,.92);
 }
 
 @include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Regular', 300);
-// @include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Medium', 400);
 @include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Bold', 600);
-// @include font-face('Source Code Pro', '../assets/fonts/SourceCodePro-Regular');
-// @font-face {
-//   font-family: 'Proxima Nova';
-//   src:  url('assets/fonts/ProximaNova-Regular.otf');
-// }
-// @font-face {
-//   font-family: 'News_Plantin_MT';
-//   src:  url('assets/fonts/News_Plantin_MT');
-// }
+
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+:root {
+  font-size: calc(0.65vw + 0.65vh + .5vmin);
+}
 
 html,
 body {
@@ -65,8 +61,9 @@ body {
 }
 
 body {
-	font: 17px / 27px 'Source Code Pro', 'Arial';
-	color: $deeppurp;
+	font: 1em/1.6 'VT323', monospace;
+	color: white;
+	background-color: $deeppurp;
 
 	&.white {
 		background-color: #F5F6F7;
@@ -186,11 +183,11 @@ label {
 	position: absolute;
 	z-index: 1;
 	// left: 25%;
-	background-color: #fff;
+	background-color: $deeppurp;
 	width: calc(75% / 2 + 25%);
 	padding: 0.5em 4em;
-	background-color: #fff;
-	box-shadow: 0 1px 3px rgba(0,0,0,.15);
+	// border-bottom: 1px solid lighten($deeppurp, 10%);
+	// box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }
 
 .stat-list {
@@ -232,7 +229,7 @@ label {
 	position: relative;
 	width: 25%;
 	padding-bottom: 8em;
-	background-color: $lightburp;
+	// border-right: 1px solid lighten($deeppurp, 10%);
 
 	dl {
 		width: 100%;
@@ -260,15 +257,19 @@ label {
 		animation: load-in 0.25s ease;
 
 		&.equipped-wep {
-			font-weight: bold;
 			order: 1;
 			animation: equipItem 1s cubic-bezier(1, 0, 0, 0);
+			&:before {
+				content: "> ";
+			}
 		}
 
 		&.equipped-armor {
-			font-weight: bold;
 			order: 2;
 			animation: equipItem 1s cubic-bezier(1, 0, 0, 0);
+			&:before {
+				content: "> ";
+			}
 		}
 
 		&.none {
@@ -286,14 +287,14 @@ label {
 		color: $cobalt;
 	}
 	100% {
-		color: $deeppurp;
+		color: white;
 	}
 }
 
 .combat-log-container {
 	position: relative;
 	width: calc(75% / 2);
-	background-color: $deeppurp;
+	background-color: darken($deeppurp, 10%);
 
 	&.container {
 		padding-top: 2em;
@@ -317,9 +318,9 @@ label {
 	position: fixed;
 	top: 0;
 	height: 100%;
-	width: 5px;
+	width: 0.65vw;
 	margin-left: -4em;
-	transition: all 0.3s cubic-bezier(1,0,0,1);
+	transition: background 0.3s cubic-bezier(1,0,0,1);
 	// background: linear-gradient(to bottom, #1e5799 20%,#1e5799 20%,#7db9e8 20%);
 }
 
@@ -331,7 +332,7 @@ label {
 	padding: 15px 20px;
 	color: #fff;
 	font-size: 0.8em;
-	background-color: $deeppurp;
+	background-color: darken($deeppurp, 10%);
 	border-radius: 3px;
 	pointer-events: none;
 
@@ -450,42 +451,58 @@ span {
 	}
 }
 
-.tutorial-tip {
+//ACUAINT
+.acquaint-card {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 	position: absolute;
 	z-index: 2;
-	max-width: 300px;
-	padding: 15px;
-	color: #fff;
+	max-width: 21em;
+	min-width: 21em;
+	padding: 1em;
 	font-size: 0.8em;
 	line-height: 1.5em;
-	background-color: $cobalt;
-	box-shadow: 0px 14px 14px -12px rgba(0,71,255,.50);
+  background-color: $cobalt;
+  color: #fff;
 	border-radius: 3px;
-	transition: all .3s cubic-bezier(0,0,0,1);
-	animation: enter .3s cubic-bezier(0,0,0,1), bounce 2s cubic-bezier(0,0,0,1) infinite;
+	animation: bounce 2s cubic-bezier(0,0,0,1) infinite;
+	backface-visibility: hidden;
 
-	.tut-header {
+  .acquaint-close {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    opacity: 0.6;
+    z-index: 999;
+    cursor: pointer;
+  }
+
+	.acquaint-header {
 		width: 100%;
 		font-size: 0.8em;
-		opacity: 0.6;
 		order: 1;
+    opacity: 0.6;
 		text-transform: uppercase;
 	}
 
-	.tut-text {
+	.acquaint-text {
 		order: 2;
+		width: 100%;
 		margin-top: 1em;
+    opacity: 1;
+
+    img {
+      width: 100%;
+    }
 	}
 
-	.tut-button {
+	.acquaint-button {
 		display: table;
 		order: 3;
 		padding: 5px 20px;
 		margin-top: 2em;
-		background-color: #fff;
+    background-color: #fff;
 		color: $cobalt;
 		border-radius: 3px;
 		cursor: pointer;
@@ -494,6 +511,27 @@ span {
 			font-weight: bold;
 		}
 	}
+
+  &.completed {
+    transform: rotateY(180deg);
+    animation: complete 1s cubic-bezier(0,1,0,1), bounce 2s cubic-bezier(0,0,0,1) infinite, close .3s cubic-bezier(0,1,0,1) 1s;
+    animation-fill-mode: forwards;
+    backface-visibility: hidden !important;
+    color: $deeppurp;
+
+    &:before {
+      position: absolute;
+      top: calc(50% - 1.6em);
+      content: attr(data-complete);
+      max-width: 17em;
+    	min-width: 17em;
+      background-color: $green;
+      margin-top: -0.4em;
+      padding: 1em;
+      transform: rotateX(180deg);
+      text-align: center;
+    }
+  }
 
 	@keyframes enter {
 		from {
@@ -506,15 +544,58 @@ span {
 
 	@keyframes bounce {
 		0% {
-			transform: translate3d(0, -3px, 0);
+			transform: translate3d(0, -2px, 0);
 		}
 		50% {
-			transform: translate3d(0, 3px, 0);
+			transform: translate3d(0, 2px, 0);
 		}
 		100% {
-			transform: translate3d(0, -3px, 0);
+			transform: translate3d(0, -2px, 0);
 		}
 	}
+
+  @keyframes complete {
+    0% {
+      transform: rotateX(0deg);
+    }
+    100% {
+      transform: rotateX(180deg);
+    }
+  }
+
+  @keyframes close {
+    0% {
+      transform: scaleY(1) rotateX(180deg);
+    }
+    100% {
+      transform: scaleY(0) rotateX(180deg);
+    }
+  }
+}
+
+.aquaint-minimized {
+  position: fixed;
+  bottom: 0;
+  right: 2.2em;
+  padding: 1em;
+  line-height: 1em;
+  font-size: 0.6em;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  background-color: $cobalt;
+  cursor: pointer;
+  animation-fill-mode: forwards;
+  animation: peekup .3s cubic-bezier(0,0,0,1);
+
+  @keyframes peekup {
+    0% {
+      transform: translate3d(0,2.2em,0);
+    }
+    100% {
+      transform: translate3d(0,0em,0);
+    }
+  }
 }
 
 .icn {

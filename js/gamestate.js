@@ -63,7 +63,7 @@ var GameState = {
         Player.healthTotal = Player.healthMax;
         Player.updateStats();
         UI.combatLog.renderCombatLog(colorize('You', UI.colors.player)+ ' bought a room for '+colorize(price + ' gold', UI.colors.gold)+'.');
-        UI.combatLog.renderCombatLog(colorize('Your', UI.colors.player) + ' health is '+colorize('fully restored', '#24fb27'));
+        UI.combatLog.renderCombatLog(colorize('Your', UI.colors.player) + ' health is '+colorize('fully restored', UI.colors.green));
       } else {
         UI.combatLog.renderCombatLog(colorize('You', UI.colors.player)+ ' need '+colorize(price - Player.gold, UI.colors.gold)+' to get a room.');
       }

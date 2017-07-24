@@ -1,5 +1,9 @@
 'use strict';
 
+// requirejs(['player'], function(player){
+//   var Player = Player;
+// });
+
 var UI = {
   colors: {
     none: '#939DBD',
@@ -13,7 +17,7 @@ var UI = {
     enemy: '#fff',
     gold: '#E5CA48',
     red: '#ff6839',
-    green: '#24fb27'
+    green: '#23fa88'
   },
 
   narrative: {
@@ -91,7 +95,6 @@ var UI = {
       itemWrapper.setAttribute('data-item', item.name);
       UI.itemDescription.bindEvents(itemWrapper);
       UI.inventory.el.appendChild(itemWrapper);
-
 
       if (momentIsShop) {
         GameState.bindShopItemEvents();
@@ -290,7 +293,7 @@ var UI = {
     getStatDescriptions: {
       wep: Player.equippedWeapon,
       level: function() {
-        return 'You have '+Player.experience+' points. You need '+(Player.calcNexLevelExp() - Player.experience)+' to reach the next level.';
+        return 'You have '+Player.experience+' experience points. You need '+(Player.calcNexLevelExp() - Player.experience)+' to reach the next level.';
       },
       health: function() {
         return 'You have '+(Player.healthTotal/Player.healthMax*100).toFixed(0)+'% health';
@@ -328,6 +331,7 @@ var UI = {
       var thisStatId = this.getAttribute('data-stat');
       var statDesc = UI.itemDescription.getStatDescriptions[thisStatId]();
       var property = UI.itemDescription.createEl(statDesc, 'stat');
+      property.classList.add('property-label');
       UI.itemDescription.items.innerHTML = '';
       UI.itemDescription.items.innerHTML = colorize(thisStatId, UI.colors.green);
       UI.itemDescription.items.appendChild(property);
