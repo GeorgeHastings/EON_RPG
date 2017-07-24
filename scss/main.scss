@@ -183,7 +183,7 @@ label {
 	z-index: 1;
 	float: left;
 	background-color: lighten($deeppurp, 5%);
-	width: 60px;
+	width: 5%;
 	height: 100%;
 	padding: 2em 0.5em 0 0.5em;
 }
@@ -215,7 +215,7 @@ label {
 }
 
 .narrative-container {
-	width: calc(75% / 2 - 20px);
+	width: calc(75% / 2 - 5%/3);
 	padding-bottom: 8em;
 	@extend .clearfix;
 
@@ -227,7 +227,7 @@ label {
 
 .inventory-container {
 	position: relative;
-	width: calc(25% - 20px);
+	width: calc(25% - 5%/3);
 	padding-bottom: 8em;
 	background-color: lighten($deeppurp, 2%);
 	// border-right: 1px solid lighten($deeppurp, 10%);
@@ -294,7 +294,7 @@ label {
 
 .combat-log-container {
 	position: relative;
-	width: calc(75% / 2 - 20px);
+	width: calc(75% / 2 - 5%/3);
 	background-color: darken($deeppurp, 10%);
 
 	&.container {

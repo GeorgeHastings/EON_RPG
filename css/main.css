@@ -112,7 +112,7 @@ label {
   z-index: 1;
   float: left;
   background-color: #202d54;
-  width: 60px;
+  width: 5%;
   height: 100%;
   padding: 2em 0.5em 0 0.5em; }
 
@@ -132,14 +132,14 @@ label {
     text-transform: capitalize; }
 
 .narrative-container {
-  width: calc(75% / 2 - 20px);
+  width: calc(75% / 2 - 5%/3);
   padding-bottom: 8em; }
   .narrative-container p {
     margin-top: 1em; }
 
 .inventory-container {
   position: relative;
-  width: calc(25% - 20px);
+  width: calc(25% - 5%/3);
   padding-bottom: 8em;
   background-color: #1c2749; }
   .inventory-container dl {
@@ -182,7 +182,7 @@ label {
 
 .combat-log-container {
   position: relative;
-  width: calc(75% / 2 - 20px);
+  width: calc(75% / 2 - 5%/3);
   background-color: #0b0f1d; }
   .combat-log-container p {
     font-size: 1em; }
