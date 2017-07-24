@@ -17,8 +17,7 @@ var Moments = {
     choices: [{
       message: 'Blink',
       link: 2
-    }],
-    // dropLoot: ['Kusanagi the Grass Cutter', 'Centurian Cask', 'Double Edged Katana', 'Arturus Tabard', 'Thick Wool Shirt', 'Sharpsword Oil']
+    }]
   },
   moment2: {
     message: 'You are standing in a dark woods.',
@@ -180,8 +179,8 @@ var Moments = {
   moment17c: {
     message: '"You bitch, I will end you."',
     enemy: 'Sinclair Graves',
-    dropLoot: ['Wind Blade', 'Jerky'],
-    link: 18
+    dropLoot: ['Kusanagi the Grass Cutter', 'Centurian Cask', 'Jerky', 'Arturus Tabard'],
+    link: 29
   },
   moment18: {
     message: 'You walk for miles until you see a steeple poking up from the treeline ahead. It seems you found a town.',
@@ -304,6 +303,9 @@ var Moments = {
       ['all', 2]
     ],
     link: 24
+  },
+  moment29: {
+    message: 'Wow. Either you cheated or you\'re really good. Well this is the end. If you want to help keep the journey alive email me at g.hastings3@gmail.com.',
   },
   playerLost: {
     message: 'You were killed. Sorry.',

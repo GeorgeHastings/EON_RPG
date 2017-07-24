@@ -31,7 +31,7 @@ var Player = {
   },
 
   calcNexLevelExp: function() {
-    var nextLevelExp = 80;
+    var nextLevelExp = 50;
     for(var i = 0; i < this.level; i++) {
       nextLevelExp = nextLevelExp + (i+1)*20;
     }
@@ -60,7 +60,7 @@ var Player = {
 
   setHealth: function() {
     this.health = '' + this.healthTotal + '/' + this.healthMax + '';
-    UI.combat.updateHealthBar();
+    // UI.combat.updateHealthBar();
   },
 
   setArmor: function() {
