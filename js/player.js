@@ -188,10 +188,7 @@ var Player = {
   },
 
   removeWepBuff: function(effect) {
-    var isStatbuff = effect.constructor.name === 'statBuff';
-    if (isStatbuff === true) {
-      effect.remove();
-    }
+    effect.remove();
   },
 
   unequipCurrentWeapon: function() {

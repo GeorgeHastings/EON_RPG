@@ -83,9 +83,10 @@ Effects.buffs.statBuff.prototype.run = function() {
 };
 
 Effects.buffs.statBuff.prototype.remove = function() {
-	for(var i = 0; i < this.stats.length; i++) {
-		Player[this.stats[i]] -= this.amt;
-	}
+	var amount = this.amt;
+	forEach(this.stats, function(stat) {
+		Player[stat] -= amount;
+	});
 };
 
 Effects.heals.heal.prototype.run = function() {

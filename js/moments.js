@@ -17,7 +17,11 @@ var Moments = {
     choices: [{
       message: 'Blink',
       link: 2
-    }]
+    }],
+    dropLoot: [
+      'Balanced Dagger',
+      'Muddy Hatchet'
+    ]
   },
   moment2: {
     message: 'You are standing in a dark woods.',
