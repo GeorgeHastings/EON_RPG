@@ -105,41 +105,43 @@ label {
 .container {
   float: left;
   height: inherit;
-  padding: 6em 4em 4em 4em;
+  padding: 2em 4em 4em 4em;
   overflow: scroll; }
 
 .header {
-  position: absolute;
   z-index: 1;
-  background-color: #192342;
-  width: calc(75% / 2 + 25%);
-  padding: 0.5em 4em; }
+  float: left;
+  background-color: #202d54;
+  width: 60px;
+  height: 100%;
+  padding: 2em 0.5em 0 0.5em; }
 
 .stat-list {
   display: flex;
-  flex-flow: row;
-  font-size: 0.8em; }
+  flex-flow: column;
+  font-size: 0.8em;
+  margin-top: 0; }
   .stat-list li {
     display: flex;
-    flex-flow: row; }
-  .stat-list span {
-    margin-right: .5em; }
+    flex-flow: column;
+    text-align: center; }
   .stat-list li + li {
-    margin-left: 2.5em; }
+    margin-top: 2.5em; }
   .stat-list label {
     font-size: inherit;
     text-transform: capitalize; }
 
 .narrative-container {
-  width: calc(75% / 2);
+  width: calc(75% / 2 - 20px);
   padding-bottom: 8em; }
   .narrative-container p {
     margin-top: 1em; }
 
 .inventory-container {
   position: relative;
-  width: 25%;
-  padding-bottom: 8em; }
+  width: calc(25% - 20px);
+  padding-bottom: 8em;
+  background-color: #1c2749; }
   .inventory-container dl {
     width: 100%;
     line-height: 2em; }
@@ -180,10 +182,8 @@ label {
 
 .combat-log-container {
   position: relative;
-  width: calc(75% / 2);
+  width: calc(75% / 2 - 20px);
   background-color: #0b0f1d; }
-  .combat-log-container.container {
-    padding-top: 2em; }
   .combat-log-container p {
     font-size: 1em; }
     .combat-log-container p + p {

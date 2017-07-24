@@ -19,7 +19,7 @@ var equipping = new Acquaint([
     title: 'Understanding stats',
     message: 'These are your stats. Increasing them with items and leveling up makes you more powerful. Hover over them to see what they do.',
     target: '[data-stat="damage"]',
-    position: 'bottom-left',
+    position: 'right-bottom',
     button: 'Got it'
   }
 ]);
