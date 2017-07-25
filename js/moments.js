@@ -13,15 +13,11 @@ var Moments = {
     }
   },
   moment1: {
-    message: 'You are suddenly conscious, and remember nothing before this dream.',
+    message: 'You are suddenly conscious, and remember nothing before.',
     choices: [{
       message: 'Blink',
       link: 2
-    }],
-    dropLoot: [
-      'Balanced Dagger',
-      'Muddy Hatchet'
-    ]
+    }]
   },
   moment2: {
     message: 'You are standing in a dark woods.',
